@@ -196,9 +196,17 @@ export default function Shopping() {
           yPosition = 20;
         }
         
+        // Normalize category name (remove Vietnamese diacritics)
+        const categoryName = category.category
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/đ/g, "d")
+          .replace(/Đ/g, "D")
+          .toUpperCase();
+        
         doc.setFontSize(14);
         doc.setFont("helvetica", "bold");
-        doc.text(category.category.toUpperCase(), 20, yPosition);
+        doc.text(categoryName, 20, yPosition);
         yPosition += 8;
         
         // Items
