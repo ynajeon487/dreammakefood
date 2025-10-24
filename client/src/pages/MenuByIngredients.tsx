@@ -24,7 +24,6 @@ export default function MenuByIngredients() {
   const [errors, setErrors] = useState({
     ingredients: false,
     servings: false,
-    budget: false,
     diet: false,
     skillLevel: false,
   });
@@ -51,7 +50,6 @@ export default function MenuByIngredients() {
     const newErrors = {
       ingredients: selectedIngredients.length === 0,
       servings: !servings || servings.trim() === '',
-      budget: !budget || budget.trim() === '',
       diet: !diet,
       skillLevel: !skillLevel,
     };
@@ -81,7 +79,7 @@ export default function MenuByIngredients() {
           ingredients: selectedIngredients,
           otherIngredients: otherIngredients.trim(),
           servings,
-          budget,
+          budget: budget.trim() || undefined,
           diet,
           skillLevel,
         }),
@@ -273,34 +271,20 @@ export default function MenuByIngredients() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="budget" className={errors.budget ? 'text-destructive' : ''}>
-                  Ngân sách thêm (VNĐ) <span className="text-destructive">*</span>
+                <Label htmlFor="budget">
+                  Ngân sách thêm (VNĐ) <span className="text-muted-foreground text-sm">(Không bắt buộc)</span>
                 </Label>
                 <Input
                   id="budget"
                   type="number"
                   placeholder="Ví dụ: 20000"
                   value={budget}
-                  onChange={(e) => {
-                    setBudget(e.target.value);
-                    setErrors((prev) => ({ ...prev, budget: false }));
-                  }}
-                  className={
-                    errors.budget
-                      ? 'border-destructive focus-visible:ring-destructive'
-                      : ''
-                  }
+                  onChange={(e) => setBudget(e.target.value)}
                   data-testid="input-budget"
                 />
                 <p className="text-xs text-muted-foreground">
-                  Ngân sách có thể chi trả nếu thiếu nguyên liệu
+                  💡 Ngân sách có thể chi trả nếu thiếu nguyên liệu (để trống nếu linh hoạt)
                 </p>
-                {errors.budget && (
-                  <p className="text-sm text-destructive flex items-center gap-1">
-                    <AlertCircle className="h-3 w-3" />
-                    Vui lòng nhập ngân sách
-                  </p>
-                )}
               </div>
 
               <div className="space-y-2">
