@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useRoute, useLocation } from 'wouter';
 import Footer from '@/components/Footer';
 import { Card } from '@/components/ui/card';
@@ -5,42 +6,28 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Clock, Users, Star, Download } from 'lucide-react';
 import { recipesData } from '@shared/recipes';
-
-import eggTomatoImage from '@assets/generated_images/Scrambled_eggs_with_tomatoes_21887b7f.png';
-import morningGloryImage from '@assets/generated_images/Stir-fried_morning_glory_b8c1df15.png';
-import friedRiceImage from '@assets/generated_images/Vietnamese_fried_rice_170f31d9.png';
-import noodlesImage from '@assets/generated_images/Upgraded_instant_noodles_75cdd539.png';
-import porridgeImage from '@assets/generated_images/Chicken_rice_porridge_19a95b8b.png';
-import braisedPorkImage from '@assets/generated_images/Vietnamese_braised_pork_with_eggs_7b5f6288.png';
-import sourFishSoupImage from '@assets/generated_images/Vietnamese_sour_fish_soup_1d225652.png';
-import tofuTomatoImage from '@assets/generated_images/Vietnamese_tofu_tomato_sauce_8ef66d72.png';
+import { getRecipeImage } from '@/lib/recipeImages';
 
 export default function RecipeDetail() {
   const [, params] = useRoute('/recipes/:id');
   const [, setLocation] = useLocation();
   
-  const recipeImages = [
-    eggTomatoImage,
-    morningGloryImage,
-    friedRiceImage,
-    noodlesImage,
-    porridgeImage,
-    braisedPorkImage,
-    sourFishSoupImage,
-    tofuTomatoImage,
-  ];
-
   const recipeId = parseInt(params?.id || '1');
   const recipeData = recipesData.find(r => r.id === recipeId);
 
+  useEffect(() => {
+    if (!recipeData) {
+      setLocation('/recipes');
+    }
+  }, [recipeData, setLocation]);
+
   if (!recipeData) {
-    setLocation('/recipes');
     return null;
   }
 
   const recipe = {
     ...recipeData,
-    image: recipeImages[recipeData.id - 1],
+    image: getRecipeImage(recipeData.image),
   };
 
   const handleDownloadIngredients = () => {

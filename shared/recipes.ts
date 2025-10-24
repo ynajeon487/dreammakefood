@@ -29,10 +29,11 @@ export interface Recipe {
   };
 }
 
-export const recipesData: Omit<Recipe, 'image'>[] = [
+export const recipesData: Recipe[] = [
   {
     id: 1,
     name: 'Trứng chiên cà chua',
+    image: 'Scrambled_eggs_with_tomatoes_21887b7f.png',
     price: 15000,
     cookTime: 15,
     servings: 1,
@@ -79,6 +80,7 @@ export const recipesData: Omit<Recipe, 'image'>[] = [
   {
     id: 2,
     name: 'Rau muống xào tỏi',
+    image: 'Stir-fried_morning_glory_b8c1df15.png',
     price: 12000,
     cookTime: 10,
     servings: 2,
@@ -124,6 +126,7 @@ export const recipesData: Omit<Recipe, 'image'>[] = [
   {
     id: 3,
     name: 'Cơm chiên trứng',
+    image: 'Vietnamese_fried_rice_170f31d9.png',
     price: 20000,
     cookTime: 20,
     servings: 1,
@@ -170,6 +173,7 @@ export const recipesData: Omit<Recipe, 'image'>[] = [
   {
     id: 4,
     name: 'Mì tôm nâng cấp',
+    image: 'Upgraded_instant_noodles_75cdd539.png',
     price: 18000,
     cookTime: 12,
     servings: 1,
@@ -216,6 +220,7 @@ export const recipesData: Omit<Recipe, 'image'>[] = [
   {
     id: 5,
     name: 'Cháo gà',
+    image: 'Chicken_rice_porridge_19a95b8b.png',
     price: 25000,
     cookTime: 30,
     servings: 2,
@@ -262,6 +267,7 @@ export const recipesData: Omit<Recipe, 'image'>[] = [
   {
     id: 6,
     name: 'Thịt kho trứng',
+    image: 'Vietnamese_braised_pork_with_eggs_7b5f6288.png',
     price: 28000,
     cookTime: 40,
     servings: 2,
@@ -308,6 +314,7 @@ export const recipesData: Omit<Recipe, 'image'>[] = [
   {
     id: 7,
     name: 'Canh chua cá',
+    image: 'Vietnamese_sour_fish_soup_1d225652.png',
     price: 22000,
     cookTime: 25,
     servings: 2,
@@ -354,6 +361,7 @@ export const recipesData: Omit<Recipe, 'image'>[] = [
   {
     id: 8,
     name: 'Đậu hũ sốt cà chua',
+    image: 'Vietnamese_tofu_tomato_sauce_8ef66d72.png',
     price: 15000,
     cookTime: 18,
     servings: 2,
