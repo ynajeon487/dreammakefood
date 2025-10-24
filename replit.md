@@ -40,6 +40,31 @@ Preferred communication style: Simple, everyday language.
 - Interactive menu generation forms with validation
 - Ingredient-based recipe suggestions with searchable ingredient library (60+ common Vietnamese ingredients)
 
+**Animation System**: Framer Motion integration with comprehensive accessibility support
+- **Implementation Approach**: Two-layer animation system ensuring accessibility compliance
+  - **Layer 1 (JavaScript)**: `useReducedMotion` hook from framer-motion conditionally disables all animations
+  - **Layer 2 (CSS)**: `@media (prefers-reduced-motion: reduce)` globally disables CSS-based motion effects
+- **Animated Components**:
+  - RecipeCard: Fade-in slide-up with stagger (delay: index * 0.1s), hover scale (1.02), tap scale (0.98), image zoom on hover (scale 1.1)
+  - Hero: Background zoom-in (scale 1.1 → 1), sequential text fade-ins (delays: 0.2s, 0.4s, 0.6s)
+  - FeatureCards: Stagger fade-in from bottom (delay: index * 0.15s), hover lift (y: -8px), icon rotation on hover (360deg)
+- **Page-Level Animations**:
+  - Home: Hero background zoom, feature cards stagger, featured recipes section with animated title
+  - Recipes: Animated page header, recipe cards with stagger effect
+  - RecipeDetail: Hero image scale, sequential content reveals (title, ingredients, steps with delays: 0.2s, 0.4s, 0.6s), nutrition sidebar slide-in from right
+  - MenuByDay: Animated header, form card, and result card on generation
+- **Accessibility Features**:
+  - Respects user's `prefers-reduced-motion` system preference
+  - Zero-duration transitions for reduced motion users (instant rendering)
+  - All hover/tap animations disabled when reduced motion is enabled
+  - CSS utility classes (hover-elevate, transition-*, transforms) neutralized via media query
+  - Dual-layer protection ensures no motion triggers for accessibility users
+- **Animation Patterns**:
+  - Entrance animations: opacity (0 → 1), y/x transforms (20px → 0), scale (0.95 → 1)
+  - Interaction animations: hover scale, tap scale, icon rotation, card lift
+  - Timing: smooth easing curves, appropriate delays for stagger effects (0.1-0.15s intervals)
+  - Duration: 0.3-0.8s for most animations, instant (0s) for reduced motion users
+
 ## Backend Architecture
 
 **Runtime**: Node.js with Express.js server
