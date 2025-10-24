@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Download, Trash2 } from "lucide-react";
 import { vietnameseIngredients } from "@/lib/ingredients";
-import { jsPDF } from "jspdf";
+import html2pdf from "html2pdf.js";
 
 interface IngredientPriceInfo {
   defaultQuantity: number;
@@ -156,9 +156,7 @@ export default function Shopping() {
     );
   };
 
-  const handleDownload = () => {
-    const doc = new jsPDF();
-    
+  const handleDownload = async () => {
     // Get only checked items
     const checkedCategories = shoppingList
       .map((category) => ({
@@ -167,102 +165,91 @@ export default function Shopping() {
       }))
       .filter((category) => category.items.length > 0);
     
-    let yPosition = 20;
-    
-    // Header
-    doc.setFontSize(18);
-    doc.setFont("helvetica", "bold");
-    doc.text("DANH SACH MUA SAM", 105, yPosition, { align: "center" });
-    
-    yPosition += 10;
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "normal");
-    doc.text("Khu vuc: TP Ho Chi Minh", 20, yPosition);
-    yPosition += 6;
-    doc.text("Gia cap nhat: Thang 1/2025", 20, yPosition);
-    yPosition += 6;
-    doc.setFontSize(9);
-    doc.text("Luu y: Gia co the chenh lech giua cac khu vuc khac nhau", 20, yPosition);
-    yPosition += 10;
+    // Create HTML content
+    let htmlContent = `
+      <div style="font-family: 'Lexend', 'Inter', sans-serif; padding: 30px; color: #2a321b;">
+        <h1 style="text-align: center; font-size: 24px; margin-bottom: 20px; color: #556B2F; font-weight: bold;">
+          DANH SÁCH MUA SẮM
+        </h1>
+        
+        <div style="margin-bottom: 20px; font-size: 12px; color: #555;">
+          <p style="margin: 5px 0;"><strong>Khu vực:</strong> TP Hồ Chí Minh</p>
+          <p style="margin: 5px 0;"><strong>Giá cập nhật:</strong> Tháng 1/2025</p>
+          <p style="margin: 5px 0; font-style: italic; font-size: 11px;">
+            Lưu ý: Giá có thể chênh lệch giữa các khu vực khác nhau
+          </p>
+        </div>
+        
+        <hr style="border: none; border-top: 2px solid #8FA31E; margin: 20px 0;" />
+    `;
     
     if (checkedCategories.length === 0) {
-      doc.setFontSize(12);
-      doc.text("Chua co mon nao duoc chon.", 20, yPosition);
+      htmlContent += `
+        <p style="text-align: center; font-size: 14px; color: #666; margin-top: 30px;">
+          Chưa có món nào được chọn.
+        </p>
+      `;
     } else {
       checkedCategories.forEach((category) => {
-        // Category header
-        if (yPosition > 250) {
-          doc.addPage();
-          yPosition = 20;
-        }
-        
-        // Normalize category name (remove Vietnamese diacritics)
-        const categoryName = category.category
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .replace(/đ/g, "d")
-          .replace(/Đ/g, "D")
-          .toUpperCase();
-        
-        doc.setFontSize(14);
-        doc.setFont("helvetica", "bold");
-        doc.text(categoryName, 20, yPosition);
-        yPosition += 8;
-        
-        // Items
-        doc.setFontSize(11);
-        doc.setFont("helvetica", "normal");
+        htmlContent += `
+          <div style="margin-bottom: 25px;">
+            <h2 style="font-size: 16px; font-weight: bold; color: #556B2F; margin-bottom: 10px; text-transform: uppercase;">
+              ${category.category}
+            </h2>
+        `;
         
         category.items.forEach((item) => {
-          if (yPosition > 270) {
-            doc.addPage();
-            yPosition = 20;
-          }
-          
           const itemPrice = calculateItemPrice(item);
-          
-          // Convert Vietnamese text to ASCII approximation
-          const itemName = item.name
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/đ/g, "d")
-            .replace(/Đ/g, "D");
-          
-          const itemUnit = item.unit
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/đ/g, "d");
-          
-          const priceUnit = item.displayPriceUnit
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/đ/g, "d");
-          
-          doc.text(`${itemName} - ${item.quantity}${itemUnit}`, 25, yPosition);
-          yPosition += 6;
-          doc.setFontSize(10);
-          doc.text(`Gia: ${itemPrice.toLocaleString("vi-VN")}d (${priceUnit})`, 30, yPosition);
-          doc.setFontSize(11);
-          yPosition += 8;
+          htmlContent += `
+            <div style="margin-left: 15px; margin-bottom: 12px; border-left: 3px solid #C6D870; padding-left: 10px;">
+              <p style="margin: 3px 0; font-size: 13px; font-weight: 600; color: #2a321b;">
+                ${item.name} - ${item.quantity}${item.unit}
+              </p>
+              <p style="margin: 3px 0; font-size: 12px; color: #666;">
+                Giá: <strong style="color: #8FA31E;">${itemPrice.toLocaleString("vi-VN")}đ</strong> (${item.displayPriceUnit})
+              </p>
+            </div>
+          `;
         });
         
-        yPosition += 4;
+        htmlContent += `</div>`;
       });
     }
     
-    // Total
-    if (yPosition > 260) {
-      doc.addPage();
-      yPosition = 20;
+    htmlContent += `
+        <hr style="border: none; border-top: 2px solid #8FA31E; margin: 20px 0;" />
+        
+        <div style="text-align: right; margin-top: 20px;">
+          <p style="font-size: 18px; font-weight: bold; color: #556B2F;">
+            TỔNG CHI PHÍ: <span style="color: #8FA31E;">${totalPrice.toLocaleString("vi-VN")}đ</span>
+          </p>
+        </div>
+      </div>
+    `;
+    
+    // Create temporary element
+    const element = document.createElement('div');
+    element.innerHTML = htmlContent;
+    element.style.position = 'absolute';
+    element.style.left = '-9999px';
+    document.body.appendChild(element);
+    
+    // Configure html2pdf options
+    const options = {
+      margin: 10,
+      filename: `danh-sach-mua-sam-${new Date().toISOString().split('T')[0]}.pdf`,
+      image: { type: 'jpeg' as const, quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
+    };
+    
+    // Generate PDF
+    try {
+      await html2pdf().set(options).from(element).save();
+    } finally {
+      // Clean up
+      document.body.removeChild(element);
     }
-    
-    yPosition += 5;
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text(`TONG CHI PHI: ${totalPrice.toLocaleString("vi-VN")}d`, 20, yPosition);
-    
-    // Save PDF
-    doc.save(`danh-sach-mua-sam-${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
   const handleClearList = () => {
