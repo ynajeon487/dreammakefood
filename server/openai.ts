@@ -80,18 +80,20 @@ Hãy đưa ra thực đơn với format sau:
 1. Tổng quan ngân sách phân bổ
 2. Thực đơn chi tiết cho ${mealsPerDay || '3'} bữa (bữa sáng, trưa, tối)
 3. Mỗi món ăn cần có:
-   - Tên món
-   - Nguyên liệu chính và ước lượng giá
+   - Tên món (**in đậm**)
+   - Nguyên liệu chi tiết (liệt kê dạng danh sách)
+   - Giá ước tính
    - Thời gian nấu
-   - Độ khó (phù hợp với kỹ năng)
-   - Giá trị dinh dưỡng cơ bản
+   - HƯỚNG DẪN NẤU TỪNG BƯỚC (số thứ tự 1., 2., 3., ...)
+   - Mẹo nhỏ (*in nghiêng*)
 
 Hãy đảm bảo thực đơn:
 - Phù hợp với ngân sách
 - Cân bằng dinh dưỡng
 - Dễ mua nguyên liệu tại chợ/siêu thị TP.HCM
 - Phù hợp với kỹ năng nấu ăn của người dùng
-- Sử dụng nguyên liệu Việt Nam phổ biến`;
+- Sử dụng nguyên liệu Việt Nam phổ biến
+- Hướng dẫn nấu rõ ràng, dễ hiểu, chi tiết từng bước`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -102,19 +104,35 @@ Hãy đảm bảo thực đơn:
 Bạn hiểu rõ về giá cả thực phẩm tại TP.HCM, các món ăn Việt Nam truyền thống, và cách cân bằng dinh dưỡng với ngân sách hạn chế.
 Hãy tạo thực đơn thực tế, dễ thực hiện, và phù hợp với đời sống sinh viên.
 
-QUAN TRỌNG - Định dạng văn bản:
+QUAN TRỌNG - Bạn PHẢI bao gồm HƯỚNG DẪN NẤU CHI TIẾT cho TỪNG món ăn trong thực đơn!
+
+Định dạng văn bản:
 - Sử dụng **in đậm** cho tên món ăn, tiêu đề các phần
 - Sử dụng *in nghiêng* cho ghi chú, mẹo nhỏ
 - Sử dụng ### cho tiêu đề chính (### BỮA SÁNG)
 - Sử dụng dấu đầu dòng (-) để liệt kê nguyên liệu
-- Tổ chức rõ ràng, dễ đọc với khoảng trống hợp lý`
+- Sử dụng số thứ tự (1., 2., 3.) cho các bước nấu
+- Tổ chức rõ ràng, dễ đọc với khoảng trống hợp lý
+
+Cấu trúc cho mỗi món:
+**Tên món**
+- Nguyên liệu: ...
+- Giá: ~X,000 VNĐ
+- Thời gian: Y phút
+
+Cách nấu:
+1. Bước 1...
+2. Bước 2...
+3. Bước 3...
+
+*Mẹo: ...*`
         },
         {
           role: "user",
           content: prompt
         }
       ],
-      max_tokens: 1500,
+      max_tokens: 3000,
     });
 
     return completion.choices[0]?.message?.content || "Xin lỗi, không thể tạo thực đơn lúc này.";
