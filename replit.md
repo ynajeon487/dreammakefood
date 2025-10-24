@@ -90,6 +90,22 @@ Preferred communication style: Simple, everyday language.
 
 **Asset Management**: Static images stored in `attached_assets/generated_images/` directory for recipe photos
 
+**Recipe Database**: Centralized recipe data structure in `shared/recipes.ts`
+- 8 complete Vietnamese recipes with detailed information
+- Each recipe includes: name, image, price, cookTime, servings, rating, mealType, description, nutrition (calories/protein/carbs/fat), ingredients with substitutes, cooking steps, and cost breakdown
+- All recipes designed for student budgets (prices under 30,000 VND)
+- Recipe collection:
+  1. Trứng chiên cà chua (15,000đ) - Bữa sáng
+  2. Rau muống xào tỏi (12,000đ) - Bữa trưa
+  3. Cơm chiên trứng (20,000đ) - Bữa tối
+  4. Mì tôm nâng cấp (18,000đ) - Ăn vặt
+  5. Cháo gà (25,000đ) - Bữa sáng
+  6. Thịt kho trứng (28,000đ) - Bữa trưa
+  7. Canh chua cá (22,000đ) - Bữa tối
+  8. Đậu hũ sốt cà chua (15,000đ) - Bữa trưa
+- Prices based on Bách Hóa Xanh market rates (January 2025) for TP Hồ Chí Minh area
+- Recipes.tsx and RecipeDetail.tsx dynamically render from this shared data source
+
 **Ingredient Library**: Comprehensive Vietnamese ingredient database (`client/src/lib/ingredients.ts`)
 - 68 common ingredients grouped by category (Rau củ, Thịt, Hải sản, Đạm thực vật, Nấm, Tinh bột, Gia vị, Trái cây)
 - Searchable multi-select interface with real-time filtering
