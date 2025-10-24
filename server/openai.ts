@@ -157,7 +157,7 @@ interface IngredientsParams {
   ingredients: string[];
   otherIngredients?: string;
   servings: string;
-  budget: string;
+  budget?: string;
   diet: string;
   skillLevel: string;
 }
@@ -184,32 +184,35 @@ export async function generateRecipeFromIngredients(params: IngredientsParams): 
       ? `${ingredientsList}, ${otherIngredients}`
       : ingredientsList;
 
-    const prompt = `Gợi ý món ăn phù hợp nhất từ các nguyên liệu có sẵn sau:
+    const budgetText = budget ? `- Ngân sách thêm (nếu thiếu nguyên liệu): ${budget} VNĐ` : `- Ngân sách thêm: Không giới hạn (có thể dùng nguyên liệu có sẵn hoặc mua thêm ít)`;
+
+    const prompt = `Gợi ý các món ăn từ các nguyên liệu có sẵn sau:
 **Nguyên liệu đã có:** ${allIngredients}
 
 **Yêu cầu:**
 - Số người ăn: ${servings} người
-- Ngân sách thêm (nếu thiếu nguyên liệu): ${budget} VNĐ
+${budgetText}
 - Chế độ ăn: ${dietLabels[diet] || 'bình thường'}
 - Kỹ năng nấu ăn: ${skillLabels[skillLevel] || 'trung bình'}
 
-Hãy gợi ý MỘT món ăn tối ưu nhất và cung cấp:
-1. **Tên món** (in đậm) - giải thích TẠI SAO món này phù hợp với nguyên liệu có sẵn
+Hãy gợi ý NHIỀU món ăn khác nhau (2-4 món) từ TẤT CẢ nguyên liệu đã có và cung cấp cho MỖI món:
+1. **Tên món** (in đậm) - giải thích món này sử dụng nguyên liệu nào trong danh sách
 2. Cách sử dụng nguyên liệu đã có
 3. Nguyên liệu cần mua thêm (nếu có) - với số lượng cụ thể cho ${servings} người
-4. Giá ước tính cho nguyên liệu cần mua thêm (phải nằm trong ngân sách ${budget} VNĐ)
+4. Giá ước tính cho nguyên liệu cần mua thêm${budget ? ` (phải nằm trong ngân sách ${budget} VNĐ)` : ''}
 5. Tổng giá (chỉ tính nguyên liệu mua thêm)
 6. Thời gian chuẩn bị và nấu
 7. **Cách nấu từng bước** (số thứ tự 1., 2., 3., ...)
 8. *Mẹo nhỏ* (in nghiêng)
-9. Giá trị dinh dưỡng
 
 Đảm bảo:
-- TỐI ƯU hóa việc sử dụng nguyên liệu đã có
-- Nguyên liệu mua thêm phải nằm trong ngân sách
+- Đưa ra NHIỀU lựa chọn món ăn khác nhau
+- MỖI món sử dụng MỘT PHẦN hoặc TẤT CẢ nguyên liệu có sẵn
+- Tối ưu hóa việc sử dụng nguyên liệu đã có
+${budget ? `- Nguyên liệu mua thêm phải nằm trong ngân sách` : '- Ưu tiên món ăn cần mua thêm ít nhất'}
 - Phù hợp với kỹ năng ${skillLabels[skillLevel]}
 - Phù hợp với chế độ ăn ${dietLabels[diet]}
-- Hướng dẫn rõ ràng, chi tiết từng bước`;
+- Hướng dẫn rõ ràng, chi tiết từng bước cho mỗi món`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -217,22 +220,24 @@ Hãy gợi ý MỘT món ăn tối ưu nhất và cung cấp:
         {
           role: "system",
           content: `Bạn là chuyên gia đầu bếp và dinh dưỡng chuyên tư vấn nấu ăn cho sinh viên Việt Nam.
-Bạn rất giỏi trong việc tạo ra món ăn từ nguyên liệu có sẵn, giúp sinh viên tránh lãng phí thực phẩm.
+Bạn rất giỏi trong việc tạo ra NHIỀU món ăn đa dạng từ nguyên liệu có sẵn, giúp sinh viên tránh lãng phí thực phẩm và có nhiều lựa chọn.
 Bạn hiểu rõ về giá cả thực phẩm tại TP.HCM và cách tối ưu hóa ngân sách.
 
 Định dạng văn bản:
 - Sử dụng **in đậm** cho tên món ăn, tiêu đề
 - Sử dụng *in nghiêng* cho mẹo nhỏ, ghi chú
-- Sử dụng ### cho tiêu đề chính
+- Sử dụng ### cho tiêu đề món ăn (### Món 1:, ### Món 2:, ...)
 - Sử dụng dấu đầu dòng (-) để liệt kê nguyên liệu
 - Sử dụng số thứ tự (1., 2., 3.) cho các bước nấu
-- Tổ chức rõ ràng, dễ đọc
+- Tổ chức rõ ràng, dễ đọc, phân cách rõ giữa các món
 
 QUAN TRỌNG:
-- Ưu tiên SỬ DỤNG TỐI ĐA nguyên liệu đã có
-- Chỉ gợi ý CHỈ 1 món duy nhất
-- Luôn bao gồm hướng dẫn nấu chi tiết từng bước
-- Giá phải thực tế và nằm trong ngân sách`
+- Gợi ý 2-4 món ăn khác nhau
+- MỖI món sử dụng MỘT PHẦN hoặc TẤT CẢ nguyên liệu có sẵn
+- Các món KHÔNG nhất thiết phải dùng hết tất cả nguyên liệu
+- Ưu tiên tối ưu hóa việc sử dụng nguyên liệu đã có
+- Luôn bao gồm hướng dẫn nấu chi tiết từng bước cho mỗi món
+- Giá phải thực tế và (nếu có ngân sách) nằm trong ngân sách`
         },
         {
           role: "user",
