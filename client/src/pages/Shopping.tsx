@@ -473,11 +473,11 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
   },
 
   // Trái cây
-  chuối: {
+  "chuối sứ": {
     defaultQuantity: 500,
     unit: "g",
-    baseUnitPrice: 25,
-    displayPriceUnit: "25.000đ/kg",
+    baseUnitPrice: 19.6,
+    displayPriceUnit: "19.600đ/kg",
   },
   táo: {
     defaultQuantity: 500,
@@ -485,29 +485,71 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
     baseUnitPrice: 50,
     displayPriceUnit: "50.000đ/kg",
   },
-  cam: {
+  "cam sành": {
     defaultQuantity: 500,
     unit: "g",
-    baseUnitPrice: 35,
-    displayPriceUnit: "35.000đ/kg",
+    baseUnitPrice: 15,
+    displayPriceUnit: "15.000đ/kg",
   },
-  "đu đủ": {
-    defaultQuantity: 500,
-    unit: "g",
-    baseUnitPrice: 20,
-    displayPriceUnit: "20.000đ/kg",
-  },
-  xoài: {
+  bưởi: {
     defaultQuantity: 500,
     unit: "g",
     baseUnitPrice: 40,
     displayPriceUnit: "40.000đ/kg",
   },
+  "đu đủ": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 24.5,
+    displayPriceUnit: "24.500đ/kg",
+  },
+  "xoài keo": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 24,
+    displayPriceUnit: "24.000đ/kg",
+  },
   "thanh long": {
     defaultQuantity: 500,
     unit: "g",
-    baseUnitPrice: 25,
-    displayPriceUnit: "25.000đ/kg",
+    baseUnitPrice: 12,
+    displayPriceUnit: "12.000đ/kg",
+  },
+  "dưa hấu": {
+    defaultQuantity: 5,
+    unit: "quả",
+    baseUnitPrice: 30,
+    displayPriceUnit: "30.000đ/quả (~3kg)",
+  },
+  "dưa lưới": {
+    defaultQuantity: 5,
+    unit: "quả",
+    baseUnitPrice: 41,
+    displayPriceUnit: "41.000đ/quả",
+  },
+  mận: {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 38.4,
+    displayPriceUnit: "38.400đ/kg",
+  },
+  mít: {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 28,
+    displayPriceUnit: "28.000đ/kg",
+  },
+  "dưa gang": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 18.3,
+    displayPriceUnit: "18.300đ/kg",
+  },
+  "dừa xiêm": {
+    defaultQuantity: 500,
+    unit: "trái",
+    baseUnitPrice: 15.5,
+    displayPriceUnit: "15.500đ/trái",
   },
 };
 
