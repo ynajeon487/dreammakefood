@@ -43,7 +43,9 @@ export default function FeatureCards() {
                 whileHover={shouldReduceMotion ? {} : { y: -8 }}
               >
                 <Card 
-                  className="p-8 hover-elevate transition-transform cursor-pointer h-full"
+                  className={`p-8 cursor-pointer h-full ${
+                    shouldReduceMotion ? '' : 'hover-elevate transition-transform'
+                  }`}
                   data-testid={`card-feature-${index}`}
                 >
                   <div className="flex flex-col items-center text-center">

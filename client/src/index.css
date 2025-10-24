@@ -397,3 +397,31 @@
   content: "";
   margin-top: 0.25rem;
 }
+
+/* Respect user's reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all hover elevation effects */
+  .hover-elevate:hover:not(.no-default-hover-elevate)::after,
+  .hover-elevate-2:hover:not(.no-default-hover-elevate)::after {
+    background-color: transparent !important;
+  }
+  
+  /* Disable all active elevation effects */
+  .active-elevate:active:not(.no-default-active-elevate)::after,
+  .active-elevate-2:active:not(.no-default-active-elevate)::after {
+    background-color: transparent !important;
+  }
+  
+  /* Disable transitions */
+  .transition-all,
+  .transition-transform,
+  .transition-colors,
+  .transition-opacity {
+    transition: none !important;
+  }
+  
+  /* Disable transforms */
+  .hover\:-translate-y-1:hover {
+    transform: none !important;
+  }
+}

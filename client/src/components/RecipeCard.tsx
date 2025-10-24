@@ -43,7 +43,9 @@ export default function RecipeCard({
       whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
     >
       <Card 
-        className="overflow-hidden hover-elevate active-elevate-2 transition-all hover:-translate-y-1 cursor-pointer h-full"
+        className={`overflow-hidden cursor-pointer h-full ${
+          shouldReduceMotion ? '' : 'hover-elevate active-elevate-2 transition-all hover:-translate-y-1'
+        }`}
         onClick={onClick}
         data-testid={`card-recipe-${id}`}
       >
