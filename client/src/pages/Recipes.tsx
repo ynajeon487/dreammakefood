@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -12,11 +12,19 @@ import noodlesImage from '@assets/generated_images/Upgraded_instant_noodles_75cd
 import porridgeImage from '@assets/generated_images/Chicken_rice_porridge_19a95b8b.png';
 
 export default function Recipes() {
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
   const [priceFilter, setPriceFilter] = useState('all');
   const [timeFilter, setTimeFilter] = useState('all');
   const [mealTypeFilter, setMealTypeFilter] = useState('all');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const searchParam = params.get('search');
+    if (searchParam) {
+      setSearchQuery(searchParam);
+    }
+  }, [location]);
 
   const allRecipes = [
     {

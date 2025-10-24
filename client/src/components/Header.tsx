@@ -6,8 +6,16 @@ import { Input } from '@/components/ui/input';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (searchQuery.trim()) {
+      setLocation(`/recipes?search=${encodeURIComponent(searchQuery.trim())}`);
+      setIsMobileMenuOpen(false);
+    }
+  };
 
   const navItems = [
     { label: 'Trang chủ', path: '/' },
@@ -44,17 +52,18 @@ export default function Header() {
               ))}
             </nav>
             
-            <div className="relative">
+            <form onSubmit={handleSearch} className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-foreground/60" />
               <Input
                 type="text"
-                placeholder="Tìm kiếm..."
+                placeholder="Tìm kiếm món ăn..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                 className="pl-9 w-48 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60 focus-visible:ring-primary-foreground/30"
                 data-testid="input-search"
               />
-            </div>
+            </form>
           </div>
 
           <button
@@ -69,17 +78,18 @@ export default function Header() {
 
         {isMobileMenuOpen && (
           <div className="md:hidden pb-4 space-y-3">
-            <div className="relative px-4">
+            <form onSubmit={handleSearch} className="relative px-4">
               <Search className="absolute left-7 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-foreground/60" />
               <Input
                 type="text"
-                placeholder="Tìm kiếm..."
+                placeholder="Tìm kiếm món ăn..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                 className="pl-9 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60 focus-visible:ring-primary-foreground/30"
                 data-testid="input-search-mobile"
               />
-            </div>
+            </form>
             
             <nav className="space-y-2">
               {navItems.map((item) => (
