@@ -91,7 +91,7 @@ export default function AIChatbot() {
       {!isOpen && (
         <Button
           size="icon"
-          style={{ position: 'fixed', bottom: '40px', right: '40px', left: 'auto' }}
+          style={{ position: 'fixed', bottom: '40px', right: '30px', left: 'auto' }}
           className="h-14 w-14 rounded-full shadow-lg bg-accent hover:bg-accent text-accent-foreground z-50"
           onClick={() => setIsOpen(true)}
           data-testid="button-open-chatbot"
@@ -101,7 +101,7 @@ export default function AIChatbot() {
       )}
 
       {isOpen && (
-        <Card style={{ position: 'fixed', bottom: '40px', right: '40px', left: 'auto' }} className="w-[380px] h-[600px] flex flex-col shadow-2xl z-50">
+        <Card style={{ position: 'fixed', bottom: '40px', right: '30px', left: 'auto' }} className="w-[380px] h-[600px] flex flex-col shadow-2xl z-50">
           <div className="flex items-center justify-between p-4 border-b border-card-border bg-primary text-primary-foreground rounded-t-lg">
             <div className="flex items-center gap-2">
               <Bot className="h-5 w-5" />
