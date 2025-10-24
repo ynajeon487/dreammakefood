@@ -1,5 +1,4 @@
 import { useLocation } from 'wouter';
-import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import FeatureCards from '@/components/FeatureCards';
 import RecipeCard from '@/components/RecipeCard';
@@ -58,47 +57,44 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1">
-        <Hero onCtaClick={() => setLocation('/menu')} />
-        <FeatureCards />
-        
-        <section className="py-16 px-4 bg-background">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 font-['Lexend']">
-                Món Ăn Nổi Bật
-              </h2>
-              <p className="text-muted-foreground text-lg">
-                Những công thức phổ biến và được yêu thích nhất
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {featuredRecipes.map((recipe) => (
-                <RecipeCard
-                  key={recipe.id}
-                  {...recipe}
-                  onClick={() => setLocation(`/recipes/${recipe.id}`)}
-                />
-              ))}
-            </div>
-            
-            <div className="text-center mt-10">
-              <Button 
-                size="lg" 
-                variant="outline"
-                onClick={() => setLocation('/recipes')}
-                data-testid="button-view-all-recipes"
-              >
-                Xem Tất Cả Công Thức
-              </Button>
-            </div>
+    <>
+      <Hero onCtaClick={() => setLocation('/menu')} />
+      <FeatureCards />
+      
+      <section className="py-16 px-4 bg-background">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 font-['Lexend']">
+              Món Ăn Nổi Bật
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              Những công thức phổ biến và được yêu thích nhất
+            </p>
           </div>
-        </section>
-      </main>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredRecipes.map((recipe) => (
+              <RecipeCard
+                key={recipe.id}
+                {...recipe}
+                onClick={() => setLocation(`/recipes/${recipe.id}`)}
+              />
+            ))}
+          </div>
+          
+          <div className="text-center mt-10">
+            <Button 
+              size="lg" 
+              variant="outline"
+              onClick={() => setLocation('/recipes')}
+              data-testid="button-view-all-recipes"
+            >
+              Xem Tất Cả Công Thức
+            </Button>
+          </div>
+        </div>
+      </section>
       <Footer />
-    </div>
+    </>
   );
 }
