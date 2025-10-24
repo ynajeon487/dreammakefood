@@ -48,6 +48,7 @@ Hãy trả lời bằng tiếng Việt, thân thiện, dễ hiểu và thiết t
 
 interface MenuParams {
   budget: string;
+  servings: string;
   mealsPerDay: string;
   diet: string;
   skillLevel: string;
@@ -55,7 +56,7 @@ interface MenuParams {
 
 export async function generateMenu(params: MenuParams): Promise<string> {
   try {
-    const { budget, mealsPerDay, diet, skillLevel } = params;
+    const { budget, servings, mealsPerDay, diet, skillLevel } = params;
     
     const dietLabels: Record<string, string> = {
       'normal': 'bình thường',
@@ -72,6 +73,7 @@ export async function generateMenu(params: MenuParams): Promise<string> {
 
     const prompt = `Tạo thực đơn chi tiết cho sinh viên với các yêu cầu sau:
 - Ngân sách: ${budget ? `${budget} VNĐ/ngày` : 'linh hoạt'}
+- Số người ăn: ${servings ? `${servings} người` : '1 người'}
 - Số bữa ăn: ${mealsPerDay ? `${mealsPerDay} bữa/ngày` : '3 bữa/ngày'}
 - Chế độ ăn: ${diet ? dietLabels[diet] : 'bình thường'}
 - Kỹ năng nấu ăn: ${skillLevel ? skillLabels[skillLevel] : 'trung bình'}
@@ -81,7 +83,7 @@ Hãy đưa ra thực đơn với format sau:
 2. Thực đơn chi tiết cho ${mealsPerDay || '3'} bữa (bữa sáng, trưa, tối)
 3. Mỗi món ăn cần có:
    - Tên món (**in đậm**)
-   - Nguyên liệu chi tiết (liệt kê dạng danh sách)
+   - Nguyên liệu chi tiết (liệt kê dạng danh sách với số lượng cụ thể cho ${servings || '1'} người)
    - Giá ước tính
    - Thời gian nấu
    - HƯỚNG DẪN NẤU TỪNG BƯỚC (số thứ tự 1., 2., 3., ...)
@@ -89,6 +91,7 @@ Hãy đưa ra thực đơn với format sau:
 
 Hãy đảm bảo thực đơn:
 - Phù hợp với ngân sách
+- Tính toán nguyên liệu chính xác cho ${servings || '1'} người
 - Cân bằng dinh dưỡng
 - Dễ mua nguyên liệu tại chợ/siêu thị TP.HCM
 - Phù hợp với kỹ năng nấu ăn của người dùng
@@ -102,6 +105,7 @@ Hãy đảm bảo thực đơn:
           role: "system",
           content: `Bạn là chuyên gia dinh dưỡng và đầu bếp chuyên tạo thực đơn cho sinh viên Việt Nam. 
 Bạn hiểu rõ về giá cả thực phẩm tại TP.HCM, các món ăn Việt Nam truyền thống, và cách cân bằng dinh dưỡng với ngân sách hạn chế.
+Bạn giỏi tính toán nguyên liệu cho nhiều người ăn.
 Hãy tạo thực đơn thực tế, dễ thực hiện, và phù hợp với đời sống sinh viên.
 
 QUAN TRỌNG - Bạn PHẢI bao gồm HƯỚNG DẪN NẤU CHI TIẾT cho TỪNG món ăn trong thực đơn!

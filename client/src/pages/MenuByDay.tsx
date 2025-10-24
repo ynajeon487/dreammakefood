@@ -10,6 +10,7 @@ import { parseMarkdown } from '@/lib/markdown';
 
 export default function MenuByDay() {
   const [budget, setBudget] = useState('');
+  const [servings, setServings] = useState('');
   const [mealsPerDay, setMealsPerDay] = useState('');
   const [diet, setDiet] = useState('');
   const [skillLevel, setSkillLevel] = useState('');
@@ -17,6 +18,7 @@ export default function MenuByDay() {
   const [generatedMenu, setGeneratedMenu] = useState('');
   const [errors, setErrors] = useState({
     budget: false,
+    servings: false,
     mealsPerDay: false,
     diet: false,
     skillLevel: false,
@@ -27,6 +29,7 @@ export default function MenuByDay() {
     // Validate inputs
     const newErrors = {
       budget: !budget || budget.trim() === '',
+      servings: !servings || servings.trim() === '',
       mealsPerDay: !mealsPerDay,
       diet: !diet,
       skillLevel: !skillLevel,
@@ -56,6 +59,7 @@ export default function MenuByDay() {
         },
         body: JSON.stringify({
           budget,
+          servings,
           mealsPerDay,
           diet,
           skillLevel,
@@ -110,6 +114,30 @@ export default function MenuByDay() {
                 <p className="text-sm text-destructive flex items-center gap-1">
                   <AlertCircle className="h-3 w-3" />
                   Vui lòng nhập ngân sách
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="servings" className={errors.servings ? 'text-destructive' : ''}>
+                Số người <span className="text-destructive">*</span>
+              </Label>
+              <Input
+                id="servings"
+                type="number"
+                placeholder="Ví dụ: 2"
+                value={servings}
+                onChange={(e) => {
+                  setServings(e.target.value);
+                  setErrors(prev => ({ ...prev, servings: false }));
+                }}
+                className={errors.servings ? 'border-destructive focus-visible:ring-destructive' : ''}
+                data-testid="input-servings"
+              />
+              {errors.servings && (
+                <p className="text-sm text-destructive flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  Vui lòng nhập số người
                 </p>
               )}
             </div>

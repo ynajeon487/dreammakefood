@@ -24,10 +24,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Menu Generation endpoint (by day)
   app.post("/api/generate-menu", async (req, res) => {
     try {
-      const { budget, mealsPerDay, diet, skillLevel } = req.body;
+      const { budget, servings, mealsPerDay, diet, skillLevel } = req.body;
 
       const menu = await generateMenu({
         budget,
+        servings,
         mealsPerDay,
         diet,
         skillLevel
