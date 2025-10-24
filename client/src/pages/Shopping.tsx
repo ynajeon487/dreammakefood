@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/tooltip";
 import { Download, Trash2 } from "lucide-react";
 import { vietnameseIngredients } from "@/lib/ingredients";
-import html2pdf from "html2pdf.js";
 
 interface IngredientPriceInfo {
   defaultQuantity: number;
@@ -156,7 +155,7 @@ export default function Shopping() {
     );
   };
 
-  const handleDownload = async () => {
+  const handleDownload = () => {
     // Get only checked items
     const checkedCategories = shoppingList
       .map((category) => ({
@@ -165,91 +164,48 @@ export default function Shopping() {
       }))
       .filter((category) => category.items.length > 0);
     
-    // Create HTML content
-    let htmlContent = `
-      <div style="font-family: 'Lexend', 'Inter', sans-serif; padding: 30px; color: #2a321b;">
-        <h1 style="text-align: center; font-size: 24px; margin-bottom: 20px; color: #556B2F; font-weight: bold;">
-          DANH SÁCH MUA SẮM
-        </h1>
-        
-        <div style="margin-bottom: 20px; font-size: 12px; color: #555;">
-          <p style="margin: 5px 0;"><strong>Khu vực:</strong> TP Hồ Chí Minh</p>
-          <p style="margin: 5px 0;"><strong>Giá cập nhật:</strong> Tháng 1/2025</p>
-          <p style="margin: 5px 0; font-style: italic; font-size: 11px;">
-            Lưu ý: Giá có thể chênh lệch giữa các khu vực khác nhau
-          </p>
-        </div>
-        
-        <hr style="border: none; border-top: 2px solid #8FA31E; margin: 20px 0;" />
-    `;
+    // Create text content with Vietnamese characters
+    let content = "═══════════════════════════════════════\n";
+    content += "      DANH SÁCH MUA SẮM\n";
+    content += "═══════════════════════════════════════\n\n";
+    content += "Khu vực: TP Hồ Chí Minh\n";
+    content += "Giá cập nhật: Tháng 1/2025\n";
+    content += "Lưu ý: Giá có thể chênh lệch giữa các khu vực\n\n";
+    content += "───────────────────────────────────────\n\n";
     
     if (checkedCategories.length === 0) {
-      htmlContent += `
-        <p style="text-align: center; font-size: 14px; color: #666; margin-top: 30px;">
-          Chưa có món nào được chọn.
-        </p>
-      `;
+      content += "Chưa có món nào được chọn.\n\n";
     } else {
-      checkedCategories.forEach((category) => {
-        htmlContent += `
-          <div style="margin-bottom: 25px;">
-            <h2 style="font-size: 16px; font-weight: bold; color: #556B2F; margin-bottom: 10px; text-transform: uppercase;">
-              ${category.category}
-            </h2>
-        `;
+      checkedCategories.forEach((category, index) => {
+        content += `${category.category.toUpperCase()}\n`;
+        content += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
         
         category.items.forEach((item) => {
           const itemPrice = calculateItemPrice(item);
-          htmlContent += `
-            <div style="margin-left: 15px; margin-bottom: 12px; border-left: 3px solid #C6D870; padding-left: 10px;">
-              <p style="margin: 3px 0; font-size: 13px; font-weight: 600; color: #2a321b;">
-                ${item.name} - ${item.quantity}${item.unit}
-              </p>
-              <p style="margin: 3px 0; font-size: 12px; color: #666;">
-                Giá: <strong style="color: #8FA31E;">${itemPrice.toLocaleString("vi-VN")}đ</strong> (${item.displayPriceUnit})
-              </p>
-            </div>
-          `;
+          content += `☑ ${item.name} - ${item.quantity}${item.unit}\n`;
+          content += `   Giá: ${itemPrice.toLocaleString("vi-VN")}đ (${item.displayPriceUnit})\n\n`;
         });
         
-        htmlContent += `</div>`;
+        if (index < checkedCategories.length - 1) {
+          content += "\n";
+        }
       });
     }
     
-    htmlContent += `
-        <hr style="border: none; border-top: 2px solid #8FA31E; margin: 20px 0;" />
-        
-        <div style="text-align: right; margin-top: 20px;">
-          <p style="font-size: 18px; font-weight: bold; color: #556B2F;">
-            TỔNG CHI PHÍ: <span style="color: #8FA31E;">${totalPrice.toLocaleString("vi-VN")}đ</span>
-          </p>
-        </div>
-      </div>
-    `;
+    content += "───────────────────────────────────────\n";
+    content += `TỔNG CHI PHÍ: ${totalPrice.toLocaleString("vi-VN")}đ\n`;
+    content += "═══════════════════════════════════════\n";
     
-    // Create temporary element
-    const element = document.createElement('div');
-    element.innerHTML = htmlContent;
-    element.style.position = 'absolute';
-    element.style.left = '-9999px';
-    document.body.appendChild(element);
-    
-    // Configure html2pdf options
-    const options = {
-      margin: 10,
-      filename: `danh-sach-mua-sam-${new Date().toISOString().split('T')[0]}.pdf`,
-      image: { type: 'jpeg' as const, quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
-    };
-    
-    // Generate PDF
-    try {
-      await html2pdf().set(options).from(element).save();
-    } finally {
-      // Clean up
-      document.body.removeChild(element);
-    }
+    // Create blob and download as text file
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `danh-sach-mua-sam-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
   };
 
   const handleClearList = () => {
