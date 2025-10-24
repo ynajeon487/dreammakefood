@@ -19,7 +19,7 @@ Preferred communication style: Simple, everyday language.
   - `/menu` - Main selection page with 3 aligned option cards
   - `/menu/by-day` - Daily menu generator (budget, servings, meals/day, diet, skill level)
   - `/menu/by-meal` - Single meal recipe generator (budget, servings, diet, optional dish name)
-  - `/menu/by-ingredients` - Recipe generator from available ingredients (ingredients, servings, budget, diet, skill level)
+  - `/menu/by-ingredients` - Multiple recipe suggestions from available ingredients (ingredients, servings, optional budget, diet, skill level)
 - Shopping list management
 - Knowledge base with cooking tips
 
@@ -48,7 +48,7 @@ Preferred communication style: Simple, everyday language.
 - `/api/chat` - AI chatbot interaction endpoint
 - `/api/generate-menu` - Menu generation by day (budget, servings, meals/day, diet, skill level)
 - `/api/menu/generate-meal` - Individual meal recipe generation (budget, servings, diet, optional dish name)
-- `/api/menu/generate-from-ingredients` - Recipe generation from available ingredients (ingredients, servings, budget, diet, skill level)
+- `/api/menu/generate-from-ingredients` - Multiple recipe suggestions from available ingredients (ingredients, servings, optional budget, diet, skill level) - generates 2-4 different dishes
 
 **Development Setup**: 
 - Vite middleware for HMR in development
@@ -68,7 +68,10 @@ Preferred communication style: Simple, everyday language.
 - Model: GPT-4o-mini for cost-effective responses
 - System prompt configured for Vietnamese student cooking assistance
 - Handles general chat, structured menu generation, and ingredient-based recipe suggestions
-- Optimizes ingredient usage and minimizes food waste
+- **Ingredient-based generation**: Returns 2-4 different dish options from available ingredients
+  - Each dish uses some or all of the provided ingredients (not forced to use everything)
+  - Budget parameter is optional - AI adapts recommendations based on presence/absence
+  - Optimizes ingredient usage and minimizes food waste
 - Markdown formatting support for rich text responses
 
 **Database**: Neon Serverless PostgreSQL
@@ -88,7 +91,9 @@ Preferred communication style: Simple, everyday language.
 - 60+ common ingredients grouped by category (Rau củ, Thịt, Hải sản, Đạm thực vật, Nấm, Tinh bột, Gia vị)
 - Searchable multi-select interface with real-time filtering
 - Badge display for selected ingredients
-- Used for ingredient-based recipe generation
+- Custom ingredient input field for ingredients not in the predefined list
+- Ingredient analysis logging system to track user-requested ingredients for database expansion
+- Used for ingredient-based recipe generation (generates 2-4 dish options)
 
 **Build & Development Tools**:
 - TypeScript for type safety
