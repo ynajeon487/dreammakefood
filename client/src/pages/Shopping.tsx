@@ -10,7 +10,13 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Download, Trash2, Plus, ChevronDown, ChevronRight } from "lucide-react";
+import {
+  Download,
+  Trash2,
+  Plus,
+  ChevronDown,
+  ChevronRight,
+} from "lucide-react";
 import { vietnameseIngredients } from "@/lib/ingredients";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -24,77 +30,447 @@ interface IngredientPriceInfo {
 }
 
 // Define sub-items for parent ingredients
-const ingredientSubItems: Record<string, Array<{name: string, priceInfo: IngredientPriceInfo}>> = {
-  'thịt heo': [
-    { name: 'Ba rọi', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 140, displayPriceUnit: '140.000đ/kg' }},
-    { name: 'Sườn non', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 160, displayPriceUnit: '160.000đ/kg' }},
-    { name: 'Nạc vai', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 150, displayPriceUnit: '150.000đ/kg' }},
-    { name: 'Thịt mông', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 155, displayPriceUnit: '155.000đ/kg' }},
+const ingredientSubItems: Record<
+  string,
+  Array<{ name: string; priceInfo: IngredientPriceInfo }>
+> = {
+  "thịt heo": [
+    {
+      name: "Ba rọi",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 174,
+        displayPriceUnit: "174.000đ/kg",
+      },
+    },
+    {
+      name: "Sườn non",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 174,
+        displayPriceUnit: "209.000đ/kg",
+      },
+    },
+    {
+      name: "Bắp, chân giò",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 89,
+        displayPriceUnit: "89.000đ/kg",
+      },
+    },
+    {
+      name: "Xương (có thịt)",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 89,
+        displayPriceUnit: "89.000đ/kg",
+      },
+    },
+    {
+      name: "Thịt xay",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 110.5,
+        displayPriceUnit: "11.050đ/100g",
+      },
+    },
+    {
+      name: "Cốt lết",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 99,
+        displayPriceUnit: "29.700đ/300g",
+      },
+    },
+    {
+      name: "Thịt đùi",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 99,
+        displayPriceUnit: "49.500đ/500g",
+      },
+    },
+    {
+      name: "Nạc",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 129,
+        displayPriceUnit: "38.700đ/300g",
+      },
+    },
+    {
+      name: "Nạc thăn",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 149,
+        displayPriceUnit: "149.000đ/kg",
+      },
+    },
   ],
-  'thịt bò': [
-    { name: 'Bò nạc', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 250, displayPriceUnit: '250.000đ/kg' }},
-    { name: 'Bò kho', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 240, displayPriceUnit: '240.000đ/kg' }},
-    { name: 'Thăn nội', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 280, displayPriceUnit: '280.000đ/kg' }},
-    { name: 'Bắp bò', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 230, displayPriceUnit: '230.000đ/kg' }},
+  "thịt bò": [
+    {
+      name: "Thăn bò",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 316,
+        displayPriceUnit: "79.000đ/250g",
+      },
+    },
+    {
+      name: "Ba chỉ bò",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 367,
+        displayPriceUnit: "110.000đ/300g",
+      },
+    },
+    {
+      name: "Đùi bò",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 267.9,
+        displayPriceUnit: "267.900đ/kg",
+      },
+    },
   ],
-  'thịt gà': [
-    { name: 'Gà ta', priceInfo: { defaultQuantity: 500, unit: 'g', baseUnitPrice: 180, displayPriceUnit: '180.000đ/kg' }},
-    { name: 'Gà công nghiệp', priceInfo: { defaultQuantity: 500, unit: 'g', baseUnitPrice: 120, displayPriceUnit: '120.000đ/kg' }},
-    { name: 'Đùi gà', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 140, displayPriceUnit: '140.000đ/kg' }},
-    { name: 'Cánh gà', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 100, displayPriceUnit: '100.000đ/kg' }},
+  "thịt gà": [
+    {
+      name: "Má đùi",
+      priceInfo: {
+        defaultQuantity: 500,
+        unit: "g",
+        baseUnitPrice: 78.2,
+        displayPriceUnit: "78.200đ/kg",
+      },
+    },
+    {
+      name: "Đùi gà",
+      priceInfo: {
+        defaultQuantity: 500,
+        unit: "g",
+        baseUnitPrice: 80.75,
+        displayPriceUnit: "80.750đ/kg",
+      },
+    },
+    {
+      name: "Ức gà",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 92.7,
+        displayPriceUnit: "92.700đ/kg",
+      },
+    },
+    {
+      name: "Xương gà",
+      priceInfo: {
+        defaultQuantity: 300,
+        unit: "g",
+        baseUnitPrice: 31.95,
+        displayPriceUnit: "31.950đ/kg",
+      },
+    },
   ],
-  'tôm': [
-    { name: 'Tôm sú', priceInfo: { defaultQuantity: 200, unit: 'g', baseUnitPrice: 350, displayPriceUnit: '350.000đ/kg' }},
-    { name: 'Tôm thẻ', priceInfo: { defaultQuantity: 200, unit: 'g', baseUnitPrice: 280, displayPriceUnit: '280.000đ/kg' }},
-    { name: 'Tôm he', priceInfo: { defaultQuantity: 200, unit: 'g', baseUnitPrice: 200, displayPriceUnit: '200.000đ/kg' }},
+  tôm: [
+    {
+      name: "Tôm sú",
+      priceInfo: {
+        defaultQuantity: 200,
+        unit: "g",
+        baseUnitPrice: 350,
+        displayPriceUnit: "350.000đ/kg",
+      },
+    },
+    {
+      name: "Tôm thẻ",
+      priceInfo: {
+        defaultQuantity: 200,
+        unit: "g",
+        baseUnitPrice: 280,
+        displayPriceUnit: "280.000đ/kg",
+      },
+    },
+    {
+      name: "Tôm he",
+      priceInfo: {
+        defaultQuantity: 200,
+        unit: "g",
+        baseUnitPrice: 200,
+        displayPriceUnit: "200.000đ/kg",
+      },
+    },
   ],
-  'cá': [
-    { name: 'Cá rô phi', priceInfo: { defaultQuantity: 500, unit: 'g', baseUnitPrice: 120, displayPriceUnit: '120.000đ/kg' }},
-    { name: 'Cá diêu hồng', priceInfo: { defaultQuantity: 500, unit: 'g', baseUnitPrice: 140, displayPriceUnit: '140.000đ/kg' }},
-    { name: 'Cá lóc', priceInfo: { defaultQuantity: 500, unit: 'g', baseUnitPrice: 160, displayPriceUnit: '160.000đ/kg' }},
-    { name: 'Cá thu', priceInfo: { defaultQuantity: 500, unit: 'g', baseUnitPrice: 180, displayPriceUnit: '180.000đ/kg' }},
+  cá: [
+    {
+      name: "Cá rô phi (Chưa chính xác)",
+      priceInfo: {
+        defaultQuantity: 500,
+        unit: "g",
+        baseUnitPrice: 120,
+        displayPriceUnit: "120.000đ/kg",
+      },
+    },
+    {
+      name: "Cá diêu hồng",
+      priceInfo: {
+        defaultQuantity: 500,
+        unit: "g",
+        baseUnitPrice: 92,
+        displayPriceUnit: "92.000đ/kg",
+      },
+    },
+    {
+      name: "Cá lóc",
+      priceInfo: {
+        defaultQuantity: 500,
+        unit: "g",
+        baseUnitPrice: 98,
+        displayPriceUnit: "98.000đ/kg",
+      },
+    },
+    {
+      name: "Cá thu (Chưa chính xác)",
+      priceInfo: {
+        defaultQuantity: 500,
+        unit: "g",
+        baseUnitPrice: 180,
+        displayPriceUnit: "180.000đ/kg",
+      },
+    },
+    {
+      name: "Cá nục",
+      priceInfo: {
+        defaultQuantity: 500,
+        unit: "g",
+        baseUnitPrice: 99,
+        displayPriceUnit: "99.000đ/kg",
+      },
+    },
+    {
+      name: "Cá sòng",
+      priceInfo: {
+        defaultQuantity: 500,
+        unit: "g",
+        baseUnitPrice: 99,
+        displayPriceUnit: "99.000đ/kg",
+      },
+    },
   ],
 };
 
 // Price per base unit (1g for weight items, 1 piece for count items)
 const ingredientPrices: Record<string, IngredientPriceInfo> = {
-  'cà chua': { defaultQuantity: 4, unit: 'quả', baseUnitPrice: 3000, displayPriceUnit: '3.000đ/quả' },
-  'cà rốt': { defaultQuantity: 500, unit: 'g', baseUnitPrice: 20, displayPriceUnit: '20.000đ/kg' },
-  'khoai tây': { defaultQuantity: 500, unit: 'g', baseUnitPrice: 30, displayPriceUnit: '30.000đ/kg' },
-  'bắp cải': { defaultQuantity: 1, unit: 'củ', baseUnitPrice: 12000, displayPriceUnit: '12.000đ/củ' },
-  'rau muống': { defaultQuantity: 300, unit: 'g', baseUnitPrice: 30, displayPriceUnit: '30.000đ/kg' },
-  'rau cải': { defaultQuantity: 300, unit: 'g', baseUnitPrice: 27, displayPriceUnit: '27.000đ/kg' },
-  'dưa chuột': { defaultQuantity: 3, unit: 'quả', baseUnitPrice: 3000, displayPriceUnit: '3.000đ/quả' },
-  'đậu đũa': { defaultQuantity: 300, unit: 'g', baseUnitPrice: 40, displayPriceUnit: '40.000đ/kg' },
-  'bí đao': { defaultQuantity: 500, unit: 'g', baseUnitPrice: 16, displayPriceUnit: '16.000đ/kg' },
-  
-  'thịt heo': { defaultQuantity: 300, unit: 'g', baseUnitPrice: 150, displayPriceUnit: '150.000đ/kg' },
-  'thịt bò': { defaultQuantity: 300, unit: 'g', baseUnitPrice: 250, displayPriceUnit: '250.000đ/kg' },
-  'thịt gà': { defaultQuantity: 300, unit: 'g', baseUnitPrice: 160, displayPriceUnit: '160.000đ/kg' },
-  'ba chỉ': { defaultQuantity: 300, unit: 'g', baseUnitPrice: 140, displayPriceUnit: '140.000đ/kg' },
-  
-  'tôm': { defaultQuantity: 200, unit: 'g', baseUnitPrice: 300, displayPriceUnit: '300.000đ/kg' },
-  'cá': { defaultQuantity: 300, unit: 'g', baseUnitPrice: 150, displayPriceUnit: '150.000đ/kg' },
-  'mực': { defaultQuantity: 200, unit: 'g', baseUnitPrice: 275, displayPriceUnit: '275.000đ/kg' },
-  
-  'đậu hũ': { defaultQuantity: 2, unit: 'miếng', baseUnitPrice: 4000, displayPriceUnit: '4.000đ/miếng' },
-  'trứng': { defaultQuantity: 10, unit: 'quả', baseUnitPrice: 3500, displayPriceUnit: '3.500đ/quả' },
-  'đậu xanh': { defaultQuantity: 200, unit: 'g', baseUnitPrice: 50, displayPriceUnit: '50.000đ/kg' },
-  
-  'nấm rơm': { defaultQuantity: 200, unit: 'g', baseUnitPrice: 75, displayPriceUnit: '75.000đ/kg' },
-  'nấm hương': { defaultQuantity: 100, unit: 'g', baseUnitPrice: 200, displayPriceUnit: '200.000đ/kg' },
-  
-  'gạo': { defaultQuantity: 1000, unit: 'g', baseUnitPrice: 25, displayPriceUnit: '25.000đ/kg' },
-  'mì': { defaultQuantity: 500, unit: 'g', baseUnitPrice: 24, displayPriceUnit: '24.000đ/kg' },
-  'bún': { defaultQuantity: 500, unit: 'g', baseUnitPrice: 20, displayPriceUnit: '20.000đ/kg' },
-  'bánh mì': { defaultQuantity: 4, unit: 'ổ', baseUnitPrice: 5000, displayPriceUnit: '5.000đ/ổ' },
-  
-  'hành tây': { defaultQuantity: 300, unit: 'g', baseUnitPrice: 30, displayPriceUnit: '30.000đ/kg' },
-  'hành tím': { defaultQuantity: 200, unit: 'g', baseUnitPrice: 60, displayPriceUnit: '60.000đ/kg' },
-  'tỏi': { defaultQuantity: 100, unit: 'g', baseUnitPrice: 80, displayPriceUnit: '80.000đ/kg' },
-  'gừng': { defaultQuantity: 100, unit: 'g', baseUnitPrice: 60, displayPriceUnit: '60.000đ/kg' },
-  'ớt': { defaultQuantity: 100, unit: 'g', baseUnitPrice: 50, displayPriceUnit: '50.000đ/kg' },
-  'sả': { defaultQuantity: 50, unit: 'g', baseUnitPrice: 80, displayPriceUnit: '80.000đ/kg' },
+  "cà chua": {
+    defaultQuantity: 4,
+    unit: "quả",
+    baseUnitPrice: 3000,
+    displayPriceUnit: "3.000đ/quả",
+  },
+  "cà rốt": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 20,
+    displayPriceUnit: "20.000đ/kg",
+  },
+  "khoai tây": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 30,
+    displayPriceUnit: "30.000đ/kg",
+  },
+  "bắp cải": {
+    defaultQuantity: 1,
+    unit: "củ",
+    baseUnitPrice: 12000,
+    displayPriceUnit: "12.000đ/củ",
+  },
+  "rau muống": {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 30,
+    displayPriceUnit: "30.000đ/kg",
+  },
+  "rau cải": {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 27,
+    displayPriceUnit: "27.000đ/kg",
+  },
+  "dưa chuột": {
+    defaultQuantity: 3,
+    unit: "quả",
+    baseUnitPrice: 3000,
+    displayPriceUnit: "3.000đ/quả",
+  },
+  "đậu đũa": {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 40,
+    displayPriceUnit: "40.000đ/kg",
+  },
+  "bí đao": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 16,
+    displayPriceUnit: "16.000đ/kg",
+  },
+
+  "thịt heo": {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 150,
+    displayPriceUnit: "150.000đ/kg",
+  },
+  "thịt bò": {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 250,
+    displayPriceUnit: "250.000đ/kg",
+  },
+  "thịt gà": {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 160,
+    displayPriceUnit: "160.000đ/kg",
+  },
+
+  tôm: {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 300,
+    displayPriceUnit: "300.000đ/kg",
+  },
+  cá: {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 150,
+    displayPriceUnit: "150.000đ/kg",
+  },
+  mực: {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 275,
+    displayPriceUnit: "275.000đ/kg",
+  },
+
+  "đậu hũ": {
+    defaultQuantity: 2,
+    unit: "miếng",
+    baseUnitPrice: 4000,
+    displayPriceUnit: "4.000đ/miếng",
+  },
+  "trứng gà": {
+    defaultQuantity: 10,
+    unit: "quả",
+    baseUnitPrice: 3500,
+    displayPriceUnit: "3.500đ/quả",
+  },
+  "trứng vịt": {
+    defaultQuantity: 10,
+    unit: "quả",
+    baseUnitPrice: 3500,
+    displayPriceUnit: "3.500đ/quả",
+  },
+  "trứng cút": {
+    defaultQuantity: 10,
+    unit: "quả",
+    baseUnitPrice: 3500,
+    displayPriceUnit: "3.500đ/quả",
+  },
+  "đậu xanh": {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 50,
+    displayPriceUnit: "50.000đ/kg",
+  },
+
+  "nấm rơm": {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 75,
+    displayPriceUnit: "75.000đ/kg",
+  },
+  "nấm hương": {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 200,
+    displayPriceUnit: "200.000đ/kg",
+  },
+
+  gạo: {
+    defaultQuantity: 1000,
+    unit: "g",
+    baseUnitPrice: 25,
+    displayPriceUnit: "25.000đ/kg",
+  },
+  mì: {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 24,
+    displayPriceUnit: "24.000đ/kg",
+  },
+  bún: {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 20,
+    displayPriceUnit: "20.000đ/kg",
+  },
+  "bánh mì": {
+    defaultQuantity: 4,
+    unit: "ổ",
+    baseUnitPrice: 5000,
+    displayPriceUnit: "5.000đ/ổ",
+  },
+
+  "hành tây": {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 30,
+    displayPriceUnit: "30.000đ/kg",
+  },
+  "hành tím": {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 60,
+    displayPriceUnit: "60.000đ/kg",
+  },
+  tỏi: {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 80,
+    displayPriceUnit: "80.000đ/kg",
+  },
+  gừng: {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 60,
+    displayPriceUnit: "60.000đ/kg",
+  },
+  ớt: {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 50,
+    displayPriceUnit: "50.000đ/kg",
+  },
+  sả: {
+    defaultQuantity: 50,
+    unit: "g",
+    baseUnitPrice: 80,
+    displayPriceUnit: "80.000đ/kg",
+  },
 };
 
 interface ShoppingItem {
@@ -117,10 +493,10 @@ interface ShoppingCategory {
 
 export default function Shopping() {
   const { toast } = useToast();
-  const [customIngredients, setCustomIngredients] = useState('');
+  const [customIngredients, setCustomIngredients] = useState("");
   const [nextCustomId, setNextCustomId] = useState(1000); // Start from 1000 to avoid conflicts
   const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
-  
+
   // Generate shopping list from ingredients with prices
   const generateInitialShoppingList = (): ShoppingCategory[] => {
     const grouped: Record<string, ShoppingItem[]> = {};
@@ -134,10 +510,10 @@ export default function Shopping() {
         if (!grouped[category]) {
           grouped[category] = [];
         }
-        
+
         const hasSubItems = ingredientSubItems[ingredient.value];
         const itemId = idCounter++;
-        
+
         const item: ShoppingItem = {
           id: itemId,
           name: ingredient.label,
@@ -147,7 +523,7 @@ export default function Shopping() {
           displayPriceUnit: priceInfo.displayPriceUnit,
           checked: false,
         };
-        
+
         if (hasSubItems) {
           item.isParent = true;
           item.subItems = hasSubItems.map((sub) => ({
@@ -161,7 +537,7 @@ export default function Shopping() {
             parentId: itemId,
           }));
         }
-        
+
         grouped[category].push(item);
       }
     });
@@ -172,7 +548,9 @@ export default function Shopping() {
     }));
   };
 
-  const [shoppingList, setShoppingList] = useState<ShoppingCategory[]>(generateInitialShoppingList());
+  const [shoppingList, setShoppingList] = useState<ShoppingCategory[]>(
+    generateInitialShoppingList(),
+  );
 
   const calculateItemPrice = (item: ShoppingItem): number => {
     return item.quantity * item.baseUnitPrice;
@@ -183,15 +561,16 @@ export default function Shopping() {
       total +
       category.items.reduce((sum, item) => {
         let itemTotal = item.checked ? calculateItemPrice(item) : 0;
-        
+
         // Add sub-items if they exist and are checked
         if (item.subItems) {
           itemTotal += item.subItems.reduce(
-            (subSum, subItem) => (subItem.checked ? subSum + calculateItemPrice(subItem) : subSum),
-            0
+            (subSum, subItem) =>
+              subItem.checked ? subSum + calculateItemPrice(subItem) : subSum,
+            0,
           );
         }
-        
+
         return sum + itemTotal;
       }, 0)
     );
@@ -209,7 +588,12 @@ export default function Shopping() {
     });
   };
 
-  const handleItemCheck = (categoryIndex: number, itemId: number, isSubItem = false, parentId?: number) => {
+  const handleItemCheck = (
+    categoryIndex: number,
+    itemId: number,
+    isSubItem = false,
+    parentId?: number,
+  ) => {
     setShoppingList((prev) =>
       prev.map((category, idx) => {
         if (idx === categoryIndex) {
@@ -221,7 +605,9 @@ export default function Shopping() {
                 return {
                   ...item,
                   subItems: item.subItems.map((subItem) =>
-                    subItem.id === itemId ? { ...subItem, checked: !subItem.checked } : subItem
+                    subItem.id === itemId
+                      ? { ...subItem, checked: !subItem.checked }
+                      : subItem,
                   ),
                 };
               } else if (!isSubItem && item.id === itemId) {
@@ -233,11 +619,17 @@ export default function Shopping() {
           };
         }
         return category;
-      })
+      }),
     );
   };
 
-  const handleQuantityChange = (categoryIndex: number, itemId: number, newQuantity: string, isSubItem = false, parentId?: number) => {
+  const handleQuantityChange = (
+    categoryIndex: number,
+    itemId: number,
+    newQuantity: string,
+    isSubItem = false,
+    parentId?: number,
+  ) => {
     const quantity = parseFloat(newQuantity) || 0;
     setShoppingList((prev) =>
       prev.map((category, idx) => {
@@ -250,7 +642,7 @@ export default function Shopping() {
                 return {
                   ...item,
                   subItems: item.subItems.map((subItem) =>
-                    subItem.id === itemId ? { ...subItem, quantity } : subItem
+                    subItem.id === itemId ? { ...subItem, quantity } : subItem,
                   ),
                 };
               } else if (!isSubItem && item.id === itemId) {
@@ -262,7 +654,7 @@ export default function Shopping() {
           };
         }
         return category;
-      })
+      }),
     );
   };
 
@@ -271,13 +663,13 @@ export default function Shopping() {
     const checkedCategories = shoppingList
       .map((category) => {
         const allCheckedItems: ShoppingItem[] = [];
-        
+
         category.items.forEach((item) => {
           // Add checked parent items (non-parent items)
           if (!item.isParent && item.checked) {
             allCheckedItems.push(item);
           }
-          
+
           // Add checked sub-items
           if (item.subItems) {
             item.subItems.forEach((subItem) => {
@@ -287,22 +679,22 @@ export default function Shopping() {
             });
           }
         });
-        
+
         return {
           ...category,
           items: allCheckedItems,
         };
       })
       .filter((category) => category.items.length > 0);
-    
+
     // Create HTML content for rendering
-    const contentDiv = document.createElement('div');
-    contentDiv.style.width = '800px';
-    contentDiv.style.padding = '40px';
-    contentDiv.style.backgroundColor = 'white';
+    const contentDiv = document.createElement("div");
+    contentDiv.style.width = "800px";
+    contentDiv.style.padding = "40px";
+    contentDiv.style.backgroundColor = "white";
     contentDiv.style.fontFamily = "'Lexend', 'Inter', sans-serif";
-    contentDiv.style.color = '#2a321b';
-    
+    contentDiv.style.color = "#2a321b";
+
     let htmlContent = `
       <div style="text-align: center; margin-bottom: 30px;">
         <h1 style="font-size: 28px; font-weight: bold; color: #556B2F; margin: 0 0 10px 0;">
@@ -318,7 +710,7 @@ export default function Shopping() {
       </div>
       <hr style="border: none; border-top: 3px solid #8FA31E; margin: 20px 0;" />
     `;
-    
+
     if (checkedCategories.length === 0) {
       htmlContent += `
         <p style="text-align: center; font-size: 16px; color: #666; margin: 40px 0;">
@@ -333,7 +725,7 @@ export default function Shopping() {
               ${category.category}
             </h2>
         `;
-        
+
         category.items.forEach((item) => {
           const itemPrice = calculateItemPrice(item);
           htmlContent += `
@@ -348,11 +740,11 @@ export default function Shopping() {
             </div>
           `;
         });
-        
+
         htmlContent += `</div>`;
       });
     }
-    
+
     htmlContent += `
       <hr style="border: none; border-top: 3px solid #8FA31E; margin: 30px 0 20px 0;" />
       <div style="text-align: right;">
@@ -361,51 +753,52 @@ export default function Shopping() {
         </p>
       </div>
     `;
-    
+
     contentDiv.innerHTML = htmlContent;
-    contentDiv.style.position = 'fixed';
-    contentDiv.style.left = '0';
-    contentDiv.style.top = '0';
-    contentDiv.style.zIndex = '-1000';
+    contentDiv.style.position = "fixed";
+    contentDiv.style.left = "0";
+    contentDiv.style.top = "0";
+    contentDiv.style.zIndex = "-1000";
     document.body.appendChild(contentDiv);
-    
+
     try {
       // Capture the div as an image
       const canvas = await html2canvas(contentDiv, {
         scale: 2,
-        backgroundColor: '#ffffff',
+        backgroundColor: "#ffffff",
         logging: false,
       });
-      
+
       // Create PDF
       const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4',
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
       });
-      
-      const imgData = canvas.toDataURL('image/png');
+
+      const imgData = canvas.toDataURL("image/png");
       const imgWidth = 210; // A4 width in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      
+
       let heightLeft = imgHeight;
       let position = 0;
-      
+
       // Add first page
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
       heightLeft -= 297; // A4 height in mm
-      
+
       // Add additional pages if needed
       while (heightLeft > 0) {
         position = heightLeft - imgHeight;
         pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
         heightLeft -= 297;
       }
-      
+
       // Save PDF
-      pdf.save(`danh-sach-mua-sam-${new Date().toISOString().split('T')[0]}.pdf`);
-      
+      pdf.save(
+        `danh-sach-mua-sam-${new Date().toISOString().split("T")[0]}.pdf`,
+      );
     } finally {
       // Clean up
       document.body.removeChild(contentDiv);
@@ -420,16 +813,16 @@ export default function Shopping() {
           ...item,
           checked: false,
         })),
-      }))
+      })),
     );
   };
 
   const handleAddCustomIngredients = () => {
     if (!customIngredients.trim()) {
       toast({
-        title: 'Chưa nhập nguyên liệu',
-        description: 'Vui lòng nhập tên nguyên liệu cần mua.',
-        variant: 'destructive',
+        title: "Chưa nhập nguyên liệu",
+        description: "Vui lòng nhập tên nguyên liệu cần mua.",
+        variant: "destructive",
         duration: 2000,
       });
       return;
@@ -437,15 +830,15 @@ export default function Shopping() {
 
     // Parse ingredients (split by comma)
     const ingredientNames = customIngredients
-      .split(',')
+      .split(",")
       .map((name) => name.trim())
       .filter((name) => name.length > 0);
 
     if (ingredientNames.length === 0) {
       toast({
-        title: 'Chưa nhập nguyên liệu',
-        description: 'Vui lòng nhập tên nguyên liệu cần mua.',
-        variant: 'destructive',
+        title: "Chưa nhập nguyên liệu",
+        description: "Vui lòng nhập tên nguyên liệu cần mua.",
+        variant: "destructive",
         duration: 2000,
       });
       return;
@@ -456,9 +849,9 @@ export default function Shopping() {
       id: nextCustomId + index,
       name: name,
       quantity: 1,
-      unit: 'phần',
+      unit: "phần",
       baseUnitPrice: 10000, // Default 10,000đ per portion
-      displayPriceUnit: '10.000đ/phần',
+      displayPriceUnit: "10.000đ/phần",
       checked: false,
     }));
 
@@ -466,21 +859,23 @@ export default function Shopping() {
 
     // Add to shopping list in "Nguyên liệu khác" category
     setShoppingList((prev) => {
-      const customCategory = prev.find((cat) => cat.category === 'Nguyên liệu khác');
-      
+      const customCategory = prev.find(
+        (cat) => cat.category === "Nguyên liệu khác",
+      );
+
       if (customCategory) {
         // Category exists, add to it
         return prev.map((cat) =>
-          cat.category === 'Nguyên liệu khác'
+          cat.category === "Nguyên liệu khác"
             ? { ...cat, items: [...cat.items, ...newItems] }
-            : cat
+            : cat,
         );
       } else {
         // Create new category
         return [
           ...prev,
           {
-            category: 'Nguyên liệu khác',
+            category: "Nguyên liệu khác",
             items: newItems,
           },
         ];
@@ -488,9 +883,9 @@ export default function Shopping() {
     });
 
     // Clear input and show success
-    setCustomIngredients('');
+    setCustomIngredients("");
     toast({
-      title: 'Đã thêm nguyên liệu!',
+      title: "Đã thêm nguyên liệu!",
       description: `Đã thêm ${ingredientNames.length} nguyên liệu vào danh sách mua sắm.`,
       duration: 2000,
     });
@@ -510,13 +905,17 @@ export default function Shopping() {
             <div className="flex flex-col gap-1 text-sm">
               <div className="flex items-center gap-2">
                 <span className="text-muted-foreground">Khu vực:</span>
-                <span className="font-semibold text-accent">TP Hồ Chí Minh</span>
+                <span className="font-semibold text-accent">
+                  TP Hồ Chí Minh
+                </span>
                 <span className="text-muted-foreground">
                   • Giá cập nhật: Tháng 1/2025
                 </span>
               </div>
               <p className="text-muted-foreground italic text-xs">
-                Giá được thể hiện ở đây có thể có sự chênh lệch giữa các khu vực khác nhau, với mức sống khác nhau. Vui lòng kiểm tra thật kĩ. Xin cảm ơn.
+                Giá được thể hiện ở đây có thể có sự chênh lệch giữa các khu vực
+                khác nhau, với mức sống khác nhau. Vui lòng kiểm tra thật kĩ.
+                Xin cảm ơn.
               </p>
             </div>
           </div>
@@ -538,7 +937,7 @@ export default function Shopping() {
                     value={customIngredients}
                     onChange={(e) => setCustomIngredients(e.target.value)}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
+                      if (e.key === "Enter") {
                         handleAddCustomIngredients();
                       }
                     }}
@@ -554,7 +953,8 @@ export default function Shopping() {
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground mt-1.5">
-                  💡 Nhập các nguyên liệu cách nhau bằng dấu phẩy. Giá mặc định: 10.000đ/phần
+                  💡 Nhập các nguyên liệu cách nhau bằng dấu phẩy. Giá mặc định:
+                  10.000đ/phần
                 </p>
               </div>
             </div>
@@ -576,7 +976,7 @@ export default function Shopping() {
                   <p>Tải xuống danh sách mua sắm dưới dạng PDF</p>
                 </TooltipContent>
               </Tooltip>
-              
+
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -613,7 +1013,7 @@ export default function Shopping() {
                   {category.items.map((item) => {
                     const itemPrice = calculateItemPrice(item);
                     const isExpanded = expandedItems.has(item.id);
-                    
+
                     return (
                       <li
                         key={item.id}
@@ -643,17 +1043,19 @@ export default function Shopping() {
                               data-testid={`checkbox-item-${item.id}`}
                             />
                           )}
-                          
+
                           <div className="flex-1">
                             <div
                               className={`flex items-baseline justify-between gap-2 ${
                                 item.isParent
                                   ? "text-foreground font-semibold cursor-pointer"
                                   : item.checked
-                                  ? "text-muted-foreground"
-                                  : "text-foreground"
+                                    ? "text-muted-foreground"
+                                    : "text-foreground"
                               }`}
-                              onClick={() => item.isParent && toggleExpand(item.id)}
+                              onClick={() =>
+                                item.isParent && toggleExpand(item.id)
+                              }
                             >
                               <span className="font-medium">
                                 {item.name}
@@ -669,16 +1071,20 @@ export default function Shopping() {
                                 </span>
                               )}
                             </div>
-                            
+
                             {!item.isParent && (
                               <div className="flex items-center gap-2 mt-2">
                                 <Input
                                   type="number"
                                   min="0"
-                                  step={item.unit === 'g' ? '10' : '1'}
+                                  step={item.unit === "g" ? "10" : "1"}
                                   value={item.quantity}
                                   onChange={(e) =>
-                                    handleQuantityChange(categoryIndex, item.id, e.target.value)
+                                    handleQuantityChange(
+                                      categoryIndex,
+                                      item.id,
+                                      e.target.value,
+                                    )
                                   }
                                   className="w-24 h-8 text-sm"
                                   data-testid={`input-quantity-${item.id}`}
@@ -690,7 +1096,7 @@ export default function Shopping() {
                             )}
                           </div>
                         </div>
-                        
+
                         {/* Sub-items */}
                         {item.isParent && isExpanded && item.subItems && (
                           <ul className="ml-8 space-y-2 border-l-2 border-muted pl-4">
@@ -705,7 +1111,12 @@ export default function Shopping() {
                                   <Checkbox
                                     checked={subItem.checked}
                                     onCheckedChange={() =>
-                                      handleItemCheck(categoryIndex, subItem.id, true, item.id)
+                                      handleItemCheck(
+                                        categoryIndex,
+                                        subItem.id,
+                                        true,
+                                        item.id,
+                                      )
                                     }
                                     className="mt-1"
                                     data-testid={`checkbox-subitem-${subItem.id}`}
@@ -713,10 +1124,14 @@ export default function Shopping() {
                                   <div className="flex-1">
                                     <div
                                       className={`flex items-baseline justify-between gap-2 ${
-                                        subItem.checked ? "text-muted-foreground" : "text-foreground"
+                                        subItem.checked
+                                          ? "text-muted-foreground"
+                                          : "text-foreground"
                                       }`}
                                     >
-                                      <span className="font-medium text-sm">{subItem.name}</span>
+                                      <span className="font-medium text-sm">
+                                        {subItem.name}
+                                      </span>
                                       <span className="font-semibold text-accent whitespace-nowrap text-sm">
                                         {subItemPrice.toLocaleString("vi-VN")}đ
                                       </span>
@@ -725,16 +1140,23 @@ export default function Shopping() {
                                       <Input
                                         type="number"
                                         min="0"
-                                        step={subItem.unit === 'g' ? '10' : '1'}
+                                        step={subItem.unit === "g" ? "10" : "1"}
                                         value={subItem.quantity}
                                         onChange={(e) =>
-                                          handleQuantityChange(categoryIndex, subItem.id, e.target.value, true, item.id)
+                                          handleQuantityChange(
+                                            categoryIndex,
+                                            subItem.id,
+                                            e.target.value,
+                                            true,
+                                            item.id,
+                                          )
                                         }
                                         className="w-24 h-8 text-sm"
                                         data-testid={`input-quantity-subitem-${subItem.id}`}
                                       />
                                       <span className="text-sm text-muted-foreground">
-                                        {subItem.unit} • {subItem.displayPriceUnit}
+                                        {subItem.unit} •{" "}
+                                        {subItem.displayPriceUnit}
                                       </span>
                                     </div>
                                   </div>
