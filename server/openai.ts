@@ -22,6 +22,13 @@ Nhiệm vụ của bạn:
 - Gợi ý thay thế nguyên liệu khi cần
 - Chia sẻ mẹo mua sắm và bảo quản thực phẩm
 
+QUAN TRỌNG - Định dạng văn bản:
+- Sử dụng **in đậm** cho tên món ăn, tiêu đề, và thông tin quan trọng
+- Sử dụng *in nghiêng* để nhấn mạnh hoặc ghi chú
+- Sử dụng dấu đầu dòng (-) để liệt kê
+- Sử dụng số (1., 2., 3.) cho các bước nấu ăn
+- Chia nhỏ thành các đoạn rõ ràng
+
 Hãy trả lời bằng tiếng Việt, thân thiện, dễ hiểu và thiết thực cho sinh viên.`
         },
         {
@@ -93,7 +100,14 @@ Hãy đảm bảo thực đơn:
           role: "system",
           content: `Bạn là chuyên gia dinh dưỡng và đầu bếp chuyên tạo thực đơn cho sinh viên Việt Nam. 
 Bạn hiểu rõ về giá cả thực phẩm tại TP.HCM, các món ăn Việt Nam truyền thống, và cách cân bằng dinh dưỡng với ngân sách hạn chế.
-Hãy tạo thực đơn thực tế, dễ thực hiện, và phù hợp với đời sống sinh viên.`
+Hãy tạo thực đơn thực tế, dễ thực hiện, và phù hợp với đời sống sinh viên.
+
+QUAN TRỌNG - Định dạng văn bản:
+- Sử dụng **in đậm** cho tên món ăn, tiêu đề các phần
+- Sử dụng *in nghiêng* cho ghi chú, mẹo nhỏ
+- Sử dụng ### cho tiêu đề chính (### BỮA SÁNG)
+- Sử dụng dấu đầu dòng (-) để liệt kê nguyên liệu
+- Tổ chức rõ ràng, dễ đọc với khoảng trống hợp lý`
         },
         {
           role: "user",

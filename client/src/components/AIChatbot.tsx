@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Bot, Send, X, Minimize2 } from "lucide-react";
+import { parseMarkdown } from "@/lib/markdown";
 
 interface Message {
   id: number;
@@ -157,9 +158,14 @@ export default function AIChatbot() {
                       : "bg-secondary text-secondary-foreground"
                   }`}
                 >
-                  <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                    {message.content}
-                  </p>
+                  <div 
+                    className="text-sm leading-relaxed markdown-content"
+                    dangerouslySetInnerHTML={{ 
+                      __html: message.role === "assistant" 
+                        ? parseMarkdown(message.content) 
+                        : message.content 
+                    }}
+                  />
                 </div>
               </div>
             ))}

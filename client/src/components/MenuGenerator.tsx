@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { parseMarkdown } from '@/lib/markdown';
 
 export default function MenuGenerator() {
   const [budget, setBudget] = useState('');
@@ -234,9 +235,10 @@ export default function MenuGenerator() {
               Thực Đơn Của Bạn
             </h3>
             <div className="prose prose-sm max-w-none">
-              <div className="whitespace-pre-wrap text-foreground leading-relaxed">
-                {generatedMenu}
-              </div>
+              <div 
+                className="text-foreground leading-relaxed markdown-content"
+                dangerouslySetInnerHTML={{ __html: parseMarkdown(generatedMenu) }}
+              />
             </div>
           </Card>
         )}
