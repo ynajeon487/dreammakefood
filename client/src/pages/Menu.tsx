@@ -37,7 +37,7 @@ export default function Menu() {
                   </ul>
                 </div>
                 <Button 
-                  className="w-full mt-6"
+                  className="w-full mt-6 text-[#556B2F]"
                   data-testid="button-menu-by-day"
                 >
                   Bắt đầu
@@ -66,7 +66,7 @@ export default function Menu() {
                   </ul>
                 </div>
                 <Button 
-                  className="w-full mt-6 bg-accent hover:bg-accent/90"
+                  className="w-full mt-6 bg-accent hover:bg-accent/90 text-[#556B2F]"
                   data-testid="button-menu-by-meal"
                 >
                   Bắt đầu
@@ -95,7 +95,7 @@ export default function Menu() {
                   </ul>
                 </div>
                 <Button 
-                  className="w-full mt-6 bg-secondary hover:bg-secondary/90"
+                  className="w-full mt-6 bg-secondary hover:bg-secondary/90 text-[#556B2F]"
                   data-testid="button-menu-by-ingredients"
                 >
                   Bắt đầu
