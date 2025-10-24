@@ -10,7 +10,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Download, Trash2, Plus } from "lucide-react";
+import { Download, Trash2, Plus, ChevronDown, ChevronRight } from "lucide-react";
 import { vietnameseIngredients } from "@/lib/ingredients";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -22,6 +22,39 @@ interface IngredientPriceInfo {
   baseUnitPrice: number; // price per single unit (1g, 1 quả, etc.)
   displayPriceUnit: string; // for display like "3,000đ/quả"
 }
+
+// Define sub-items for parent ingredients
+const ingredientSubItems: Record<string, Array<{name: string, priceInfo: IngredientPriceInfo}>> = {
+  'thịt heo': [
+    { name: 'Ba rọi', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 140, displayPriceUnit: '140.000đ/kg' }},
+    { name: 'Sườn non', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 160, displayPriceUnit: '160.000đ/kg' }},
+    { name: 'Nạc vai', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 150, displayPriceUnit: '150.000đ/kg' }},
+    { name: 'Thịt mông', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 155, displayPriceUnit: '155.000đ/kg' }},
+  ],
+  'thịt bò': [
+    { name: 'Bò nạc', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 250, displayPriceUnit: '250.000đ/kg' }},
+    { name: 'Bò kho', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 240, displayPriceUnit: '240.000đ/kg' }},
+    { name: 'Thăn nội', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 280, displayPriceUnit: '280.000đ/kg' }},
+    { name: 'Bắp bò', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 230, displayPriceUnit: '230.000đ/kg' }},
+  ],
+  'thịt gà': [
+    { name: 'Gà ta', priceInfo: { defaultQuantity: 500, unit: 'g', baseUnitPrice: 180, displayPriceUnit: '180.000đ/kg' }},
+    { name: 'Gà công nghiệp', priceInfo: { defaultQuantity: 500, unit: 'g', baseUnitPrice: 120, displayPriceUnit: '120.000đ/kg' }},
+    { name: 'Đùi gà', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 140, displayPriceUnit: '140.000đ/kg' }},
+    { name: 'Cánh gà', priceInfo: { defaultQuantity: 300, unit: 'g', baseUnitPrice: 100, displayPriceUnit: '100.000đ/kg' }},
+  ],
+  'tôm': [
+    { name: 'Tôm sú', priceInfo: { defaultQuantity: 200, unit: 'g', baseUnitPrice: 350, displayPriceUnit: '350.000đ/kg' }},
+    { name: 'Tôm thẻ', priceInfo: { defaultQuantity: 200, unit: 'g', baseUnitPrice: 280, displayPriceUnit: '280.000đ/kg' }},
+    { name: 'Tôm he', priceInfo: { defaultQuantity: 200, unit: 'g', baseUnitPrice: 200, displayPriceUnit: '200.000đ/kg' }},
+  ],
+  'cá': [
+    { name: 'Cá rô phi', priceInfo: { defaultQuantity: 500, unit: 'g', baseUnitPrice: 120, displayPriceUnit: '120.000đ/kg' }},
+    { name: 'Cá diêu hồng', priceInfo: { defaultQuantity: 500, unit: 'g', baseUnitPrice: 140, displayPriceUnit: '140.000đ/kg' }},
+    { name: 'Cá lóc', priceInfo: { defaultQuantity: 500, unit: 'g', baseUnitPrice: 160, displayPriceUnit: '160.000đ/kg' }},
+    { name: 'Cá thu', priceInfo: { defaultQuantity: 500, unit: 'g', baseUnitPrice: 180, displayPriceUnit: '180.000đ/kg' }},
+  ],
+};
 
 // Price per base unit (1g for weight items, 1 piece for count items)
 const ingredientPrices: Record<string, IngredientPriceInfo> = {
@@ -72,6 +105,9 @@ interface ShoppingItem {
   baseUnitPrice: number;
   displayPriceUnit: string;
   checked: boolean;
+  isParent?: boolean;
+  subItems?: ShoppingItem[];
+  parentId?: number;
 }
 
 interface ShoppingCategory {
@@ -83,11 +119,13 @@ export default function Shopping() {
   const { toast } = useToast();
   const [customIngredients, setCustomIngredients] = useState('');
   const [nextCustomId, setNextCustomId] = useState(1000); // Start from 1000 to avoid conflicts
+  const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
   
   // Generate shopping list from ingredients with prices
   const generateInitialShoppingList = (): ShoppingCategory[] => {
     const grouped: Record<string, ShoppingItem[]> = {};
     let idCounter = 1;
+    let subIdCounter = 10000; // Start sub-items from 10000
 
     vietnameseIngredients.forEach((ingredient) => {
       const priceInfo = ingredientPrices[ingredient.value];
@@ -96,15 +134,35 @@ export default function Shopping() {
         if (!grouped[category]) {
           grouped[category] = [];
         }
-        grouped[category].push({
-          id: idCounter++,
+        
+        const hasSubItems = ingredientSubItems[ingredient.value];
+        const itemId = idCounter++;
+        
+        const item: ShoppingItem = {
+          id: itemId,
           name: ingredient.label,
           quantity: priceInfo.defaultQuantity,
           unit: priceInfo.unit,
           baseUnitPrice: priceInfo.baseUnitPrice,
           displayPriceUnit: priceInfo.displayPriceUnit,
           checked: false,
-        });
+        };
+        
+        if (hasSubItems) {
+          item.isParent = true;
+          item.subItems = hasSubItems.map((sub) => ({
+            id: subIdCounter++,
+            name: sub.name,
+            quantity: sub.priceInfo.defaultQuantity,
+            unit: sub.priceInfo.unit,
+            baseUnitPrice: sub.priceInfo.baseUnitPrice,
+            displayPriceUnit: sub.priceInfo.displayPriceUnit,
+            checked: false,
+            parentId: itemId,
+          }));
+        }
+        
+        grouped[category].push(item);
       }
     });
 
@@ -123,22 +181,55 @@ export default function Shopping() {
   const totalPrice = shoppingList.reduce((total, category) => {
     return (
       total +
-      category.items.reduce(
-        (sum, item) => (item.checked ? sum + calculateItemPrice(item) : sum),
-        0
-      )
+      category.items.reduce((sum, item) => {
+        let itemTotal = item.checked ? calculateItemPrice(item) : 0;
+        
+        // Add sub-items if they exist and are checked
+        if (item.subItems) {
+          itemTotal += item.subItems.reduce(
+            (subSum, subItem) => (subItem.checked ? subSum + calculateItemPrice(subItem) : subSum),
+            0
+          );
+        }
+        
+        return sum + itemTotal;
+      }, 0)
     );
   }, 0);
 
-  const handleItemCheck = (categoryIndex: number, itemId: number) => {
+  const toggleExpand = (itemId: number) => {
+    setExpandedItems((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(itemId)) {
+        newSet.delete(itemId);
+      } else {
+        newSet.add(itemId);
+      }
+      return newSet;
+    });
+  };
+
+  const handleItemCheck = (categoryIndex: number, itemId: number, isSubItem = false, parentId?: number) => {
     setShoppingList((prev) =>
       prev.map((category, idx) => {
         if (idx === categoryIndex) {
           return {
             ...category,
-            items: category.items.map((item) =>
-              item.id === itemId ? { ...item, checked: !item.checked } : item
-            ),
+            items: category.items.map((item) => {
+              if (isSubItem && item.id === parentId && item.subItems) {
+                // Check/uncheck sub-item
+                return {
+                  ...item,
+                  subItems: item.subItems.map((subItem) =>
+                    subItem.id === itemId ? { ...subItem, checked: !subItem.checked } : subItem
+                  ),
+                };
+              } else if (!isSubItem && item.id === itemId) {
+                // Check/uncheck parent item
+                return { ...item, checked: !item.checked };
+              }
+              return item;
+            }),
           };
         }
         return category;
@@ -146,16 +237,28 @@ export default function Shopping() {
     );
   };
 
-  const handleQuantityChange = (categoryIndex: number, itemId: number, newQuantity: string) => {
+  const handleQuantityChange = (categoryIndex: number, itemId: number, newQuantity: string, isSubItem = false, parentId?: number) => {
     const quantity = parseFloat(newQuantity) || 0;
     setShoppingList((prev) =>
       prev.map((category, idx) => {
         if (idx === categoryIndex) {
           return {
             ...category,
-            items: category.items.map((item) =>
-              item.id === itemId ? { ...item, quantity } : item
-            ),
+            items: category.items.map((item) => {
+              if (isSubItem && item.id === parentId && item.subItems) {
+                // Update sub-item quantity
+                return {
+                  ...item,
+                  subItems: item.subItems.map((subItem) =>
+                    subItem.id === itemId ? { ...subItem, quantity } : subItem
+                  ),
+                };
+              } else if (!isSubItem && item.id === itemId) {
+                // Update parent item quantity
+                return { ...item, quantity };
+              }
+              return item;
+            }),
           };
         }
         return category;
@@ -164,12 +267,32 @@ export default function Shopping() {
   };
 
   const handleDownload = async () => {
-    // Get only checked items
+    // Get only checked items (including sub-items)
     const checkedCategories = shoppingList
-      .map((category) => ({
-        ...category,
-        items: category.items.filter((item) => item.checked),
-      }))
+      .map((category) => {
+        const allCheckedItems: ShoppingItem[] = [];
+        
+        category.items.forEach((item) => {
+          // Add checked parent items (non-parent items)
+          if (!item.isParent && item.checked) {
+            allCheckedItems.push(item);
+          }
+          
+          // Add checked sub-items
+          if (item.subItems) {
+            item.subItems.forEach((subItem) => {
+              if (subItem.checked) {
+                allCheckedItems.push(subItem);
+              }
+            });
+          }
+        });
+        
+        return {
+          ...category,
+          items: allCheckedItems,
+        };
+      })
       .filter((category) => category.items.length > 0);
     
     // Create HTML content for rendering
@@ -489,46 +612,137 @@ export default function Shopping() {
                 <ul className="space-y-3">
                   {category.items.map((item) => {
                     const itemPrice = calculateItemPrice(item);
+                    const isExpanded = expandedItems.has(item.id);
+                    
                     return (
                       <li
                         key={item.id}
-                        className="flex items-start gap-3"
+                        className="space-y-2"
                         data-testid={`item-${item.id}`}
                       >
-                        <Checkbox
-                          checked={item.checked}
-                          onCheckedChange={() =>
-                            handleItemCheck(categoryIndex, item.id)
-                          }
-                          className="mt-1"
-                          data-testid={`checkbox-item-${item.id}`}
-                        />
-                        <div className="flex-1">
-                          <div
-                            className={`flex items-baseline justify-between gap-2 ${item.checked ? "text-muted-foreground" : "text-foreground"}`}
-                          >
-                            <span className="font-medium">{item.name}</span>
-                            <span className="font-semibold text-accent whitespace-nowrap">
-                              {itemPrice.toLocaleString("vi-VN")}đ
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2 mt-2">
-                            <Input
-                              type="number"
-                              min="0"
-                              step={item.unit === 'g' ? '10' : '1'}
-                              value={item.quantity}
-                              onChange={(e) =>
-                                handleQuantityChange(categoryIndex, item.id, e.target.value)
+                        <div className="flex items-start gap-3">
+                          {item.isParent ? (
+                            <button
+                              onClick={() => toggleExpand(item.id)}
+                              className="mt-1 hover-elevate active-elevate-2 p-1 rounded"
+                              data-testid={`button-expand-${item.id}`}
+                            >
+                              {isExpanded ? (
+                                <ChevronDown className="h-4 w-4 text-primary" />
+                              ) : (
+                                <ChevronRight className="h-4 w-4 text-primary" />
+                              )}
+                            </button>
+                          ) : (
+                            <Checkbox
+                              checked={item.checked}
+                              onCheckedChange={() =>
+                                handleItemCheck(categoryIndex, item.id)
                               }
-                              className="w-24 h-8 text-sm"
-                              data-testid={`input-quantity-${item.id}`}
+                              className="mt-1"
+                              data-testid={`checkbox-item-${item.id}`}
                             />
-                            <span className="text-sm text-muted-foreground">
-                              {item.unit} • {item.displayPriceUnit}
-                            </span>
+                          )}
+                          
+                          <div className="flex-1">
+                            <div
+                              className={`flex items-baseline justify-between gap-2 ${
+                                item.isParent
+                                  ? "text-foreground font-semibold cursor-pointer"
+                                  : item.checked
+                                  ? "text-muted-foreground"
+                                  : "text-foreground"
+                              }`}
+                              onClick={() => item.isParent && toggleExpand(item.id)}
+                            >
+                              <span className="font-medium">
+                                {item.name}
+                                {item.isParent && (
+                                  <span className="text-xs text-muted-foreground ml-2">
+                                    ({item.subItems?.length} loại)
+                                  </span>
+                                )}
+                              </span>
+                              {!item.isParent && (
+                                <span className="font-semibold text-accent whitespace-nowrap">
+                                  {itemPrice.toLocaleString("vi-VN")}đ
+                                </span>
+                              )}
+                            </div>
+                            
+                            {!item.isParent && (
+                              <div className="flex items-center gap-2 mt-2">
+                                <Input
+                                  type="number"
+                                  min="0"
+                                  step={item.unit === 'g' ? '10' : '1'}
+                                  value={item.quantity}
+                                  onChange={(e) =>
+                                    handleQuantityChange(categoryIndex, item.id, e.target.value)
+                                  }
+                                  className="w-24 h-8 text-sm"
+                                  data-testid={`input-quantity-${item.id}`}
+                                />
+                                <span className="text-sm text-muted-foreground">
+                                  {item.unit} • {item.displayPriceUnit}
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
+                        
+                        {/* Sub-items */}
+                        {item.isParent && isExpanded && item.subItems && (
+                          <ul className="ml-8 space-y-2 border-l-2 border-muted pl-4">
+                            {item.subItems.map((subItem) => {
+                              const subItemPrice = calculateItemPrice(subItem);
+                              return (
+                                <li
+                                  key={subItem.id}
+                                  className="flex items-start gap-3"
+                                  data-testid={`subitem-${subItem.id}`}
+                                >
+                                  <Checkbox
+                                    checked={subItem.checked}
+                                    onCheckedChange={() =>
+                                      handleItemCheck(categoryIndex, subItem.id, true, item.id)
+                                    }
+                                    className="mt-1"
+                                    data-testid={`checkbox-subitem-${subItem.id}`}
+                                  />
+                                  <div className="flex-1">
+                                    <div
+                                      className={`flex items-baseline justify-between gap-2 ${
+                                        subItem.checked ? "text-muted-foreground" : "text-foreground"
+                                      }`}
+                                    >
+                                      <span className="font-medium text-sm">{subItem.name}</span>
+                                      <span className="font-semibold text-accent whitespace-nowrap text-sm">
+                                        {subItemPrice.toLocaleString("vi-VN")}đ
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center gap-2 mt-2">
+                                      <Input
+                                        type="number"
+                                        min="0"
+                                        step={subItem.unit === 'g' ? '10' : '1'}
+                                        value={subItem.quantity}
+                                        onChange={(e) =>
+                                          handleQuantityChange(categoryIndex, subItem.id, e.target.value, true, item.id)
+                                        }
+                                        className="w-24 h-8 text-sm"
+                                        data-testid={`input-quantity-subitem-${subItem.id}`}
+                                      />
+                                      <span className="text-sm text-muted-foreground">
+                                        {subItem.unit} • {subItem.displayPriceUnit}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        )}
                       </li>
                     );
                   })}

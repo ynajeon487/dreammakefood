@@ -103,6 +103,15 @@ Preferred communication style: Simple, everyday language.
   - Dynamic quantity inputs with real-time price recalculation based on baseUnitPrice
   - Dynamic total calculation (only counts checked items)
   - Price disclaimer noting regional variations
+  - **Hierarchical Ingredient Selection**: Parent items can be expanded to show specific sub-types
+    - Thịt heo: Ba rọi, Sườn non, Nạc vai, Thịt mông (4 loại)
+    - Thịt bò: Bò nạc, Bò kho, Thăn nội, Bắp bò (4 loại)
+    - Thịt gà: Gà ta, Gà công nghiệp, Đùi gà, Cánh gà (4 loại)
+    - Tôm: Tôm sú, Tôm thẻ, Tôm he (3 loại)
+    - Cá: Cá rô phi, Cá diêu hồng, Cá lóc, Cá thu (4 loại)
+    - Click chevron icon or item name to expand/collapse
+    - Each sub-item has independent checkbox and quantity input
+    - Sub-items visually indented with border-left
   - **Custom Ingredients**: Add ingredients not in predefined list (like MenuByIngredients page)
     - Input field accepts comma-separated ingredient names
     - Default values: 1 phần, 10.000đ/phần
@@ -112,6 +121,7 @@ Preferred communication style: Simple, everyday language.
     - Captures styled HTML as PNG image and embeds in PDF (preserves Vietnamese text perfectly)
     - Mobile-friendly download format (A4 portrait)
     - Filename: `danh-sach-mua-sam-YYYY-MM-DD.pdf`
+    - Includes both regular items and checked sub-items
   - **Clear list**: Unchecks all items (visual color change only, no strikethrough)
 
 **Build & Development Tools**:
