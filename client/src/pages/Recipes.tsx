@@ -58,10 +58,11 @@ export default function Recipes() {
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredRecipes.map((recipe) => (
+            {filteredRecipes.map((recipe, index) => (
               <RecipeCard
                 key={recipe.id}
                 {...recipe}
+                index={index}
                 onClick={() => setLocation(`/recipes/${recipe.id}`)}
               />
             ))}

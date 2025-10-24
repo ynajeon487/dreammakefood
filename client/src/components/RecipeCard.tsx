@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Clock, Star, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface RecipeCardProps {
   id: number;
@@ -12,6 +13,7 @@ interface RecipeCardProps {
   rating: number;
   mealType: string;
   onClick?: () => void;
+  index?: number;
 }
 
 export default function RecipeCard({
@@ -24,19 +26,33 @@ export default function RecipeCard({
   rating,
   mealType,
   onClick,
+  index = 0,
 }: RecipeCardProps) {
   return (
-    <Card 
-      className="overflow-hidden hover-elevate active-elevate-2 transition-all hover:-translate-y-1 cursor-pointer"
-      onClick={onClick}
-      data-testid={`card-recipe-${id}`}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ 
+        duration: 0.4, 
+        delay: index * 0.1,
+        ease: "easeOut"
+      }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
     >
-      <div className="relative aspect-video overflow-hidden">
-        <img 
-          src={image} 
-          alt={name} 
-          className="w-full h-full object-cover"
-        />
+      <Card 
+        className="overflow-hidden hover-elevate active-elevate-2 transition-all hover:-translate-y-1 cursor-pointer h-full"
+        onClick={onClick}
+        data-testid={`card-recipe-${id}`}
+      >
+        <div className="relative aspect-video overflow-hidden">
+          <motion.img 
+            src={image} 
+            alt={name} 
+            className="w-full h-full object-cover"
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.3 }}
+          />
         <Badge 
           className="absolute top-2 right-2 bg-accent text-accent-foreground"
           data-testid={`badge-price-${id}`}
@@ -69,6 +85,7 @@ export default function RecipeCard({
           {mealType}
         </Badge>
       </div>
-    </Card>
+      </Card>
+    </motion.div>
   );
 }

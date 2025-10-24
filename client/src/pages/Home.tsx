@@ -4,6 +4,7 @@ import FeatureCards from '@/components/FeatureCards';
 import RecipeCard from '@/components/RecipeCard';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
 
 import eggTomatoImage from '@assets/generated_images/Scrambled_eggs_with_tomatoes_21887b7f.png';
 import morningGloryImage from '@assets/generated_images/Stir-fried_morning_glory_b8c1df15.png';
@@ -63,26 +64,39 @@ export default function Home() {
       
       <section className="py-16 px-4 bg-background">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-10">
+          <motion.div 
+            className="text-center mb-10"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 font-['Lexend']">
               Món Ăn Nổi Bật
             </h2>
             <p className="text-muted-foreground text-lg">
               Những công thức phổ biến và được yêu thích nhất
             </p>
-          </div>
+          </motion.div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredRecipes.map((recipe) => (
+            {featuredRecipes.map((recipe, index) => (
               <RecipeCard
                 key={recipe.id}
                 {...recipe}
+                index={index}
                 onClick={() => setLocation(`/recipes/${recipe.id}`)}
               />
             ))}
           </div>
           
-          <div className="text-center mt-10">
+          <motion.div 
+            className="text-center mt-10"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
             <Button 
               size="lg" 
               variant="outline"
@@ -91,7 +105,7 @@ export default function Home() {
             >
               Xem Tất Cả Công Thức
             </Button>
-          </div>
+          </motion.div>
         </div>
       </section>
       <Footer />

@@ -1,5 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Wallet, Calendar, ShoppingBag } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const features = [
   {
@@ -27,23 +28,39 @@ export default function FeatureCards() {
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
-              <Card 
-                key={index} 
-                className="p-8 hover-elevate transition-transform hover:-translate-y-1 cursor-pointer"
-                data-testid={`card-feature-${index}`}
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ 
+                  duration: 0.5, 
+                  delay: index * 0.15,
+                  ease: "easeOut"
+                }}
+                whileHover={{ y: -8 }}
               >
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-4">
-                    <Icon className="h-8 w-8 text-secondary-foreground" />
+                <Card 
+                  className="p-8 hover-elevate transition-transform cursor-pointer h-full"
+                  data-testid={`card-feature-${index}`}
+                >
+                  <div className="flex flex-col items-center text-center">
+                    <motion.div 
+                      className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-4"
+                      whileHover={{ rotate: 360 }}
+                      transition={{ duration: 0.6 }}
+                    >
+                      <Icon className="h-8 w-8 text-secondary-foreground" />
+                    </motion.div>
+                    <h3 className="text-xl font-semibold text-primary mb-3 font-['Lexend']">
+                      {feature.title}
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {feature.description}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-semibold text-primary mb-3 font-['Lexend']">
-                    {feature.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-              </Card>
+                </Card>
+              </motion.div>
             );
           })}
         </div>
