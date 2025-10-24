@@ -10,7 +10,7 @@ const openai = new OpenAI({
 export async function getChatResponse(userMessage: string): Promise<string> {
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-5-mini", // Using mini version for cost efficiency
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
@@ -29,7 +29,7 @@ Hãy trả lời bằng tiếng Việt, thân thiện, dễ hiểu và thiết t
           content: userMessage
         }
       ],
-      max_completion_tokens: 1000,
+      max_tokens: 1000,
     });
 
     return completion.choices[0]?.message?.content || "Xin lỗi, tôi không thể trả lời lúc này.";
