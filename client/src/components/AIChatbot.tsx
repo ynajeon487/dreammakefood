@@ -1,12 +1,12 @@
-import { useState, useRef, useEffect } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Bot, Send, X, Minimize2 } from 'lucide-react';
+import { useState, useRef, useEffect } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Bot, Send, X, Minimize2 } from "lucide-react";
 
 interface Message {
   id: number;
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
 }
 
@@ -15,16 +15,17 @@ export default function AIChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      role: 'assistant',
-      content: 'Xin chào! Tôi là trợ lý AI của Dream Makers. Tôi có thể giúp gì cho bạn về nấu ăn hôm nay?',
+      role: "assistant",
+      content:
+        "Xin chào! Tôi là trợ lý AI của Dream Makers. Tôi có thể giúp gì cho bạn về nấu ăn hôm nay?",
     },
   ]);
-  const [inputMessage, setInputMessage] = useState('');
+  const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -36,42 +37,42 @@ export default function AIChatbot() {
 
     const userMessage: Message = {
       id: messages.length + 1,
-      role: 'user',
+      role: "user",
       content: inputMessage,
     };
 
     setMessages((prev) => [...prev, userMessage]);
-    setInputMessage('');
+    setInputMessage("");
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
+      const response = await fetch("/api/chat", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ message: inputMessage }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to get response');
+        throw new Error("Failed to get response");
       }
 
       const data = await response.json();
 
       const assistantMessage: Message = {
         id: messages.length + 2,
-        role: 'assistant',
+        role: "assistant",
         content: data.response,
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error("Error sending message:", error);
       const errorMessage: Message = {
         id: messages.length + 2,
-        role: 'assistant',
-        content: 'Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại sau.',
+        role: "assistant",
+        content: "Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại sau.",
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -80,7 +81,7 @@ export default function AIChatbot() {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
@@ -91,7 +92,12 @@ export default function AIChatbot() {
       {!isOpen && (
         <Button
           size="icon"
-          style={{ position: 'fixed', bottom: '40px', right: '30px', left: 'auto' }}
+          style={{
+            position: "fixed",
+            bottom: "30px",
+            right: "15px",
+            left: "auto",
+          }}
           className="h-14 w-14 rounded-full shadow-lg bg-accent hover:bg-accent text-accent-foreground z-50"
           onClick={() => setIsOpen(true)}
           data-testid="button-open-chatbot"
@@ -101,7 +107,15 @@ export default function AIChatbot() {
       )}
 
       {isOpen && (
-        <Card style={{ position: 'fixed', bottom: '40px', right: '30px', left: 'auto' }} className="w-[380px] h-[600px] flex flex-col shadow-2xl z-50">
+        <Card
+          style={{
+            position: "fixed",
+            bottom: "40px",
+            right: "30px",
+            left: "auto",
+          }}
+          className="w-[380px] h-[600px] flex flex-col shadow-2xl z-50"
+        >
           <div className="flex items-center justify-between p-4 border-b border-card-border bg-primary text-primary-foreground rounded-t-lg">
             <div className="flex items-center gap-2">
               <Bot className="h-5 w-5" />
@@ -133,17 +147,19 @@ export default function AIChatbot() {
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
                 data-testid={`message-${message.id}`}
               >
                 <div
                   className={`max-w-[80%] rounded-lg px-4 py-2 ${
-                    message.role === 'user'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-secondary text-secondary-foreground'
+                    message.role === "user"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-secondary text-secondary-foreground"
                   }`}
                 >
-                  <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                    {message.content}
+                  </p>
                 </div>
               </div>
             ))}
@@ -151,9 +167,18 @@ export default function AIChatbot() {
               <div className="flex justify-start">
                 <div className="bg-secondary text-secondary-foreground rounded-lg px-4 py-2">
                   <div className="flex gap-1">
-                    <div className="w-2 h-2 rounded-full bg-secondary-foreground/50 animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <div className="w-2 h-2 rounded-full bg-secondary-foreground/50 animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <div className="w-2 h-2 rounded-full bg-secondary-foreground/50 animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <div
+                      className="w-2 h-2 rounded-full bg-secondary-foreground/50 animate-bounce"
+                      style={{ animationDelay: "0ms" }}
+                    />
+                    <div
+                      className="w-2 h-2 rounded-full bg-secondary-foreground/50 animate-bounce"
+                      style={{ animationDelay: "150ms" }}
+                    />
+                    <div
+                      className="w-2 h-2 rounded-full bg-secondary-foreground/50 animate-bounce"
+                      style={{ animationDelay: "300ms" }}
+                    />
                   </div>
                 </div>
               </div>
