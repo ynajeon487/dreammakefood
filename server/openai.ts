@@ -153,6 +153,98 @@ interface MealParams {
   dishName?: string;
 }
 
+interface IngredientsParams {
+  ingredients: string[];
+  servings: string;
+  budget: string;
+  diet: string;
+  skillLevel: string;
+}
+
+export async function generateRecipeFromIngredients(params: IngredientsParams): Promise<string> {
+  try {
+    const { ingredients, servings, budget, diet, skillLevel } = params;
+    
+    const dietLabels: Record<string, string> = {
+      'normal': 'bình thường',
+      'vegetarian': 'ăn chay',
+      'low-carb': 'ít tinh bột',
+      'high-protein': 'nhiều đạm'
+    };
+
+    const skillLabels: Record<string, string> = {
+      'beginner': 'mới bắt đầu nấu ăn',
+      'intermediate': 'đã có kinh nghiệm nấu ăn',
+      'advanced': 'nấu ăn thành thạo'
+    };
+
+    const ingredientsList = ingredients.join(', ');
+
+    const prompt = `Gợi ý món ăn phù hợp nhất từ các nguyên liệu có sẵn sau:
+**Nguyên liệu đã có:** ${ingredientsList}
+
+**Yêu cầu:**
+- Số người ăn: ${servings} người
+- Ngân sách thêm (nếu thiếu nguyên liệu): ${budget} VNĐ
+- Chế độ ăn: ${dietLabels[diet] || 'bình thường'}
+- Kỹ năng nấu ăn: ${skillLabels[skillLevel] || 'trung bình'}
+
+Hãy gợi ý MỘT món ăn tối ưu nhất và cung cấp:
+1. **Tên món** (in đậm) - giải thích TẠI SAO món này phù hợp với nguyên liệu có sẵn
+2. Cách sử dụng nguyên liệu đã có
+3. Nguyên liệu cần mua thêm (nếu có) - với số lượng cụ thể cho ${servings} người
+4. Giá ước tính cho nguyên liệu cần mua thêm (phải nằm trong ngân sách ${budget} VNĐ)
+5. Tổng giá (chỉ tính nguyên liệu mua thêm)
+6. Thời gian chuẩn bị và nấu
+7. **Cách nấu từng bước** (số thứ tự 1., 2., 3., ...)
+8. *Mẹo nhỏ* (in nghiêng)
+9. Giá trị dinh dưỡng
+
+Đảm bảo:
+- TỐI ƯU hóa việc sử dụng nguyên liệu đã có
+- Nguyên liệu mua thêm phải nằm trong ngân sách
+- Phù hợp với kỹ năng ${skillLabels[skillLevel]}
+- Phù hợp với chế độ ăn ${dietLabels[diet]}
+- Hướng dẫn rõ ràng, chi tiết từng bước`;
+
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: `Bạn là chuyên gia đầu bếp và dinh dưỡng chuyên tư vấn nấu ăn cho sinh viên Việt Nam.
+Bạn rất giỏi trong việc tạo ra món ăn từ nguyên liệu có sẵn, giúp sinh viên tránh lãng phí thực phẩm.
+Bạn hiểu rõ về giá cả thực phẩm tại TP.HCM và cách tối ưu hóa ngân sách.
+
+Định dạng văn bản:
+- Sử dụng **in đậm** cho tên món ăn, tiêu đề
+- Sử dụng *in nghiêng* cho mẹo nhỏ, ghi chú
+- Sử dụng ### cho tiêu đề chính
+- Sử dụng dấu đầu dòng (-) để liệt kê nguyên liệu
+- Sử dụng số thứ tự (1., 2., 3.) cho các bước nấu
+- Tổ chức rõ ràng, dễ đọc
+
+QUAN TRỌNG:
+- Ưu tiên SỬ DỤNG TỐI ĐA nguyên liệu đã có
+- Chỉ gợi ý CHỈ 1 món duy nhất
+- Luôn bao gồm hướng dẫn nấu chi tiết từng bước
+- Giá phải thực tế và nằm trong ngân sách`
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      max_tokens: 2000,
+    });
+
+    return completion.choices[0]?.message?.content || "Xin lỗi, không thể tạo công thức lúc này.";
+  } catch (error) {
+    console.error("Error generating recipe from ingredients:", error);
+    throw new Error("Không thể tạo công thức. Vui lòng thử lại sau.");
+  }
+}
+
 export async function generateMealRecipe(params: MealParams): Promise<string> {
   try {
     const { budget, servings, diet, dishName } = params;

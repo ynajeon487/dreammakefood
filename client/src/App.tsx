@@ -9,6 +9,7 @@ import RecipeDetail from "@/pages/RecipeDetail";
 import Menu from "@/pages/Menu";
 import MenuByDay from "@/pages/MenuByDay";
 import MenuByMeal from "@/pages/MenuByMeal";
+import MenuByIngredients from "@/pages/MenuByIngredients";
 import Shopping from "@/pages/Shopping";
 import Knowledge from "@/pages/Knowledge";
 import NotFound from "@/pages/not-found";
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/menu" component={Menu} />
       <Route path="/menu/by-day" component={MenuByDay} />
       <Route path="/menu/by-meal" component={MenuByMeal} />
+      <Route path="/menu/by-ingredients" component={MenuByIngredients} />
       <Route path="/shopping" component={Shopping} />
       <Route path="/knowledge" component={Knowledge} />
       <Route component={NotFound} />
