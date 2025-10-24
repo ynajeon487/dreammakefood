@@ -1,4 +1,3 @@
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -44,9 +43,8 @@ export default function Shopping() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 py-12 px-4 bg-background">
+    <>
+      <div className="flex-1 py-12 px-4 bg-background">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-primary mb-4 font-['Lexend']">
@@ -123,8 +121,8 @@ export default function Shopping() {
             </Card>
           )}
         </div>
-      </main>
+      </div>
       <Footer />
-    </div>
+    </>
   );
 }

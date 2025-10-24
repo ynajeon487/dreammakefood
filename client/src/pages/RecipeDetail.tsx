@@ -1,5 +1,4 @@
 import { useRoute } from 'wouter';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -60,9 +59,8 @@ export default function RecipeDetail() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 py-12 px-4 bg-background">
+    <>
+      <div className="flex-1 py-12 px-4 bg-background">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
@@ -208,8 +206,8 @@ export default function RecipeDetail() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
       <Footer />
-    </div>
+    </>
   );
 }
