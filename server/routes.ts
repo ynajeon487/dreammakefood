@@ -63,10 +63,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Recipe Generation from Ingredients endpoint
   app.post("/api/menu/generate-from-ingredients", async (req, res) => {
     try {
-      const { ingredients, servings, budget, diet, skillLevel } = req.body;
+      const { ingredients, otherIngredients, servings, budget, diet, skillLevel } = req.body;
+
+      // Log other ingredients for analysis
+      if (otherIngredients && otherIngredients.trim()) {
+        console.log("=== INGREDIENT ANALYSIS ===");
+        console.log("User requested ingredients not in list:", otherIngredients);
+        console.log("Timestamp:", new Date().toISOString());
+        console.log("Context:", { servings, budget, diet, skillLevel });
+        console.log("========================");
+      }
 
       const recipe = await generateRecipeFromIngredients({
         ingredients,
+        otherIngredients,
         servings,
         budget,
         diet,

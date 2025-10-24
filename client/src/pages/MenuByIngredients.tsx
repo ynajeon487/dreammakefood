@@ -13,6 +13,7 @@ import { Badge } from '@/components/ui/badge';
 
 export default function MenuByIngredients() {
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+  const [otherIngredients, setOtherIngredients] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [servings, setServings] = useState('');
   const [budget, setBudget] = useState('');
@@ -78,6 +79,7 @@ export default function MenuByIngredients() {
         },
         body: JSON.stringify({
           ingredients: selectedIngredients,
+          otherIngredients: otherIngredients.trim(),
           servings,
           budget,
           diet,
@@ -222,6 +224,23 @@ export default function MenuByIngredients() {
                   Vui lòng chọn ít nhất 1 nguyên liệu
                 </p>
               )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="other-ingredients">
+                Nguyên liệu khác <span className="text-muted-foreground text-sm">(Không bắt buộc)</span>
+              </Label>
+              <Input
+                id="other-ingredients"
+                type="text"
+                placeholder="Ví dụ: Rau ngót, mướp đắng, sườn non..."
+                value={otherIngredients}
+                onChange={(e) => setOtherIngredients(e.target.value)}
+                data-testid="input-other-ingredients"
+              />
+              <p className="text-xs text-muted-foreground">
+                💡 Nhập các nguyên liệu khác không có trong danh sách trên, cách nhau bằng dấu phẩy
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

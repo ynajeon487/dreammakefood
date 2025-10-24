@@ -155,6 +155,7 @@ interface MealParams {
 
 interface IngredientsParams {
   ingredients: string[];
+  otherIngredients?: string;
   servings: string;
   budget: string;
   diet: string;
@@ -163,7 +164,7 @@ interface IngredientsParams {
 
 export async function generateRecipeFromIngredients(params: IngredientsParams): Promise<string> {
   try {
-    const { ingredients, servings, budget, diet, skillLevel } = params;
+    const { ingredients, otherIngredients, servings, budget, diet, skillLevel } = params;
     
     const dietLabels: Record<string, string> = {
       'normal': 'bình thường',
@@ -179,9 +180,12 @@ export async function generateRecipeFromIngredients(params: IngredientsParams): 
     };
 
     const ingredientsList = ingredients.join(', ');
+    const allIngredients = otherIngredients && otherIngredients.trim() 
+      ? `${ingredientsList}, ${otherIngredients}`
+      : ingredientsList;
 
     const prompt = `Gợi ý món ăn phù hợp nhất từ các nguyên liệu có sẵn sau:
-**Nguyên liệu đã có:** ${ingredientsList}
+**Nguyên liệu đã có:** ${allIngredients}
 
 **Yêu cầu:**
 - Số người ăn: ${servings} người
