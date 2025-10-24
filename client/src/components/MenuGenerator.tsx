@@ -4,15 +4,46 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { Loader2 } from 'lucide-react';
 
 export default function MenuGenerator() {
   const [budget, setBudget] = useState('');
   const [mealsPerDay, setMealsPerDay] = useState('');
   const [diet, setDiet] = useState('');
   const [skillLevel, setSkillLevel] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [generatedMenu, setGeneratedMenu] = useState('');
 
-  const handleGenerateMenu = () => {
-    console.log('Generating menu with:', { budget, mealsPerDay, diet, skillLevel });
+  const handleGenerateMenu = async () => {
+    setIsLoading(true);
+    setGeneratedMenu('');
+
+    try {
+      const response = await fetch('/api/generate-menu', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          budget,
+          mealsPerDay,
+          diet,
+          skillLevel,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate menu');
+      }
+
+      const data = await response.json();
+      setGeneratedMenu(data.menu);
+    } catch (error) {
+      console.error('Error generating menu:', error);
+      setGeneratedMenu('Xin lỗi, đã có lỗi xảy ra khi tạo thực đơn. Vui lòng thử lại sau.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -88,11 +119,32 @@ export default function MenuGenerator() {
           <Button 
             className="w-full bg-primary text-primary-foreground text-lg py-6"
             onClick={handleGenerateMenu}
+            disabled={isLoading}
             data-testid="button-generate-menu"
           >
-            Tạo Thực Đơn
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Đang tạo thực đơn...
+              </>
+            ) : (
+              'Tạo Thực Đơn'
+            )}
           </Button>
         </Card>
+
+        {generatedMenu && (
+          <Card className="p-6 md:p-8 mt-8">
+            <h3 className="text-2xl font-bold text-primary mb-4 font-['Lexend']">
+              Thực Đơn Của Bạn
+            </h3>
+            <div className="prose prose-sm max-w-none">
+              <div className="whitespace-pre-wrap text-foreground leading-relaxed">
+                {generatedMenu}
+              </div>
+            </div>
+          </Card>
+        )}
       </div>
     </section>
   );
