@@ -334,6 +334,18 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
     baseUnitPrice: 150,
     displayPriceUnit: "150.000đ/kg",
   },
+  "thịt bò": {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 250,
+    displayPriceUnit: "250.000đ/kg",
+  },
+  "thịt gà": {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 160,
+    displayPriceUnit: "160.000đ/kg",
+  },
 
   tôm: {
     defaultQuantity: 200,
