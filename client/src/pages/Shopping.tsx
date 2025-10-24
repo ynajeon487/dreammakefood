@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Download, Trash2 } from "lucide-react";
 import { vietnameseIngredients } from "@/lib/ingredients";
+import { jsPDF } from "jspdf";
 
 interface IngredientPriceInfo {
   defaultQuantity: number;
@@ -156,13 +157,9 @@ export default function Shopping() {
   };
 
   const handleDownload = () => {
-    // Create text content for the shopping list (only checked items)
-    let content = "DANH SÁCH MUA SẮM\n";
-    content += "==================\n\n";
-    content += "Khu vực: TP Hồ Chí Minh\n";
-    content += "Giá cập nhật: Tháng 1/2025\n";
-    content += "Lưu ý: Giá có thể chênh lệch giữa các khu vực\n\n";
+    const doc = new jsPDF();
     
+    // Get only checked items
     const checkedCategories = shoppingList
       .map((category) => ({
         ...category,
@@ -170,36 +167,94 @@ export default function Shopping() {
       }))
       .filter((category) => category.items.length > 0);
     
+    let yPosition = 20;
+    
+    // Header
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.text("DANH SACH MUA SAM", 105, yPosition, { align: "center" });
+    
+    yPosition += 10;
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text("Khu vuc: TP Ho Chi Minh", 20, yPosition);
+    yPosition += 6;
+    doc.text("Gia cap nhat: Thang 1/2025", 20, yPosition);
+    yPosition += 6;
+    doc.setFontSize(9);
+    doc.text("Luu y: Gia co the chenh lech giua cac khu vuc khac nhau", 20, yPosition);
+    yPosition += 10;
+    
     if (checkedCategories.length === 0) {
-      content += "Chưa có món nào được chọn.\n";
+      doc.setFontSize(12);
+      doc.text("Chua co mon nao duoc chon.", 20, yPosition);
     } else {
       checkedCategories.forEach((category) => {
-        content += `${category.category.toUpperCase()}\n`;
-        content += "-".repeat(category.category.length) + "\n";
+        // Category header
+        if (yPosition > 250) {
+          doc.addPage();
+          yPosition = 20;
+        }
+        
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.text(category.category.toUpperCase(), 20, yPosition);
+        yPosition += 8;
+        
+        // Items
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "normal");
         
         category.items.forEach((item) => {
+          if (yPosition > 270) {
+            doc.addPage();
+            yPosition = 20;
+          }
+          
           const itemPrice = calculateItemPrice(item);
-          content += `☑ ${item.name} - ${item.quantity}${item.unit}\n`;
-          content += `   Giá: ${itemPrice.toLocaleString("vi-VN")}đ (${item.displayPriceUnit})\n\n`;
+          
+          // Convert Vietnamese text to ASCII approximation
+          const itemName = item.name
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/đ/g, "d")
+            .replace(/Đ/g, "D");
+          
+          const itemUnit = item.unit
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/đ/g, "d");
+          
+          const priceUnit = item.displayPriceUnit
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/đ/g, "d");
+          
+          doc.text(`${itemName} - ${item.quantity}${itemUnit}`, 25, yPosition);
+          yPosition += 6;
+          doc.setFontSize(10);
+          doc.text(`Gia: ${itemPrice.toLocaleString("vi-VN")}d (${priceUnit})`, 30, yPosition);
+          doc.setFontSize(11);
+          yPosition += 8;
         });
         
-        content += "\n";
+        yPosition += 4;
       });
     }
     
-    content += "==================\n";
-    content += `TỔNG CHI PHÍ: ${totalPrice.toLocaleString("vi-VN")}đ\n`;
+    // Total
+    if (yPosition > 260) {
+      doc.addPage();
+      yPosition = 20;
+    }
     
-    // Create blob and download
-    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `danh-sach-mua-sam-${new Date().toISOString().split('T')[0]}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
+    yPosition += 5;
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text(`TONG CHI PHI: ${totalPrice.toLocaleString("vi-VN")}d`, 20, yPosition);
+    
+    // Save PDF
+    doc.save(`danh-sach-mua-sam-${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
   const handleClearList = () => {
