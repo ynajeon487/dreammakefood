@@ -32,7 +32,7 @@ export default function Header() {
           <Link href="/" data-testid="link-home">
             <div className="flex items-center gap-2 hover-elevate active-elevate-2 px-3 py-2 rounded-md cursor-pointer">
               <ChefHat className="h-8 w-8" />
-              <span className="font-bold text-xl font-['Lexend']">Nấu Ăn SV</span>
+              <span className="font-bold text-xl font-['Lexend']">Dream Makers</span>
             </div>
           </Link>
 
