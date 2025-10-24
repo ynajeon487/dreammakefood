@@ -15,10 +15,11 @@ Preferred communication style: Simple, everyday language.
 **Routing**: Wouter for client-side routing with the following pages:
 - Home page with hero section and featured recipes
 - Recipes listing and detail pages
-- Menu planning (two modes: by-day and by-meal with servings support)
-  - `/menu` - Main selection page with 2 aligned option cards
+- Menu planning (three modes: by-day, by-meal, and by-ingredients with servings support)
+  - `/menu` - Main selection page with 3 aligned option cards
   - `/menu/by-day` - Daily menu generator (budget, servings, meals/day, diet, skill level)
   - `/menu/by-meal` - Single meal recipe generator (budget, servings, diet, optional dish name)
+  - `/menu/by-ingredients` - Recipe generator from available ingredients (ingredients, servings, budget, diet, skill level)
 - Shopping list management
 - Knowledge base with cooking tips
 
@@ -37,6 +38,7 @@ Preferred communication style: Simple, everyday language.
 - Responsive design with mobile-first approach
 - Recipe filtering and search functionality
 - Interactive menu generation forms with validation
+- Ingredient-based recipe suggestions with searchable ingredient library (60+ common Vietnamese ingredients)
 
 ## Backend Architecture
 
@@ -46,6 +48,7 @@ Preferred communication style: Simple, everyday language.
 - `/api/chat` - AI chatbot interaction endpoint
 - `/api/generate-menu` - Menu generation by day (budget, servings, meals/day, diet, skill level)
 - `/api/menu/generate-meal` - Individual meal recipe generation (budget, servings, diet, optional dish name)
+- `/api/menu/generate-from-ingredients` - Recipe generation from available ingredients (ingredients, servings, budget, diet, skill level)
 
 **Development Setup**: 
 - Vite middleware for HMR in development
@@ -64,7 +67,8 @@ Preferred communication style: Simple, everyday language.
 **AI Service**: OpenAI API integration via Replit's AI Integrations service
 - Model: GPT-4o-mini for cost-effective responses
 - System prompt configured for Vietnamese student cooking assistance
-- Handles both general chat and structured menu/recipe generation
+- Handles general chat, structured menu generation, and ingredient-based recipe suggestions
+- Optimizes ingredient usage and minimizes food waste
 - Markdown formatting support for rich text responses
 
 **Database**: Neon Serverless PostgreSQL
@@ -79,6 +83,12 @@ Preferred communication style: Simple, everyday language.
 - Feedback components (Toast, Alert Dialog)
 
 **Asset Management**: Static images stored in `attached_assets/generated_images/` directory for recipe photos
+
+**Ingredient Library**: Comprehensive Vietnamese ingredient database (`client/src/lib/ingredients.ts`)
+- 60+ common ingredients grouped by category (Rau củ, Thịt, Hải sản, Đạm thực vật, Nấm, Tinh bột, Gia vị)
+- Searchable multi-select interface with real-time filtering
+- Badge display for selected ingredients
+- Used for ingredient-based recipe generation
 
 **Build & Development Tools**:
 - TypeScript for type safety
