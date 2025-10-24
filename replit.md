@@ -98,7 +98,12 @@ Preferred communication style: Simple, everyday language.
 - Ingredient analysis logging system to track user-requested ingredients for database expansion
 - Used for ingredient-based recipe generation (generates 2-4 dish options)
 - **Shopping List Integration**: Shopping page uses same ingredient data source with mapped pricing information
-  - Prices based on TP Hồ Chí Minh market rates (January 2025)
+  - Prices based on Bách Hóa Xanh and TP Hồ Chí Minh market rates (January 2025)
+  - **Unit Types**: Supports multiple units for different ingredient types
+    - "trái" (piece/fruit): Used for fruits typically sold by piece (chuối, táo, cam, xoài, thanh long, bưởi, dưa hấu, dưa lưới, dừa xiêm, cam sành)
+    - "g" (gram): Used for ingredients sold by weight (vegetables, meats, some fruits like đu đủ, mận, mít)
+    - "quả" (piece): Alternative unit for some fruits (legacy, gradually being replaced by "trái")
+    - "ổ" (loaf): Used for bánh mì
   - Interactive checkboxes to select items for purchase
   - Dynamic quantity inputs with real-time price recalculation based on baseUnitPrice
   - Dynamic total calculation (only counts checked items)
