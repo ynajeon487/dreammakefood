@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/tooltip";
 import { Download, Trash2 } from "lucide-react";
 import { vietnameseIngredients } from "@/lib/ingredients";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 interface IngredientPriceInfo {
   defaultQuantity: number;
@@ -155,7 +157,7 @@ export default function Shopping() {
     );
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     // Get only checked items
     const checkedCategories = shoppingList
       .map((category) => ({
@@ -164,48 +166,121 @@ export default function Shopping() {
       }))
       .filter((category) => category.items.length > 0);
     
-    // Create text content with Vietnamese characters
-    let content = "═══════════════════════════════════════\n";
-    content += "      DANH SÁCH MUA SẮM\n";
-    content += "═══════════════════════════════════════\n\n";
-    content += "Khu vực: TP Hồ Chí Minh\n";
-    content += "Giá cập nhật: Tháng 1/2025\n";
-    content += "Lưu ý: Giá có thể chênh lệch giữa các khu vực\n\n";
-    content += "───────────────────────────────────────\n\n";
+    // Create HTML content for rendering
+    const contentDiv = document.createElement('div');
+    contentDiv.style.width = '800px';
+    contentDiv.style.padding = '40px';
+    contentDiv.style.backgroundColor = 'white';
+    contentDiv.style.fontFamily = "'Lexend', 'Inter', sans-serif";
+    contentDiv.style.color = '#2a321b';
+    
+    let htmlContent = `
+      <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="font-size: 28px; font-weight: bold; color: #556B2F; margin: 0 0 10px 0;">
+          DANH SÁCH MUA SẮM
+        </h1>
+        <div style="font-size: 14px; color: #666; line-height: 1.6;">
+          <p style="margin: 5px 0;"><strong>Khu vực:</strong> TP Hồ Chí Minh</p>
+          <p style="margin: 5px 0;"><strong>Giá cập nhật:</strong> Tháng 1/2025</p>
+          <p style="margin: 5px 0; font-style: italic; font-size: 12px;">
+            Lưu ý: Giá có thể chênh lệch giữa các khu vực khác nhau
+          </p>
+        </div>
+      </div>
+      <hr style="border: none; border-top: 3px solid #8FA31E; margin: 20px 0;" />
+    `;
     
     if (checkedCategories.length === 0) {
-      content += "Chưa có món nào được chọn.\n\n";
+      htmlContent += `
+        <p style="text-align: center; font-size: 16px; color: #666; margin: 40px 0;">
+          Chưa có món nào được chọn.
+        </p>
+      `;
     } else {
-      checkedCategories.forEach((category, index) => {
-        content += `${category.category.toUpperCase()}\n`;
-        content += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+      checkedCategories.forEach((category) => {
+        htmlContent += `
+          <div style="margin-bottom: 30px;">
+            <h2 style="font-size: 20px; font-weight: bold; color: #556B2F; margin: 0 0 15px 0; text-transform: uppercase; border-bottom: 2px solid #C6D870; padding-bottom: 8px;">
+              ${category.category}
+            </h2>
+        `;
         
         category.items.forEach((item) => {
           const itemPrice = calculateItemPrice(item);
-          content += `☑ ${item.name} - ${item.quantity}${item.unit}\n`;
-          content += `   Giá: ${itemPrice.toLocaleString("vi-VN")}đ (${item.displayPriceUnit})\n\n`;
+          htmlContent += `
+            <div style="margin: 15px 0 15px 20px; padding-left: 15px; border-left: 4px solid #C6D870;">
+              <div style="font-size: 16px; font-weight: 600; color: #2a321b; margin-bottom: 5px;">
+                ☑ ${item.name} - ${item.quantity}${item.unit}
+              </div>
+              <div style="font-size: 14px; color: #666;">
+                Giá: <strong style="color: #8FA31E;">${itemPrice.toLocaleString("vi-VN")}đ</strong> 
+                <span style="color: #999;">(${item.displayPriceUnit})</span>
+              </div>
+            </div>
+          `;
         });
         
-        if (index < checkedCategories.length - 1) {
-          content += "\n";
-        }
+        htmlContent += `</div>`;
       });
     }
     
-    content += "───────────────────────────────────────\n";
-    content += `TỔNG CHI PHÍ: ${totalPrice.toLocaleString("vi-VN")}đ\n`;
-    content += "═══════════════════════════════════════\n";
+    htmlContent += `
+      <hr style="border: none; border-top: 3px solid #8FA31E; margin: 30px 0 20px 0;" />
+      <div style="text-align: right;">
+        <p style="font-size: 22px; font-weight: bold; color: #556B2F; margin: 0;">
+          TỔNG CHI PHÍ: <span style="color: #8FA31E;">${totalPrice.toLocaleString("vi-VN")}đ</span>
+        </p>
+      </div>
+    `;
     
-    // Create blob and download as text file
-    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `danh-sach-mua-sam-${new Date().toISOString().split('T')[0]}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
+    contentDiv.innerHTML = htmlContent;
+    contentDiv.style.position = 'fixed';
+    contentDiv.style.left = '0';
+    contentDiv.style.top = '0';
+    contentDiv.style.zIndex = '-1000';
+    document.body.appendChild(contentDiv);
+    
+    try {
+      // Capture the div as an image
+      const canvas = await html2canvas(contentDiv, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        logging: false,
+      });
+      
+      // Create PDF
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      let heightLeft = imgHeight;
+      let position = 0;
+      
+      // Add first page
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= 297; // A4 height in mm
+      
+      // Add additional pages if needed
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= 297;
+      }
+      
+      // Save PDF
+      pdf.save(`danh-sach-mua-sam-${new Date().toISOString().split('T')[0]}.pdf`);
+      
+    } finally {
+      // Clean up
+      document.body.removeChild(contentDiv);
+    }
   };
 
   const handleClearList = () => {

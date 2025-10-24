@@ -100,9 +100,14 @@ Preferred communication style: Simple, everyday language.
 - **Shopping List Integration**: Shopping page uses same ingredient data source with mapped pricing information
   - Prices based on TP Hồ Chí Minh market rates (January 2025)
   - Interactive checkboxes to select items for purchase
+  - Dynamic quantity inputs with real-time price recalculation based on baseUnitPrice
   - Dynamic total calculation (only counts checked items)
   - Price disclaimer noting regional variations
-  - Tooltips for "Download list" and "Clear list" actions
+  - **PDF Download**: Uses jsPDF + html2canvas to generate PDF file
+    - Captures styled HTML as PNG image and embeds in PDF (preserves Vietnamese text perfectly)
+    - Mobile-friendly download format (A4 portrait)
+    - Filename: `danh-sach-mua-sam-YYYY-MM-DD.pdf`
+  - **Clear list**: Unchecks all items (visual color change only, no strikethrough)
 
 **Build & Development Tools**:
 - TypeScript for type safety
