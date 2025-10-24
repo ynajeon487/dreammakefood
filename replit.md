@@ -69,9 +69,12 @@ Preferred communication style: Simple, everyday language.
 - System prompt configured for Vietnamese student cooking assistance
 - Handles general chat, structured menu generation, and ingredient-based recipe suggestions
 - **Ingredient-based generation**: Returns 2-4 different dish options from available ingredients
-  - Each dish uses some or all of the provided ingredients (not forced to use everything)
+  - ALL dishes combined MUST use ALL selected ingredients (no waste)
+  - Prioritizes at least 1 dish using all ingredients when culinary-compatible
+  - Prevents unreasonable combinations (e.g., pork + shrimp in same dish)
+  - Creates separate dishes for incompatible ingredients
   - Budget parameter is optional - AI adapts recommendations based on presence/absence
-  - Optimizes ingredient usage and minimizes food waste
+  - Follows Vietnamese cuisine principles and traditional ingredient pairings
 - Markdown formatting support for rich text responses
 
 **Database**: Neon Serverless PostgreSQL
