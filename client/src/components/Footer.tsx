@@ -20,7 +20,7 @@ export default function Footer() {
             <div className="space-y-3 text-primary-foreground/80">
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4" />
-                <span>contact@nauansinhvien.com</span>
+                <span>tdthanhtruc1408@gmail.com</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4" />
@@ -28,7 +28,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4" />
-                <span>Hà Nội, Việt Nam</span>
+                <span>Thành phố Hồ Chí Minh, Việt Nam</span>
               </div>
             </div>
           </div>

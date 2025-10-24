@@ -16,7 +16,7 @@ export default function AIChatbot() {
     {
       id: 1,
       role: 'assistant',
-      content: 'Xin chào! Tôi là trợ lý AI của Nấu Ăn SV. Tôi có thể giúp gì cho bạn về nấu ăn hôm nay?',
+      content: 'Xin chào! Tôi là trợ lý AI của Dream Makers. Tôi có thể giúp gì cho bạn về nấu ăn hôm nay?',
     },
   ]);
   const [inputMessage, setInputMessage] = useState('');
