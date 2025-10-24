@@ -10,6 +10,7 @@ import MenuGenerator from "@/pages/MenuGenerator";
 import Shopping from "@/pages/Shopping";
 import Knowledge from "@/pages/Knowledge";
 import NotFound from "@/pages/not-found";
+import AIChatbot from "@/components/AIChatbot";
 
 function Router() {
   return (
@@ -31,6 +32,7 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <Router />
+        <AIChatbot />
       </TooltipProvider>
     </QueryClientProvider>
   );
