@@ -87,7 +87,7 @@ Hãy đảm bảo thực đơn:
 - Sử dụng nguyên liệu Việt Nam phổ biến`;
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-5-mini",
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
@@ -100,7 +100,7 @@ Hãy tạo thực đơn thực tế, dễ thực hiện, và phù hợp với đ
           content: prompt
         }
       ],
-      max_completion_tokens: 2000,
+      max_tokens: 1500,
     });
 
     return completion.choices[0]?.message?.content || "Xin lỗi, không thể tạo thực đơn lúc này.";
