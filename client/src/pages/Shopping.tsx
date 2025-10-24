@@ -222,7 +222,7 @@ export default function Shopping() {
                       />
                       <div className="flex-1">
                         <div
-                          className={`flex items-baseline justify-between gap-2 ${item.checked ? "line-through text-muted-foreground" : "text-foreground"}`}
+                          className={`flex items-baseline justify-between gap-2 ${item.checked ? "text-muted-foreground" : "text-foreground"}`}
                         >
                           <span className="font-medium">{item.name}</span>
                           <span className="font-semibold text-accent whitespace-nowrap">
