@@ -94,7 +94,7 @@ export default function AIChatbot() {
           size="icon"
           style={{
             position: "fixed",
-            bottom: "30px",
+            bottom: "15px",
             right: "15px",
             left: "auto",
           }}
