@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Wallet, Calendar, ShoppingBag } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 const features = [
   {
@@ -21,6 +21,8 @@ const features = [
 ];
 
 export default function FeatureCards() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section className="py-16 md:py-20 px-4 bg-background">
       <div className="max-w-7xl mx-auto">
@@ -30,15 +32,15 @@ export default function FeatureCards() {
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
+                initial={shouldReduceMotion ? {} : { opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ 
+                transition={shouldReduceMotion ? { duration: 0 } : { 
                   duration: 0.5, 
                   delay: index * 0.15,
                   ease: "easeOut"
                 }}
-                whileHover={{ y: -8 }}
+                whileHover={shouldReduceMotion ? {} : { y: -8 }}
               >
                 <Card 
                   className="p-8 hover-elevate transition-transform cursor-pointer h-full"
@@ -47,8 +49,8 @@ export default function FeatureCards() {
                   <div className="flex flex-col items-center text-center">
                     <motion.div 
                       className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-4"
-                      whileHover={{ rotate: 360 }}
-                      transition={{ duration: 0.6 }}
+                      whileHover={shouldReduceMotion ? {} : { rotate: 360 }}
+                      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6 }}
                     >
                       <Icon className="h-8 w-8 text-secondary-foreground" />
                     </motion.div>

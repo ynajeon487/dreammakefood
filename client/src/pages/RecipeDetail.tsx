@@ -7,11 +7,12 @@ import { Button } from '@/components/ui/button';
 import { Clock, Users, Star, Download } from 'lucide-react';
 import { recipesData } from '@shared/recipes';
 import { getRecipeImage } from '@/lib/recipeImages';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 export default function RecipeDetail() {
   const [, params] = useRoute('/recipes/:id');
   const [, setLocation] = useLocation();
+  const shouldReduceMotion = useReducedMotion();
   
   const recipeId = parseInt(params?.id || '1');
   const recipeData = recipesData.find(r => r.id === recipeId);
@@ -43,9 +44,9 @@ export default function RecipeDetail() {
             <div className="lg:col-span-2 space-y-8">
               <motion.div 
                 className="relative aspect-video overflow-hidden rounded-lg"
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={shouldReduceMotion ? {} : { opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
+                transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5 }}
               >
                 <img 
                   src={recipe.image} 
@@ -55,9 +56,9 @@ export default function RecipeDetail() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.2 }}
               >
                 <div className="flex items-start justify-between mb-4">
                   <h1 className="text-3xl md:text-4xl font-bold text-primary font-['Lexend']">
@@ -90,9 +91,9 @@ export default function RecipeDetail() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
+                transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.4 }}
               >
                 <Card className="p-6">
                   <div className="flex items-center justify-between mb-4">
@@ -133,9 +134,9 @@ export default function RecipeDetail() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
+                transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.6 }}
               >
                 <Card className="p-6">
                   <h2 className="text-2xl font-semibold text-primary mb-6 font-['Lexend']">
@@ -159,9 +160,9 @@ export default function RecipeDetail() {
 
             <motion.div 
               className="lg:col-span-1"
-              initial={{ opacity: 0, x: 20 }}
+              initial={shouldReduceMotion ? {} : { opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.3 }}
             >
               <Card className="p-6 sticky top-24">
                 <h3 className="text-xl font-semibold text-primary mb-4 font-['Lexend']">

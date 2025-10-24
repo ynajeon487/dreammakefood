@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Clock, Star, Users } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface RecipeCardProps {
   id: number;
@@ -28,17 +28,19 @@ export default function RecipeCard({
   onClick,
   index = 0,
 }: RecipeCardProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ 
+      transition={shouldReduceMotion ? { duration: 0 } : { 
         duration: 0.4, 
         delay: index * 0.1,
         ease: "easeOut"
       }}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
+      whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
     >
       <Card 
         className="overflow-hidden hover-elevate active-elevate-2 transition-all hover:-translate-y-1 cursor-pointer h-full"
@@ -50,8 +52,8 @@ export default function RecipeCard({
             src={image} 
             alt={name} 
             className="w-full h-full object-cover"
-            whileHover={{ scale: 1.1 }}
-            transition={{ duration: 0.3 }}
+            whileHover={shouldReduceMotion ? {} : { scale: 1.1 }}
+            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3 }}
           />
         <Badge 
           className="absolute top-2 right-2 bg-accent text-accent-foreground"

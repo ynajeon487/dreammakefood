@@ -5,10 +5,11 @@ import RecipeFilter from '@/components/RecipeFilter';
 import RecipeCard from '@/components/RecipeCard';
 import { recipesData } from '@shared/recipes';
 import { getRecipeImage } from '@/lib/recipeImages';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 export default function Recipes() {
   const [location, setLocation] = useLocation();
+  const shouldReduceMotion = useReducedMotion();
   const [searchQuery, setSearchQuery] = useState('');
   const [priceFilter, setPriceFilter] = useState('all');
   const [timeFilter, setTimeFilter] = useState('all');
@@ -40,9 +41,9 @@ export default function Recipes() {
         <div className="max-w-7xl mx-auto">
           <motion.div 
             className="mb-8"
-            initial={{ opacity: 0, y: 20 }}
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5 }}
           >
             <h1 className="text-3xl md:text-4xl font-bold text-primary mb-4 font-['Lexend']">
               Công Thức Món Ăn
