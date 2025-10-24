@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertCircle } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export default function MenuGenerator() {
   const [budget, setBudget] = useState('');
@@ -13,8 +14,35 @@ export default function MenuGenerator() {
   const [skillLevel, setSkillLevel] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [generatedMenu, setGeneratedMenu] = useState('');
+  const [errors, setErrors] = useState({
+    budget: false,
+    mealsPerDay: false,
+    diet: false,
+    skillLevel: false,
+  });
+  const { toast } = useToast();
 
   const handleGenerateMenu = async () => {
+    // Validate inputs
+    const newErrors = {
+      budget: !budget || budget.trim() === '',
+      mealsPerDay: !mealsPerDay,
+      diet: !diet,
+      skillLevel: !skillLevel,
+    };
+
+    setErrors(newErrors);
+
+    // Check if any field is empty
+    if (Object.values(newErrors).some(error => error)) {
+      toast({
+        title: "Chưa thể tạo thực đơn",
+        description: "Hãy cung cấp thêm thông tin bạn nhé!",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
     setGeneratedMenu('');
 
@@ -61,21 +89,45 @@ export default function MenuGenerator() {
         <Card className="p-6 md:p-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="space-y-2">
-              <Label htmlFor="budget">Ngân sách (VNĐ/ngày)</Label>
+              <Label htmlFor="budget" className={errors.budget ? 'text-destructive' : ''}>
+                Ngân sách (VNĐ/ngày) <span className="text-destructive">*</span>
+              </Label>
               <Input
                 id="budget"
                 type="number"
                 placeholder="Ví dụ: 50000"
                 value={budget}
-                onChange={(e) => setBudget(e.target.value)}
+                onChange={(e) => {
+                  setBudget(e.target.value);
+                  setErrors(prev => ({ ...prev, budget: false }));
+                }}
+                className={errors.budget ? 'border-destructive focus-visible:ring-destructive' : ''}
                 data-testid="input-budget"
               />
+              {errors.budget && (
+                <p className="text-sm text-destructive flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  Vui lòng nhập ngân sách
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="meals">Số bữa/ngày</Label>
-              <Select value={mealsPerDay} onValueChange={setMealsPerDay}>
-                <SelectTrigger id="meals" data-testid="select-meals">
+              <Label htmlFor="meals" className={errors.mealsPerDay ? 'text-destructive' : ''}>
+                Số bữa/ngày <span className="text-destructive">*</span>
+              </Label>
+              <Select 
+                value={mealsPerDay} 
+                onValueChange={(value) => {
+                  setMealsPerDay(value);
+                  setErrors(prev => ({ ...prev, mealsPerDay: false }));
+                }}
+              >
+                <SelectTrigger 
+                  id="meals" 
+                  className={errors.mealsPerDay ? 'border-destructive focus:ring-destructive' : ''}
+                  data-testid="select-meals"
+                >
                   <SelectValue placeholder="Chọn số bữa" />
                 </SelectTrigger>
                 <SelectContent>
@@ -84,12 +136,30 @@ export default function MenuGenerator() {
                   <SelectItem value="3">3 bữa</SelectItem>
                 </SelectContent>
               </Select>
+              {errors.mealsPerDay && (
+                <p className="text-sm text-destructive flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  Vui lòng chọn số bữa
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="diet">Chế độ ăn</Label>
-              <Select value={diet} onValueChange={setDiet}>
-                <SelectTrigger id="diet" data-testid="select-diet">
+              <Label htmlFor="diet" className={errors.diet ? 'text-destructive' : ''}>
+                Chế độ ăn <span className="text-destructive">*</span>
+              </Label>
+              <Select 
+                value={diet} 
+                onValueChange={(value) => {
+                  setDiet(value);
+                  setErrors(prev => ({ ...prev, diet: false }));
+                }}
+              >
+                <SelectTrigger 
+                  id="diet" 
+                  className={errors.diet ? 'border-destructive focus:ring-destructive' : ''}
+                  data-testid="select-diet"
+                >
                   <SelectValue placeholder="Chọn chế độ ăn" />
                 </SelectTrigger>
                 <SelectContent>
@@ -99,12 +169,30 @@ export default function MenuGenerator() {
                   <SelectItem value="high-protein">Nhiều đạm</SelectItem>
                 </SelectContent>
               </Select>
+              {errors.diet && (
+                <p className="text-sm text-destructive flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  Vui lòng chọn chế độ ăn
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="skill">Mức độ kỹ năng</Label>
-              <Select value={skillLevel} onValueChange={setSkillLevel}>
-                <SelectTrigger id="skill" data-testid="select-skill">
+              <Label htmlFor="skill" className={errors.skillLevel ? 'text-destructive' : ''}>
+                Mức độ kỹ năng <span className="text-destructive">*</span>
+              </Label>
+              <Select 
+                value={skillLevel} 
+                onValueChange={(value) => {
+                  setSkillLevel(value);
+                  setErrors(prev => ({ ...prev, skillLevel: false }));
+                }}
+              >
+                <SelectTrigger 
+                  id="skill" 
+                  className={errors.skillLevel ? 'border-destructive focus:ring-destructive' : ''}
+                  data-testid="select-skill"
+                >
                   <SelectValue placeholder="Chọn kỹ năng" />
                 </SelectTrigger>
                 <SelectContent>
@@ -113,6 +201,12 @@ export default function MenuGenerator() {
                   <SelectItem value="advanced">Thành thạo</SelectItem>
                 </SelectContent>
               </Select>
+              {errors.skillLevel && (
+                <p className="text-sm text-destructive flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  Vui lòng chọn kỹ năng
+                </p>
+              )}
             </div>
           </div>
 
