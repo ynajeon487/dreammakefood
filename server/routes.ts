@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { getChatResponse, generateMenu } from "./openai";
+import { getChatResponse, generateMenu, generateMealRecipe } from "./openai";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // AI Chat endpoint
@@ -21,7 +21,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Menu Generation endpoint
+  // Menu Generation endpoint (by day)
   app.post("/api/generate-menu", async (req, res) => {
     try {
       const { budget, mealsPerDay, diet, skillLevel } = req.body;
@@ -37,6 +37,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Menu generation error:", error);
       res.status(500).json({ error: "Không thể tạo thực đơn. Vui lòng thử lại sau." });
+    }
+  });
+
+  // Meal Recipe Generation endpoint (by meal)
+  app.post("/api/menu/generate-meal", async (req, res) => {
+    try {
+      const { budget, servings, diet, dishName } = req.body;
+
+      const recipe = await generateMealRecipe({
+        budget,
+        servings,
+        diet,
+        dishName
+      });
+
+      res.json({ recipe });
+    } catch (error) {
+      console.error("Meal recipe generation error:", error);
+      res.status(500).json({ error: "Không thể tạo công thức. Vui lòng thử lại sau." });
     }
   });
 

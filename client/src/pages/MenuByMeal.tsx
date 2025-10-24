@@ -4,40 +4,39 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { parseMarkdown } from '@/lib/markdown';
 
-export default function MenuGenerator() {
+export default function MenuByMeal() {
   const [budget, setBudget] = useState('');
-  const [mealsPerDay, setMealsPerDay] = useState('');
+  const [servings, setServings] = useState('');
   const [diet, setDiet] = useState('');
-  const [skillLevel, setSkillLevel] = useState('');
+  const [dishName, setDishName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [generatedMenu, setGeneratedMenu] = useState('');
+  const [generatedRecipe, setGeneratedRecipe] = useState('');
   const [errors, setErrors] = useState({
     budget: false,
-    mealsPerDay: false,
+    servings: false,
     diet: false,
-    skillLevel: false,
   });
   const { toast } = useToast();
 
-  const handleGenerateMenu = async () => {
-    // Validate inputs
+  const handleGenerateRecipe = async () => {
+    // Validate required inputs
     const newErrors = {
       budget: !budget || budget.trim() === '',
-      mealsPerDay: !mealsPerDay,
+      servings: !servings || servings.trim() === '',
       diet: !diet,
-      skillLevel: !skillLevel,
     };
 
     setErrors(newErrors);
 
-    // Check if any field is empty
+    // Check if any required field is empty
     if (Object.values(newErrors).some(error => error)) {
       toast({
-        title: "Chưa thể tạo thực đơn",
+        title: "Chưa thể tạo công thức",
         description: "Hãy cung cấp thêm thông tin bạn nhé!",
         variant: "destructive",
         duration: 2000,
@@ -46,64 +45,76 @@ export default function MenuGenerator() {
     }
 
     setIsLoading(true);
-    setGeneratedMenu('');
+    setGeneratedRecipe('');
 
     try {
-      const response = await fetch('/api/generate-menu', {
+      const response = await fetch('/api/menu/generate-meal', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           budget,
-          mealsPerDay,
+          servings,
           diet,
-          skillLevel,
+          dishName: dishName.trim(),
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate menu');
+        throw new Error('Không thể tạo công thức');
       }
 
       const data = await response.json();
-      setGeneratedMenu(data.menu);
+      setGeneratedRecipe(data.recipe);
+      
+      toast({
+        title: "Thành công!",
+        description: dishName.trim() 
+          ? `Công thức cho ${dishName} đã sẵn sàng!` 
+          : "Món ăn được gợi ý đã sẵn sàng!",
+        duration: 2000,
+      });
     } catch (error) {
-      console.error('Error generating menu:', error);
-      setGeneratedMenu('Xin lỗi, đã có lỗi xảy ra khi tạo thực đơn. Vui lòng thử lại sau.');
+      toast({
+        title: "Lỗi",
+        description: "Không thể tạo công thức. Vui lòng thử lại sau.",
+        variant: "destructive",
+        duration: 2000,
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <section className="py-16 px-4 bg-background">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 font-['Lexend']">
-            Tạo Thực Đơn Của Bạn
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            Điền thông tin dưới đây để nhận thực đơn phù hợp với nhu cầu của bạn
+    <section className="min-h-screen bg-background py-8 md:py-12 px-4">
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-3 font-['Lexend']">
+            Tạo Công Thức Món Ăn
+          </h1>
+          <p className="text-foreground/80 text-base md:text-lg">
+            Nhập thông tin để nhận công thức nấu chi tiết
           </p>
         </div>
 
         <Card className="p-6 md:p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="budget" className={errors.budget ? 'text-destructive' : ''}>
-                Ngân sách (VNĐ/ngày) <span className="text-destructive">*</span>
+                Ngân sách <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="budget"
                 type="number"
-                placeholder="Ví dụ: 50000"
+                placeholder="Ví dụ: 30000"
                 value={budget}
                 onChange={(e) => {
                   setBudget(e.target.value);
                   setErrors(prev => ({ ...prev, budget: false }));
                 }}
-                className={errors.budget ? 'border-destructive focus-visible:ring-destructive' : ''}
+                className={errors.budget ? 'border-destructive focus:ring-destructive' : ''}
                 data-testid="input-budget"
               />
               {errors.budget && (
@@ -115,33 +126,25 @@ export default function MenuGenerator() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="meals" className={errors.mealsPerDay ? 'text-destructive' : ''}>
-                Số bữa/ngày <span className="text-destructive">*</span>
+              <Label htmlFor="servings" className={errors.servings ? 'text-destructive' : ''}>
+                Số người ăn <span className="text-destructive">*</span>
               </Label>
-              <Select 
-                value={mealsPerDay} 
-                onValueChange={(value) => {
-                  setMealsPerDay(value);
-                  setErrors(prev => ({ ...prev, mealsPerDay: false }));
+              <Input
+                id="servings"
+                type="number"
+                placeholder="Ví dụ: 2"
+                value={servings}
+                onChange={(e) => {
+                  setServings(e.target.value);
+                  setErrors(prev => ({ ...prev, servings: false }));
                 }}
-              >
-                <SelectTrigger 
-                  id="meals" 
-                  className={errors.mealsPerDay ? 'border-destructive focus:ring-destructive' : ''}
-                  data-testid="select-meals"
-                >
-                  <SelectValue placeholder="Chọn số bữa" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">1 bữa</SelectItem>
-                  <SelectItem value="2">2 bữa</SelectItem>
-                  <SelectItem value="3">3 bữa</SelectItem>
-                </SelectContent>
-              </Select>
-              {errors.mealsPerDay && (
+                className={errors.servings ? 'border-destructive focus:ring-destructive' : ''}
+                data-testid="input-servings"
+              />
+              {errors.servings && (
                 <p className="text-sm text-destructive flex items-center gap-1">
                   <AlertCircle className="h-3 w-3" />
-                  Vui lòng chọn số bữa
+                  Vui lòng nhập số người
                 </p>
               )}
             </div>
@@ -180,64 +183,49 @@ export default function MenuGenerator() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="skill" className={errors.skillLevel ? 'text-destructive' : ''}>
-                Mức độ kỹ năng <span className="text-destructive">*</span>
+              <Label htmlFor="dishName">
+                Món ăn muốn nấu <span className="text-muted-foreground text-sm">(Không bắt buộc)</span>
               </Label>
-              <Select 
-                value={skillLevel} 
-                onValueChange={(value) => {
-                  setSkillLevel(value);
-                  setErrors(prev => ({ ...prev, skillLevel: false }));
-                }}
-              >
-                <SelectTrigger 
-                  id="skill" 
-                  className={errors.skillLevel ? 'border-destructive focus:ring-destructive' : ''}
-                  data-testid="select-skill"
-                >
-                  <SelectValue placeholder="Chọn kỹ năng" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="beginner">Mới bắt đầu</SelectItem>
-                  <SelectItem value="intermediate">Trung bình</SelectItem>
-                  <SelectItem value="advanced">Thành thạo</SelectItem>
-                </SelectContent>
-              </Select>
-              {errors.skillLevel && (
-                <p className="text-sm text-destructive flex items-center gap-1">
-                  <AlertCircle className="h-3 w-3" />
-                  Vui lòng chọn kỹ năng
-                </p>
-              )}
+              <Textarea
+                id="dishName"
+                placeholder="Ví dụ: Cơm chiên trứng, Phở gà... (Để trống nếu muốn AI gợi ý)"
+                value={dishName}
+                onChange={(e) => setDishName(e.target.value)}
+                rows={2}
+                data-testid="input-dish-name"
+              />
+              <p className="text-xs text-muted-foreground">
+                💡 Để trống để nhận gợi ý món ăn phù hợp với ngân sách
+              </p>
             </div>
           </div>
 
           <Button 
-            className="w-full bg-primary text-primary-foreground text-lg py-6"
-            onClick={handleGenerateMenu}
+            className="w-full bg-primary text-primary-foreground text-lg py-6 mt-6"
+            onClick={handleGenerateRecipe}
             disabled={isLoading}
-            data-testid="button-generate-menu"
+            data-testid="button-generate-recipe"
           >
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Đang tạo thực đơn...
+                Đang tạo công thức...
               </>
             ) : (
-              'Tạo Thực Đơn'
+              dishName.trim() ? 'Tạo Công Thức' : 'Gợi Ý Món Ăn'
             )}
           </Button>
         </Card>
 
-        {generatedMenu && (
+        {generatedRecipe && (
           <Card className="p-6 md:p-8 mt-8">
             <h3 className="text-2xl font-bold text-primary mb-4 font-['Lexend']">
-              Thực Đơn Của Bạn
+              {dishName.trim() ? `Công Thức: ${dishName}` : 'Món Ăn Gợi Ý'}
             </h3>
             <div className="prose prose-sm max-w-none">
               <div 
                 className="text-foreground leading-relaxed markdown-content"
-                dangerouslySetInnerHTML={{ __html: parseMarkdown(generatedMenu) }}
+                dangerouslySetInnerHTML={{ __html: parseMarkdown(generatedRecipe) }}
               />
             </div>
           </Card>

@@ -1,0 +1,81 @@
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Calendar, UtensilsCrossed } from 'lucide-react';
+import { Link } from 'wouter';
+
+export default function Menu() {
+  return (
+    <section className="min-h-screen bg-background py-8 md:py-12 px-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-8 md:mb-12">
+          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-3 font-['Lexend']">
+            Tạo Thực Đơn
+          </h1>
+          <p className="text-foreground/80 text-base md:text-lg max-w-2xl mx-auto">
+            Chọn loại thực đơn bạn muốn tạo
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          <Card className="p-8 hover-elevate transition-all cursor-pointer group">
+            <Link href="/menu/by-day">
+              <div className="flex flex-col items-center text-center space-y-4">
+                <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <Calendar className="h-10 w-10 text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-primary mb-2 font-['Lexend']">
+                    Theo Ngày
+                  </h2>
+                  <p className="text-muted-foreground">
+                    Tạo thực đơn đầy đủ cho cả ngày với nhiều bữa ăn
+                  </p>
+                  <ul className="mt-4 text-sm text-foreground/80 space-y-1">
+                    <li>• Lập kế hoạch cho 1-3 bữa/ngày</li>
+                    <li>• Phân bổ ngân sách hợp lý</li>
+                    <li>• Cân bằng dinh dưỡng</li>
+                  </ul>
+                </div>
+                <Button 
+                  className="w-full mt-4"
+                  data-testid="button-menu-by-day"
+                >
+                  Bắt đầu
+                </Button>
+              </div>
+            </Link>
+          </Card>
+
+          <Card className="p-8 hover-elevate transition-all cursor-pointer group">
+            <Link href="/menu/by-meal">
+              <div className="flex flex-col items-center text-center space-y-4">
+                <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                  <UtensilsCrossed className="h-10 w-10 text-accent" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-accent mb-2 font-['Lexend']">
+                    Theo Bữa Ăn Lẻ
+                  </h2>
+                  <p className="text-muted-foreground">
+                    Tạo công thức cho 1 món ăn cụ thể
+                  </p>
+                  <ul className="mt-4 text-sm text-foreground/80 space-y-1">
+                    <li>• Hướng dẫn nấu chi tiết</li>
+                    <li>• Tính toán cho nhiều người</li>
+                    <li>• Gợi ý hoặc tùy chọn món</li>
+                  </ul>
+                </div>
+                <Button 
+                  className="w-full mt-4 bg-accent hover:bg-accent/90"
+                  data-testid="button-menu-by-meal"
+                >
+                  Bắt đầu
+                </Button>
+              </div>
+            </Link>
+          </Card>
+        </div>
+      </div>
+    </section>
+  );
+}

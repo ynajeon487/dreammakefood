@@ -6,7 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/Home";
 import Recipes from "@/pages/Recipes";
 import RecipeDetail from "@/pages/RecipeDetail";
-import MenuGenerator from "@/pages/MenuGenerator";
+import Menu from "@/pages/Menu";
+import MenuByDay from "@/pages/MenuByDay";
+import MenuByMeal from "@/pages/MenuByMeal";
 import Shopping from "@/pages/Shopping";
 import Knowledge from "@/pages/Knowledge";
 import NotFound from "@/pages/not-found";
@@ -18,7 +20,9 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/recipes" component={Recipes} />
       <Route path="/recipes/:id" component={RecipeDetail} />
-      <Route path="/menu" component={MenuGenerator} />
+      <Route path="/menu" component={Menu} />
+      <Route path="/menu/by-day" component={MenuByDay} />
+      <Route path="/menu/by-meal" component={MenuByMeal} />
       <Route path="/shopping" component={Shopping} />
       <Route path="/knowledge" component={Knowledge} />
       <Route component={NotFound} />

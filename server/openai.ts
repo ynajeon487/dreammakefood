@@ -141,3 +141,107 @@ Cách nấu:
     throw new Error("Không thể tạo thực đơn. Vui lòng thử lại sau.");
   }
 }
+
+interface MealParams {
+  budget: string;
+  servings: string;
+  diet: string;
+  dishName?: string;
+}
+
+export async function generateMealRecipe(params: MealParams): Promise<string> {
+  try {
+    const { budget, servings, diet, dishName } = params;
+    
+    const dietLabels: Record<string, string> = {
+      'normal': 'bình thường',
+      'vegetarian': 'ăn chay',
+      'low-carb': 'ít tinh bột',
+      'high-protein': 'nhiều đạm'
+    };
+
+    let prompt = '';
+    
+    if (dishName && dishName.trim()) {
+      // User specified a dish
+      prompt = `Tạo công thức nấu chi tiết cho món "${dishName}" với các yêu cầu:
+- Ngân sách: ${budget} VNĐ
+- Số người ăn: ${servings} người
+- Chế độ ăn: ${dietLabels[diet] || 'bình thường'}
+
+Hãy cung cấp:
+1. **Tên món** (in đậm)
+2. Nguyên liệu chi tiết (liệt kê dạng danh sách với số lượng cụ thể cho ${servings} người)
+3. Giá ước tính cho từng nguyên liệu chính
+4. Tổng giá (phải nằm trong ngân sách ${budget} VNĐ)
+5. Thời gian chuẩn bị và nấu
+6. **Cách nấu từng bước** (số thứ tú 1., 2., 3., ...)
+7. *Mẹo nhỏ* (in nghiêng)
+8. Giá trị dinh dưỡng
+
+Đảm bảo:
+- Phù hợp với ngân sách
+- Nguyên liệu dễ mua tại TP.HCM
+- Hướng dẫn rõ ràng, dễ hiểu
+- Phù hợp với chế độ ăn ${dietLabels[diet]}`;
+    } else {
+      // No dish specified, recommend one
+      prompt = `Gợi ý MỘT món ăn phù hợp nhất với các yêu cầu sau:
+- Ngân sách: ${budget} VNĐ
+- Số người ăn: ${servings} người
+- Chế độ ăn: ${dietLabels[diet] || 'bình thường'}
+
+Hãy gợi ý món ăn PHÙ HỢP NHẤT với ngân sách và cung cấp đầy đủ:
+1. **Tên món** (in đậm) - giải thích TẠI SAO phù hợp với ngân sách này
+2. Nguyên liệu chi tiết (liệt kê dạng danh sách với số lượng cụ thể cho ${servings} người)
+3. Giá ước tính cho từng nguyên liệu chính
+4. Tổng giá (phải nằm trong ngân sách ${budget} VNĐ)
+5. Thời gian chuẩn bị và nấu
+6. **Cách nấu từng bước** (số thứ tự 1., 2., 3., ...)
+7. *Mẹo nhỏ* (in nghiêng)
+8. Giá trị dinh dưỡng
+
+Đảm bảo:
+- CHỈ gợi ý 1 món duy nhất
+- Phù hợp với ngân sách (QUAN TRỌNG!)
+- Nguyên liệu dễ mua tại TP.HCM
+- Hướng dẫn rõ ràng, dễ hiểu
+- Phù hợp với chế độ ăn ${dietLabels[diet]}`;
+    }
+
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: `Bạn là chuyên gia đầu bếp và dinh dưỡng chuyên tư vấn nấu ăn cho sinh viên Việt Nam.
+Bạn hiểu rõ về giá cả thực phẩm tại TP.HCM, các món ăn Việt Nam, và cách tính toán nguyên liệu cho nhiều người.
+
+Định dạng văn bản:
+- Sử dụng **in đậm** cho tên món ăn, tiêu đề
+- Sử dụng *in nghiêng* cho mẹo nhỏ, ghi chú
+- Sử dụng ### cho tiêu đề chính
+- Sử dụng dấu đầu dòng (-) để liệt kê nguyên liệu
+- Sử dụng số thứ tự (1., 2., 3.) cho các bước nấu
+- Tổ chức rõ ràng, dễ đọc
+
+QUAN TRỌNG:
+- Nếu người dùng chỉ định món ăn: chỉ cung cấp thông tin về món đó
+- Nếu không chỉ định: gợi ý CHỈ 1 món phù hợp nhất với ngân sách
+- Luôn bao gồm hướng dẫn nấu chi tiết từng bước
+- Giá phải thực tế và nằm trong ngân sách`
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      max_tokens: 2000,
+    });
+
+    return completion.choices[0]?.message?.content || "Xin lỗi, không thể tạo công thức lúc này.";
+  } catch (error) {
+    console.error("Error generating meal recipe:", error);
+    throw new Error("Không thể tạo công thức. Vui lòng thử lại sau.");
+  }
+}
