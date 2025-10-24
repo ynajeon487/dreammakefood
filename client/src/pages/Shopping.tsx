@@ -4,15 +4,17 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Download, Trash2 } from "lucide-react";
+import { Download, Trash2, Plus } from "lucide-react";
 import { vietnameseIngredients } from "@/lib/ingredients";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { useToast } from "@/hooks/use-toast";
 
 interface IngredientPriceInfo {
   defaultQuantity: number;
@@ -78,6 +80,10 @@ interface ShoppingCategory {
 }
 
 export default function Shopping() {
+  const { toast } = useToast();
+  const [customIngredients, setCustomIngredients] = useState('');
+  const [nextCustomId, setNextCustomId] = useState(1000); // Start from 1000 to avoid conflicts
+  
   // Generate shopping list from ingredients with prices
   const generateInitialShoppingList = (): ShoppingCategory[] => {
     const grouped: Record<string, ShoppingItem[]> = {};
@@ -295,6 +301,78 @@ export default function Shopping() {
     );
   };
 
+  const handleAddCustomIngredients = () => {
+    if (!customIngredients.trim()) {
+      toast({
+        title: 'Chưa nhập nguyên liệu',
+        description: 'Vui lòng nhập tên nguyên liệu cần mua.',
+        variant: 'destructive',
+        duration: 2000,
+      });
+      return;
+    }
+
+    // Parse ingredients (split by comma)
+    const ingredientNames = customIngredients
+      .split(',')
+      .map((name) => name.trim())
+      .filter((name) => name.length > 0);
+
+    if (ingredientNames.length === 0) {
+      toast({
+        title: 'Chưa nhập nguyên liệu',
+        description: 'Vui lòng nhập tên nguyên liệu cần mua.',
+        variant: 'destructive',
+        duration: 2000,
+      });
+      return;
+    }
+
+    // Create new items with default pricing
+    const newItems: ShoppingItem[] = ingredientNames.map((name, index) => ({
+      id: nextCustomId + index,
+      name: name,
+      quantity: 1,
+      unit: 'phần',
+      baseUnitPrice: 10000, // Default 10,000đ per portion
+      displayPriceUnit: '10.000đ/phần',
+      checked: false,
+    }));
+
+    setNextCustomId(nextCustomId + ingredientNames.length);
+
+    // Add to shopping list in "Nguyên liệu khác" category
+    setShoppingList((prev) => {
+      const customCategory = prev.find((cat) => cat.category === 'Nguyên liệu khác');
+      
+      if (customCategory) {
+        // Category exists, add to it
+        return prev.map((cat) =>
+          cat.category === 'Nguyên liệu khác'
+            ? { ...cat, items: [...cat.items, ...newItems] }
+            : cat
+        );
+      } else {
+        // Create new category
+        return [
+          ...prev,
+          {
+            category: 'Nguyên liệu khác',
+            items: newItems,
+          },
+        ];
+      }
+    });
+
+    // Clear input and show success
+    setCustomIngredients('');
+    toast({
+      title: 'Đã thêm nguyên liệu!',
+      description: `Đã thêm ${ingredientNames.length} nguyên liệu vào danh sách mua sắm.`,
+      duration: 2000,
+    });
+  };
+
   return (
     <>
       <div className="flex-1 py-12 px-4 bg-background">
@@ -320,6 +398,45 @@ export default function Shopping() {
             </div>
           </div>
 
+          <Card className="p-6 mb-6 bg-muted/30">
+            <h3 className="text-lg font-semibold text-primary mb-3 font-['Lexend']">
+              Thêm Nguyên Liệu Khác
+            </h3>
+            <div className="space-y-3">
+              <div>
+                <Label htmlFor="custom-ingredients" className="text-sm">
+                  Nhập nguyên liệu không có trong danh sách
+                </Label>
+                <div className="flex gap-2 mt-2">
+                  <Input
+                    id="custom-ingredients"
+                    type="text"
+                    placeholder="Ví dụ: Rau ngót, Mướp đắng, Sườn non..."
+                    value={customIngredients}
+                    onChange={(e) => setCustomIngredients(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleAddCustomIngredients();
+                      }
+                    }}
+                    className="flex-1"
+                    data-testid="input-custom-ingredients"
+                  />
+                  <Button
+                    onClick={handleAddCustomIngredients}
+                    data-testid="button-add-custom-ingredients"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Thêm
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1.5">
+                  💡 Nhập các nguyên liệu cách nhau bằng dấu phẩy. Giá mặc định: 10.000đ/phần
+                </p>
+              </div>
+            </div>
+          </Card>
+
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div className="flex gap-3">
               <Tooltip>
@@ -333,7 +450,7 @@ export default function Shopping() {
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Tải xuống danh sách mua sắm dưới dạng file text</p>
+                  <p>Tải xuống danh sách mua sắm dưới dạng PDF</p>
                 </TooltipContent>
               </Tooltip>
               

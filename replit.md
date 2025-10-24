@@ -103,6 +103,11 @@ Preferred communication style: Simple, everyday language.
   - Dynamic quantity inputs with real-time price recalculation based on baseUnitPrice
   - Dynamic total calculation (only counts checked items)
   - Price disclaimer noting regional variations
+  - **Custom Ingredients**: Add ingredients not in predefined list (like MenuByIngredients page)
+    - Input field accepts comma-separated ingredient names
+    - Default values: 1 phần, 10.000đ/phần
+    - Added to "Nguyên liệu khác" category
+    - Fully adjustable quantity and included in total calculation
   - **PDF Download**: Uses jsPDF + html2canvas to generate PDF file
     - Captures styled HTML as PNG image and embeds in PDF (preserves Vietnamese text perfectly)
     - Mobile-friendly download format (A4 portrait)
