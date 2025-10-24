@@ -97,6 +97,12 @@ Preferred communication style: Simple, everyday language.
 - Custom ingredient input field for ingredients not in the predefined list
 - Ingredient analysis logging system to track user-requested ingredients for database expansion
 - Used for ingredient-based recipe generation (generates 2-4 dish options)
+- **Shopping List Integration**: Shopping page uses same ingredient data source with mapped pricing information
+  - Prices based on TP Hồ Chí Minh market rates (January 2025)
+  - Interactive checkboxes to select items for purchase
+  - Dynamic total calculation (only counts checked items)
+  - Price disclaimer noting regional variations
+  - Tooltips for "Download list" and "Clear list" actions
 
 **Build & Development Tools**:
 - TypeScript for type safety

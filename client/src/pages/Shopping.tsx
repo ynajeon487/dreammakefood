@@ -9,83 +9,85 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Download, Trash2 } from "lucide-react";
+import { vietnameseIngredients } from "@/lib/ingredients";
+
+interface IngredientPrice {
+  amount: string;
+  price: number;
+  pricePerUnit: string;
+}
+
+const ingredientPrices: Record<string, IngredientPrice> = {
+  'cà chua': { amount: '4 quả', price: 12000, pricePerUnit: '3,000đ/quả' },
+  'cà rốt': { amount: '500g', price: 10000, pricePerUnit: '20,000đ/kg' },
+  'khoai tây': { amount: '500g', price: 15000, pricePerUnit: '30,000đ/kg' },
+  'bắp cải': { amount: '1 củ', price: 12000, pricePerUnit: '12,000đ/củ' },
+  'rau muống': { amount: '300g', price: 9000, pricePerUnit: '30,000đ/kg' },
+  'rau cải': { amount: '300g', price: 8000, pricePerUnit: '27,000đ/kg' },
+  'dưa chuột': { amount: '3 quả', price: 9000, pricePerUnit: '3,000đ/quả' },
+  'đậu đũa': { amount: '300g', price: 12000, pricePerUnit: '40,000đ/kg' },
+  'bí đao': { amount: '500g', price: 8000, pricePerUnit: '16,000đ/kg' },
+  
+  'thịt heo': { amount: '300g', price: 45000, pricePerUnit: '150,000đ/kg' },
+  'thịt bò': { amount: '300g', price: 75000, pricePerUnit: '250,000đ/kg' },
+  'thịt gà': { amount: '300g', price: 48000, pricePerUnit: '160,000đ/kg' },
+  'ba chỉ': { amount: '300g', price: 42000, pricePerUnit: '140,000đ/kg' },
+  
+  'tôm': { amount: '200g', price: 60000, pricePerUnit: '300,000đ/kg' },
+  'cá': { amount: '300g', price: 45000, pricePerUnit: '150,000đ/kg' },
+  'mực': { amount: '200g', price: 55000, pricePerUnit: '275,000đ/kg' },
+  
+  'đậu hũ': { amount: '2 miếng', price: 8000, pricePerUnit: '4,000đ/miếng' },
+  'trứng': { amount: '10 quả', price: 35000, pricePerUnit: '3,500đ/quả' },
+  'đậu xanh': { amount: '200g', price: 10000, pricePerUnit: '50,000đ/kg' },
+  
+  'nấm rơm': { amount: '200g', price: 15000, pricePerUnit: '75,000đ/kg' },
+  'nấm hương': { amount: '100g', price: 20000, pricePerUnit: '200,000đ/kg' },
+  
+  'gạo': { amount: '1kg', price: 25000, pricePerUnit: '25,000đ/kg' },
+  'mì': { amount: '500g', price: 12000, pricePerUnit: '24,000đ/kg' },
+  'bún': { amount: '500g', price: 10000, pricePerUnit: '20,000đ/kg' },
+  'bánh mì': { amount: '4 ổ', price: 20000, pricePerUnit: '5,000đ/ổ' },
+  
+  'hành tây': { amount: '300g', price: 9000, pricePerUnit: '30,000đ/kg' },
+  'hành tím': { amount: '200g', price: 12000, pricePerUnit: '60,000đ/kg' },
+  'tỏi': { amount: '100g', price: 8000, pricePerUnit: '80,000đ/kg' },
+  'gừng': { amount: '100g', price: 6000, pricePerUnit: '60,000đ/kg' },
+  'ớt': { amount: '100g', price: 5000, pricePerUnit: '50,000đ/kg' },
+  'sả': { amount: '50g', price: 4000, pricePerUnit: '80,000đ/kg' },
+};
 
 export default function Shopping() {
-  const initialShoppingList = [
-    {
-      category: "Rau củ",
-      items: [
-        {
-          id: 1,
-          name: "Cà chua",
-          amount: "4 quả",
-          price: 12000,
-          pricePerUnit: "3,000đ/quả",
-          checked: false,
-        },
-        {
-          id: 2,
-          name: "Rau muống",
-          amount: "300g",
-          price: 9000,
-          pricePerUnit: "30,000đ/kg",
-          checked: false,
-        },
-        {
-          id: 3,
-          name: "Hành lá",
-          amount: "2 cây",
-          price: 4000,
-          pricePerUnit: "2,000đ/cây",
-          checked: false,
-        },
-      ],
-    },
-    {
-      category: "Protein",
-      items: [
-        {
-          id: 4,
-          name: "Trứng gà",
-          amount: "10 quả",
-          price: 35000,
-          pricePerUnit: "3,500đ/quả",
-          checked: false,
-        },
-        {
-          id: 5,
-          name: "Thịt gà",
-          amount: "200g",
-          price: 32000,
-          pricePerUnit: "160,000đ/kg",
-          checked: false,
-        },
-      ],
-    },
-    {
-      category: "Khác",
-      items: [
-        {
-          id: 6,
-          name: "Gạo",
-          amount: "1kg",
-          price: 25000,
-          pricePerUnit: "25,000đ/kg",
-          checked: false,
-        },
-        {
-          id: 7,
-          name: "Dầu ăn",
-          amount: "1 chai",
-          price: 45000,
-          pricePerUnit: "45,000đ/chai",
-          checked: false,
-        },
-      ],
-    },
-  ];
+  // Generate shopping list from ingredients with prices
+  const generateInitialShoppingList = () => {
+    const grouped: Record<string, any[]> = {};
+    let idCounter = 1;
 
-  const [shoppingList, setShoppingList] = useState(initialShoppingList);
+    vietnameseIngredients.forEach((ingredient) => {
+      const priceInfo = ingredientPrices[ingredient.value];
+      if (priceInfo) {
+        const category = ingredient.category;
+        if (!grouped[category]) {
+          grouped[category] = [];
+        }
+        grouped[category].push({
+          id: idCounter++,
+          name: ingredient.label,
+          amount: priceInfo.amount,
+          price: priceInfo.price,
+          pricePerUnit: priceInfo.pricePerUnit,
+          checked: false,
+        });
+      }
+    });
+
+    return Object.entries(grouped).map(([category, items]) => ({
+      category,
+      items,
+    }));
+  };
+
+  const [shoppingList, setShoppingList] = useState(generateInitialShoppingList());
 
   const totalPrice = shoppingList.reduce((total, category) => {
     return (
@@ -132,12 +134,17 @@ export default function Shopping() {
             <p className="text-muted-foreground text-lg mb-2">
               Danh sách nguyên liệu cần mua từ thực đơn đã lập
             </p>
-            <div className="flex items-center gap-2 text-sm">
-              <span className="text-muted-foreground">Khu vực:</span>
-              <span className="font-semibold text-accent">TP Hồ Chí Minh</span>
-              <span className="text-muted-foreground">
-                • Giá cập nhật: Tháng 1/2025
-              </span>
+            <div className="flex flex-col gap-1 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-muted-foreground">Khu vực:</span>
+                <span className="font-semibold text-accent">TP Hồ Chí Minh</span>
+                <span className="text-muted-foreground">
+                  • Giá cập nhật: Tháng 1/2025
+                </span>
+              </div>
+              <p className="text-muted-foreground italic text-xs">
+                Giá được thể hiện ở đây có thể có sự chênh lệch giữa các khu vực khác nhau, với mức sống khác nhau. Vui lòng kiểm tra thật kĩ. Xin cảm ơn.
+              </p>
             </div>
           </div>
 
@@ -186,11 +193,7 @@ export default function Shopping() {
 
           <div className="space-y-6">
             {shoppingList.map((category, categoryIndex) => (
-              <Card
-                key={categoryIndex}
-                className="p-6"
-                data-testid={`category-${categoryIndex}`}
-              >
+              <Card key={category.category} className="p-6">
                 <h3 className="text-xl font-semibold text-primary mb-4 font-['Lexend']">
                   {category.category}
                 </h3>
@@ -228,14 +231,6 @@ export default function Shopping() {
               </Card>
             ))}
           </div>
-
-          {shoppingList.length === 0 && (
-            <Card className="p-12 text-center">
-              <p className="text-muted-foreground text-lg">
-                Danh sách mua sắm trống. Hãy tạo thực đơn để bắt đầu!
-              </p>
-            </Card>
-          )}
         </div>
       </div>
       <Footer />
