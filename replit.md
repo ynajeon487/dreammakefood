@@ -91,7 +91,7 @@ Preferred communication style: Simple, everyday language.
 **Asset Management**: Static images stored in `attached_assets/generated_images/` directory for recipe photos
 
 **Ingredient Library**: Comprehensive Vietnamese ingredient database (`client/src/lib/ingredients.ts`)
-- 60+ common ingredients grouped by category (Rau củ, Thịt, Hải sản, Đạm thực vật, Nấm, Tinh bột, Gia vị)
+- 68 common ingredients grouped by category (Rau củ, Thịt, Hải sản, Đạm thực vật, Nấm, Tinh bột, Gia vị, Trái cây)
 - Searchable multi-select interface with real-time filtering
 - Badge display for selected ingredients
 - Custom ingredient input field for ingredients not in the predefined list

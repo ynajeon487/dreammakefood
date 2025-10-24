@@ -59,6 +59,14 @@ export const vietnameseIngredients = [
   { value: 'ớt', label: 'Ớt', category: 'Gia vị' },
   { value: 'sả', label: 'Sả', category: 'Gia vị' },
   { value: 'rau thơm', label: 'Rau thơm (ngò, húng)', category: 'Gia vị' },
+
+  // Trái cây
+  { value: 'chuối', label: 'Chuối', category: 'Trái cây' },
+  { value: 'táo', label: 'Táo', category: 'Trái cây' },
+  { value: 'cam', label: 'Cam', category: 'Trái cây' },
+  { value: 'đu đủ', label: 'Đu đủ', category: 'Trái cây' },
+  { value: 'xoài', label: 'Xoài', category: 'Trái cây' },
+  { value: 'thanh long', label: 'Thanh long', category: 'Trái cây' },
 ];
 
 export function searchIngredients(query: string) {

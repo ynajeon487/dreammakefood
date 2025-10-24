@@ -471,6 +471,44 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
     baseUnitPrice: 80,
     displayPriceUnit: "80.000đ/kg",
   },
+
+  // Trái cây
+  chuối: {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 25,
+    displayPriceUnit: "25.000đ/kg",
+  },
+  táo: {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 50,
+    displayPriceUnit: "50.000đ/kg",
+  },
+  cam: {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 35,
+    displayPriceUnit: "35.000đ/kg",
+  },
+  "đu đủ": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 20,
+    displayPriceUnit: "20.000đ/kg",
+  },
+  xoài: {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 40,
+    displayPriceUnit: "40.000đ/kg",
+  },
+  "thanh long": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 25,
+    displayPriceUnit: "25.000đ/kg",
+  },
 };
 
 interface ShoppingItem {
