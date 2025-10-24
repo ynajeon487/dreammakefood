@@ -114,7 +114,7 @@ export default function MenuByIngredients() {
     <section className="py-16 px-4 bg-background">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 font-['Lexend']">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 font-['Lexend']">
             Món Ăn Từ Nguyên Liệu Có Sẵn
           </h2>
           <p className="text-muted-foreground text-lg">
@@ -360,7 +360,7 @@ export default function MenuByIngredients() {
             </div>
 
             <Button
-              className="w-full bg-secondary text-secondary-foreground text-lg py-6"
+              className="w-full bg-primary text-primary-foreground text-lg py-6"
               onClick={handleGenerateRecipe}
               disabled={isLoading}
               data-testid="button-generate-recipe"
@@ -379,7 +379,7 @@ export default function MenuByIngredients() {
 
         {generatedRecipe && (
           <Card className="p-6 md:p-8 mt-8">
-            <h3 className="text-2xl font-bold text-secondary mb-4 font-['Lexend']">
+            <h3 className="text-2xl font-bold text-primary mb-4 font-['Lexend']">
               Món Ăn Gợi Ý
             </h3>
             <div className="prose prose-sm max-w-none">
