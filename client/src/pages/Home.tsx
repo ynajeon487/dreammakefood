@@ -2,7 +2,6 @@ import { useLocation } from 'wouter';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import FeatureCards from '@/components/FeatureCards';
-import StatsBar from '@/components/StatsBar';
 import RecipeCard from '@/components/RecipeCard';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -64,7 +63,6 @@ export default function Home() {
       <main className="flex-1">
         <Hero onCtaClick={() => setLocation('/menu')} />
         <FeatureCards />
-        <StatsBar />
         
         <section className="py-16 px-4 bg-background">
           <div className="max-w-7xl mx-auto">
