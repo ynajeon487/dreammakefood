@@ -118,11 +118,62 @@ export default function Shopping() {
   };
 
   const handleDownload = () => {
-    console.log("Downloading shopping list");
+    // Create text content for the shopping list
+    let content = "DANH SÁCH MUA SẮM\n";
+    content += "==================\n\n";
+    content += "Khu vực: TP Hồ Chí Minh\n";
+    content += "Giá cập nhật: Tháng 1/2025\n";
+    content += "Lưu ý: Giá có thể chênh lệch giữa các khu vực\n\n";
+    
+    shoppingList.forEach((category) => {
+      content += `${category.category.toUpperCase()}\n`;
+      content += "-".repeat(category.category.length) + "\n";
+      
+      category.items.forEach((item) => {
+        const checkbox = item.checked ? "☑" : "☐";
+        content += `${checkbox} ${item.name} - ${item.amount}\n`;
+        content += `   Giá: ${item.price.toLocaleString("vi-VN")}đ (${item.pricePerUnit})\n\n`;
+      });
+      
+      content += "\n";
+    });
+    
+    // Calculate total
+    const checkedTotal = shoppingList.reduce((total, category) => {
+      return (
+        total +
+        category.items.reduce(
+          (sum, item) => (item.checked ? sum + item.price : sum),
+          0
+        )
+      );
+    }, 0);
+    
+    content += "==================\n";
+    content += `TỔNG CHI PHÍ (ĐÃ CHỌN): ${checkedTotal.toLocaleString("vi-VN")}đ\n`;
+    
+    // Create blob and download
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `danh-sach-mua-sam-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
   };
 
   const handleClearList = () => {
-    console.log("Clearing shopping list");
+    setShoppingList((prev) =>
+      prev.map((category) => ({
+        ...category,
+        items: category.items.map((item) => ({
+          ...item,
+          checked: false,
+        })),
+      }))
+    );
   };
 
   return (
