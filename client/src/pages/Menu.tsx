@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, UtensilsCrossed } from 'lucide-react';
+import { Calendar, UtensilsCrossed, ShoppingBasket } from 'lucide-react';
 import { Link } from 'wouter';
 
 export default function Menu() {
@@ -16,7 +16,7 @@ export default function Menu() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
           <Card className="p-8 hover-elevate transition-all cursor-pointer group h-full">
             <Link href="/menu/by-day">
               <div className="flex flex-col items-center text-center h-full">
@@ -68,6 +68,35 @@ export default function Menu() {
                 <Button 
                   className="w-full mt-6 bg-accent hover:bg-accent/90"
                   data-testid="button-menu-by-meal"
+                >
+                  Bắt đầu
+                </Button>
+              </div>
+            </Link>
+          </Card>
+
+          <Card className="p-8 hover-elevate transition-all cursor-pointer group h-full">
+            <Link href="/menu/by-ingredients">
+              <div className="flex flex-col items-center text-center h-full">
+                <div className="w-20 h-20 rounded-full bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors mb-4">
+                  <ShoppingBasket className="h-10 w-10 text-secondary" />
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-2xl font-bold text-secondary mb-2 font-['Lexend']">
+                    Đã Có Nguyên Liệu?
+                  </h2>
+                  <p className="text-muted-foreground mb-4">
+                    Gợi ý món từ nguyên liệu sẵn có
+                  </p>
+                  <ul className="text-sm text-foreground/80 space-y-1">
+                    <li>• Chọn nguyên liệu có sẵn</li>
+                    <li>• Tối ưu ngân sách</li>
+                    <li>• Tránh lãng phí thực phẩm</li>
+                  </ul>
+                </div>
+                <Button 
+                  className="w-full mt-6 bg-secondary hover:bg-secondary/90"
+                  data-testid="button-menu-by-ingredients"
                 >
                   Bắt đầu
                 </Button>
