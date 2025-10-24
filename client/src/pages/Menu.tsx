@@ -49,11 +49,11 @@ export default function Menu() {
           <Card className="p-8 hover-elevate transition-all cursor-pointer group h-full">
             <Link href="/menu/by-meal">
               <div className="flex flex-col items-center text-center h-full">
-                <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors mb-4">
-                  <UtensilsCrossed className="h-10 w-10 text-accent" />
+                <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors mb-4">
+                  <UtensilsCrossed className="h-10 w-10 text-primary" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-accent mb-2 font-['Lexend']">
+                  <h2 className="text-2xl font-bold text-primary mb-2 font-['Lexend']">
                     Theo Bữa Ăn Lẻ
                   </h2>
                   <p className="text-muted-foreground mb-4">
@@ -66,7 +66,7 @@ export default function Menu() {
                   </ul>
                 </div>
                 <Button 
-                  className="w-full mt-6 bg-accent hover:bg-accent/90"
+                  className="w-full mt-6"
                   data-testid="button-menu-by-meal"
                 >
                   Bắt đầu
@@ -78,11 +78,11 @@ export default function Menu() {
           <Card className="p-8 hover-elevate transition-all cursor-pointer group h-full">
             <Link href="/menu/by-ingredients">
               <div className="flex flex-col items-center text-center h-full">
-                <div className="w-20 h-20 rounded-full bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors mb-4">
-                  <ShoppingBasket className="h-10 w-10 text-secondary" />
+                <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors mb-4">
+                  <ShoppingBasket className="h-10 w-10 text-primary" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-secondary mb-2 font-['Lexend']">
+                  <h2 className="text-2xl font-bold text-primary mb-2 font-['Lexend']">
                     Đã Có Nguyên Liệu?
                   </h2>
                   <p className="text-muted-foreground mb-4">
@@ -95,7 +95,7 @@ export default function Menu() {
                   </ul>
                 </div>
                 <Button 
-                  className="w-full mt-6 bg-secondary hover:bg-secondary/90"
+                  className="w-full mt-6"
                   data-testid="button-menu-by-ingredients"
                 >
                   Bắt đầu
