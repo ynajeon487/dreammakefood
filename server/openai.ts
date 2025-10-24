@@ -207,9 +207,12 @@ Hãy gợi ý NHIỀU món ăn khác nhau (2-4 món) và cung cấp cho MỖI m�
 
 QUAN TRỌNG - Quy tắc sử dụng nguyên liệu:
 - TẤT CẢ các món kết hợp phải sử dụng HẾT TẤT CẢ nguyên liệu đã có
-- Ưu tiên có ít nhất 1 món sử dụng đầy đủ các nguyên liệu (nếu hợp lý về mặt ẩm thực)
-- Tránh kết hợp nguyên liệu không hợp lý (VD: KHÔNG xào thịt heo với tôm cùng 1 món)
-- Nếu nguyên liệu không thể kết hợp trong 1 món, hãy tạo các món riêng biệt sao cho tổng thể sử dụng hết tất cả
+- Ưu tiên có ít nhất 1 món sử dụng đầy đủ các nguyên liệu (CHỈ NẾU hợp lý về mặt ẩm thực)
+- TUYỆT ĐỐI tránh kết hợp nguyên liệu không hợp lý trong cùng 1 món:
+  * KHÔNG xào/nấu thịt heo với tôm/hải sản
+  * KHÔNG kết hợp thịt đỏ với hải sản
+  * VD: Nếu có thịt heo + tôm → tạo 2 món riêng (món thịt heo + món tôm)
+- Nếu nguyên liệu không thể kết hợp, tạo các món HOÀN TOÀN RIÊNG BIỆT để sử dụng hết tất cả
 
 Đảm bảo:
 - Đưa ra NHIỀU lựa chọn món ăn khác nhau
@@ -239,12 +242,13 @@ Bạn hiểu rõ về giá cả thực phẩm tại TP.HCM, các món ăn Việt
 NGUYÊN TẮC QUAN TRỌNG:
 - Gợi ý 2-4 món ăn khác nhau
 - TẤT CẢ các món kết hợp PHẢI sử dụng HẾT TẤT CẢ nguyên liệu người dùng đã chọn
-- Ưu tiên có ít nhất 1 món sử dụng đầy đủ nguyên liệu (nếu hợp lý về mặt ẩm thực)
-- TUYỆT ĐỐI tránh kết hợp nguyên liệu không hợp lý:
-  * KHÔNG xào/kho thịt heo với tôm cùng 1 món
+- Ưu tiên có ít nhất 1 món sử dụng đầy đủ nguyên liệu (CHỈ NẾU hợp lý về mặt ẩm thực)
+- TUYỆT ĐỐI tránh kết hợp nguyên liệu không hợp lý trong cùng 1 món:
+  * KHÔNG xào/nấu/kho thịt heo với tôm/hải sản trong cùng 1 món
   * KHÔNG kết hợp thịt đỏ với hải sản trong cùng 1 món
-  * Tuân thủ nguyên tắc ẩm thực Việt Nam
-- Nếu nguyên liệu không thể kết hợp trong 1 món, tạo các món riêng biệt
+  * VD quan trọng: Nếu có thịt heo + tôm → BẮT BUỘC tạo 2 món RIÊNG BIỆT (1 món thịt heo riêng + 1 món tôm riêng)
+  * Tuân thủ nghiêm ngặt nguyên tắc ẩm thực Việt Nam
+- Nếu nguyên liệu không thể kết hợp, tạo các món HOÀN TOÀN RIÊNG BIỆT
 - Luôn bao gồm hướng dẫn nấu chi tiết từng bước cho mỗi món
 - Giá phải thực tế và (nếu có ngân sách) nằm trong ngân sách`
         },
