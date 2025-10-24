@@ -15,7 +15,10 @@ Preferred communication style: Simple, everyday language.
 **Routing**: Wouter for client-side routing with the following pages:
 - Home page with hero section and featured recipes
 - Recipes listing and detail pages
-- Menu planning (two modes: by-day and by-meal)
+- Menu planning (two modes: by-day and by-meal with servings support)
+  - `/menu` - Main selection page with 2 aligned option cards
+  - `/menu/by-day` - Daily menu generator (budget, servings, meals/day, diet, skill level)
+  - `/menu/by-meal` - Single meal recipe generator (budget, servings, diet, optional dish name)
 - Shopping list management
 - Knowledge base with cooking tips
 
@@ -41,8 +44,8 @@ Preferred communication style: Simple, everyday language.
 
 **API Structure**: RESTful endpoints using Express routes:
 - `/api/chat` - AI chatbot interaction endpoint
-- `/api/generate-menu` - Menu generation by day (budget, meals/day, diet, skill level)
-- `/api/menu/generate-meal` - Individual meal recipe generation
+- `/api/generate-menu` - Menu generation by day (budget, servings, meals/day, diet, skill level)
+- `/api/menu/generate-meal` - Individual meal recipe generation (budget, servings, diet, optional dish name)
 
 **Development Setup**: 
 - Vite middleware for HMR in development
