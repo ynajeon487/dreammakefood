@@ -39,7 +39,7 @@ export default function MenuGenerator() {
         title: "Chưa thể tạo thực đơn",
         description: "Hãy cung cấp thêm thông tin bạn nhé!",
         variant: "destructive",
-        duration: 3000,
+        duration: 2000,
       });
       return;
     }
