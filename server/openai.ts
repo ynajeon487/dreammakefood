@@ -195,7 +195,7 @@ ${budgetText}
 - Chế độ ăn: ${dietLabels[diet] || 'bình thường'}
 - Kỹ năng nấu ăn: ${skillLabels[skillLevel] || 'trung bình'}
 
-Hãy gợi ý NHIỀU món ăn khác nhau (2-4 món) từ TẤT CẢ nguyên liệu đã có và cung cấp cho MỖI món:
+Hãy gợi ý NHIỀU món ăn khác nhau (2-4 món) và cung cấp cho MỖI món:
 1. **Tên món** (in đậm) - giải thích món này sử dụng nguyên liệu nào trong danh sách
 2. Cách sử dụng nguyên liệu đã có
 3. Nguyên liệu cần mua thêm (nếu có) - với số lượng cụ thể cho ${servings} người
@@ -205,10 +205,15 @@ Hãy gợi ý NHIỀU món ăn khác nhau (2-4 món) từ TẤT CẢ nguyên li�
 7. **Cách nấu từng bước** (số thứ tự 1., 2., 3., ...)
 8. *Mẹo nhỏ* (in nghiêng)
 
+QUAN TRỌNG - Quy tắc sử dụng nguyên liệu:
+- TẤT CẢ các món kết hợp phải sử dụng HẾT TẤT CẢ nguyên liệu đã có
+- Ưu tiên có ít nhất 1 món sử dụng đầy đủ các nguyên liệu (nếu hợp lý về mặt ẩm thực)
+- Tránh kết hợp nguyên liệu không hợp lý (VD: KHÔNG xào thịt heo với tôm cùng 1 món)
+- Nếu nguyên liệu không thể kết hợp trong 1 món, hãy tạo các món riêng biệt sao cho tổng thể sử dụng hết tất cả
+
 Đảm bảo:
 - Đưa ra NHIỀU lựa chọn món ăn khác nhau
-- MỖI món sử dụng MỘT PHẦN hoặc TẤT CẢ nguyên liệu có sẵn
-- Tối ưu hóa việc sử dụng nguyên liệu đã có
+- Các món hợp lý về mặt ẩm thực Việt Nam
 ${budget ? `- Nguyên liệu mua thêm phải nằm trong ngân sách` : '- Ưu tiên món ăn cần mua thêm ít nhất'}
 - Phù hợp với kỹ năng ${skillLabels[skillLevel]}
 - Phù hợp với chế độ ăn ${dietLabels[diet]}
@@ -221,7 +226,7 @@ ${budget ? `- Nguyên liệu mua thêm phải nằm trong ngân sách` : '- Ưu 
           role: "system",
           content: `Bạn là chuyên gia đầu bếp và dinh dưỡng chuyên tư vấn nấu ăn cho sinh viên Việt Nam.
 Bạn rất giỏi trong việc tạo ra NHIỀU món ăn đa dạng từ nguyên liệu có sẵn, giúp sinh viên tránh lãng phí thực phẩm và có nhiều lựa chọn.
-Bạn hiểu rõ về giá cả thực phẩm tại TP.HCM và cách tối ưu hóa ngân sách.
+Bạn hiểu rõ về giá cả thực phẩm tại TP.HCM, các món ăn Việt Nam truyền thống, và những kết hợp nguyên liệu hợp lý.
 
 Định dạng văn bản:
 - Sử dụng **in đậm** cho tên món ăn, tiêu đề
@@ -231,11 +236,15 @@ Bạn hiểu rõ về giá cả thực phẩm tại TP.HCM và cách tối ưu h
 - Sử dụng số thứ tự (1., 2., 3.) cho các bước nấu
 - Tổ chức rõ ràng, dễ đọc, phân cách rõ giữa các món
 
-QUAN TRỌNG:
+NGUYÊN TẮC QUAN TRỌNG:
 - Gợi ý 2-4 món ăn khác nhau
-- MỖI món sử dụng MỘT PHẦN hoặc TẤT CẢ nguyên liệu có sẵn
-- Các món KHÔNG nhất thiết phải dùng hết tất cả nguyên liệu
-- Ưu tiên tối ưu hóa việc sử dụng nguyên liệu đã có
+- TẤT CẢ các món kết hợp PHẢI sử dụng HẾT TẤT CẢ nguyên liệu người dùng đã chọn
+- Ưu tiên có ít nhất 1 món sử dụng đầy đủ nguyên liệu (nếu hợp lý về mặt ẩm thực)
+- TUYỆT ĐỐI tránh kết hợp nguyên liệu không hợp lý:
+  * KHÔNG xào/kho thịt heo với tôm cùng 1 món
+  * KHÔNG kết hợp thịt đỏ với hải sản trong cùng 1 món
+  * Tuân thủ nguyên tắc ẩm thực Việt Nam
+- Nếu nguyên liệu không thể kết hợp trong 1 món, tạo các món riêng biệt
 - Luôn bao gồm hướng dẫn nấu chi tiết từng bước cho mỗi món
 - Giá phải thực tế và (nếu có ngân sách) nằm trong ngân sách`
         },
@@ -244,7 +253,7 @@ QUAN TRỌNG:
           content: prompt
         }
       ],
-      max_tokens: 2000,
+      max_tokens: 3000,
     });
 
     return completion.choices[0]?.message?.content || "Xin lỗi, không thể tạo công thức lúc này.";
