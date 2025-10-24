@@ -5,6 +5,7 @@ import RecipeFilter from '@/components/RecipeFilter';
 import RecipeCard from '@/components/RecipeCard';
 import { recipesData } from '@shared/recipes';
 import { getRecipeImage } from '@/lib/recipeImages';
+import { motion } from 'framer-motion';
 
 export default function Recipes() {
   const [location, setLocation] = useLocation();
@@ -37,14 +38,19 @@ export default function Recipes() {
     <>
       <div className="flex-1 py-12 px-4 bg-background">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-8">
+          <motion.div 
+            className="mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <h1 className="text-3xl md:text-4xl font-bold text-primary mb-4 font-['Lexend']">
               Công Thức Món Ăn
             </h1>
             <p className="text-muted-foreground text-lg">
               Khám phá hàng trăm công thức nấu ăn tiết kiệm và dễ làm
             </p>
-          </div>
+          </motion.div>
 
           <RecipeFilter
             searchQuery={searchQuery}

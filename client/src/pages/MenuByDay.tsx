@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { parseMarkdown } from '@/lib/markdown';
+import { motion } from 'framer-motion';
 
 export default function MenuByDay() {
   const [budget, setBudget] = useState('');
@@ -83,16 +84,26 @@ export default function MenuByDay() {
   return (
     <section className="py-16 px-4 bg-background">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-10">
+        <motion.div 
+          className="text-center mb-10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 font-['Lexend']">
             Tạo Thực Đơn Của Bạn
           </h2>
           <p className="text-muted-foreground text-lg">
             Điền thông tin dưới đây để nhận thực đơn phù hợp với nhu cầu của bạn
           </p>
-        </div>
+        </motion.div>
 
-        <Card className="p-6 md:p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Card className="p-6 md:p-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="space-y-2">
               <Label htmlFor="budget" className={errors.budget ? 'text-destructive' : ''}>
@@ -256,9 +267,15 @@ export default function MenuByDay() {
             )}
           </Button>
         </Card>
+        </motion.div>
 
         {generatedMenu && (
-          <Card className="p-6 md:p-8 mt-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Card className="p-6 md:p-8 mt-8">
             <h3 className="text-2xl font-bold text-primary mb-4 font-['Lexend']">
               Thực Đơn Của Bạn
             </h3>
@@ -269,6 +286,7 @@ export default function MenuByDay() {
               />
             </div>
           </Card>
+          </motion.div>
         )}
       </div>
     </section>
