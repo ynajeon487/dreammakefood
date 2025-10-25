@@ -1,7 +1,7 @@
 import Footer from '@/components/Footer';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, Clock } from 'lucide-react';
+import { BookOpen, Clock, AlertCircle } from 'lucide-react';
 
 export default function Knowledge() {
   const articles = [
@@ -57,6 +57,18 @@ export default function Knowledge() {
 
   return (
     <>
+      {/* Permanent Warning Banner */}
+      <div className="bg-yellow-50 dark:bg-yellow-900/20 border-b border-yellow-200 dark:border-yellow-800" data-testid="banner-knowledge-warning">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center gap-2">
+            <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
+            <p className="text-sm md:text-base text-yellow-800 dark:text-yellow-200 font-medium">
+              Trang web đang trong quá trình thử nghiệm.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="flex-1 py-12 px-4 bg-background">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
