@@ -56,7 +56,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center text-primary-foreground/60">
-          <p>© 2025 Dream Makers. Bảo lưu mọi quyền.</p>
+          <p>© Thuộc về nhóm dự án Dream Makers - AUP001 K51 Đại học Kinh tế T. Bảo lưu mọi quyền.</p>
         </div>
       </div>
     </footer>
