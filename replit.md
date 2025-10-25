@@ -52,6 +52,7 @@ Preferred communication style: Simple, everyday language.
   - Home: Hero background zoom, feature cards stagger, featured recipes section with animated title
   - Recipes: Animated page header, recipe cards with stagger effect
   - RecipeDetail: Hero image scale, sequential content reveals (title, ingredients, steps with delays: 0.2s, 0.4s, 0.6s), nutrition sidebar slide-in from right
+  - Menu: Animated header, 3 option cards with stagger effect (delays: 0.2s, 0.3s, 0.4s), icon scale on hover
   - MenuByDay: Animated header, form card, and result card on generation
 - **Accessibility Features**:
   - Respects user's `prefers-reduced-motion` system preference
