@@ -40,8 +40,11 @@ Preferred communication style: Simple, everyday language.
 - Interactive menu generation forms with validation
 - Ingredient-based recipe suggestions with searchable ingredient library (60+ common Vietnamese ingredients)
 - **Warning Banners**: Testing phase notifications across pages
-  - **Homepage Banner** (Auto-Dismiss): Yellow warning banner with "Trang web đang trong quá trình thử nghiệm." message, AlertCircle icon, auto-dismisses after 5 seconds (toast-like behavior), framer-motion animation with AnimatePresence for smooth entry/exit, appears on every page load (no localStorage persistence), centered layout
-  - **Knowledge Page Banner** (Permanent): Same yellow warning banner but always visible at top of page without dismiss button
+  - **AutoDismissBanner Component** (Reusable): Yellow warning banner with "Trang web đang trong quá trình thử nghiệm." message, AlertCircle icon, auto-dismisses after 5 seconds (toast-like behavior), framer-motion animation with AnimatePresence for smooth entry/exit, appears on every page load (no localStorage persistence), centered layout
+    - Applied to 9 pages: Home, Menu, Recipes, Shopping, MenuByDay, MenuByIngredients, MenuByMeal, RecipeDetail, NotFound (404)
+    - ARIA accessibility support: role="status" and aria-live="polite" for screen readers
+    - data-testid: `banner-testing-warning`
+  - **Knowledge Page Banner** (Permanent): Same yellow warning banner but always visible at top of page without auto-dismiss or exit animation, data-testid: `banner-knowledge-warning`
 
 **Animation System**: Framer Motion integration with comprehensive accessibility support
 - **Implementation Approach**: Two-layer animation system ensuring accessibility compliance

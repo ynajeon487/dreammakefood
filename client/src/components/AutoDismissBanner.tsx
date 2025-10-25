@@ -24,6 +24,8 @@ export default function AutoDismissBanner() {
           animate={{ opacity: 1, y: 0 }}
           exit={shouldReduceMotion ? {} : { opacity: 0, y: -20 }}
           transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3 }}
+          role="status"
+          aria-live="polite"
           data-testid="banner-testing-warning"
         >
           <div className="max-w-7xl mx-auto px-4 py-3">
