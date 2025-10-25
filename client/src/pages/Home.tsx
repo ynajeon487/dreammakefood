@@ -6,7 +6,7 @@ import RecipeCard from '@/components/RecipeCard';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
-import { AlertCircle, X } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 
 import eggTomatoImage from '@assets/generated_images/Scrambled_eggs_with_tomatoes_21887b7f.png';
 import morningGloryImage from '@assets/generated_images/Stir-fried_morning_glory_b8c1df15.png';
@@ -19,16 +19,13 @@ export default function Home() {
   const [showBanner, setShowBanner] = useState(true);
 
   useEffect(() => {
-    const bannerDismissed = localStorage.getItem('testingBannerDismissed');
-    if (bannerDismissed === 'true') {
+    // Auto-dismiss banner after 5 seconds
+    const timer = setTimeout(() => {
       setShowBanner(false);
-    }
-  }, []);
+    }, 5000);
 
-  const handleDismissBanner = () => {
-    setShowBanner(false);
-    localStorage.setItem('testingBannerDismissed', 'true');
-  };
+    return () => clearTimeout(timer);
+  }, []);
 
   const featuredRecipes = [
     {
@@ -86,22 +83,11 @@ export default function Home() {
             data-testid="banner-testing-warning"
           >
             <div className="max-w-7xl mx-auto px-4 py-3">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2 flex-1">
-                  <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
-                  <p className="text-sm md:text-base text-yellow-800 dark:text-yellow-200 font-medium">
-                    Trang web đang trong quá trình thử nghiệm.
-                  </p>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={handleDismissBanner}
-                  className="h-8 w-8"
-                  data-testid="button-dismiss-banner"
-                >
-                  <X className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
-                </Button>
+              <div className="flex items-center justify-center gap-2">
+                <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
+                <p className="text-sm md:text-base text-yellow-800 dark:text-yellow-200 font-medium">
+                  Trang web đang trong quá trình thử nghiệm.
+                </p>
               </div>
             </div>
           </motion.div>
