@@ -5,7 +5,7 @@ import FeatureCards from '@/components/FeatureCards';
 import RecipeCard from '@/components/RecipeCard';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, X } from 'lucide-react';
 
 import eggTomatoImage from '@assets/generated_images/Scrambled_eggs_with_tomatoes_21887b7f.png';
@@ -75,36 +75,38 @@ export default function Home() {
 
   return (
     <>
-      {showBanner && (
-        <motion.div
-          className="bg-yellow-50 dark:bg-yellow-900/20 border-b border-yellow-200 dark:border-yellow-800"
-          initial={shouldReduceMotion ? {} : { opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={shouldReduceMotion ? {} : { opacity: 0, y: -20 }}
-          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3 }}
-          data-testid="banner-testing-warning"
-        >
-          <div className="max-w-7xl mx-auto px-4 py-3">
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2 flex-1">
-                <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
-                <p className="text-sm md:text-base text-yellow-800 dark:text-yellow-200 font-medium">
-                  Trang web đang trong quá trình thử nghiệm.
-                </p>
+      <AnimatePresence>
+        {showBanner && (
+          <motion.div
+            className="bg-yellow-50 dark:bg-yellow-900/20 border-b border-yellow-200 dark:border-yellow-800"
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={shouldReduceMotion ? {} : { opacity: 0, y: -20 }}
+            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3 }}
+            data-testid="banner-testing-warning"
+          >
+            <div className="max-w-7xl mx-auto px-4 py-3">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2 flex-1">
+                  <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
+                  <p className="text-sm md:text-base text-yellow-800 dark:text-yellow-200 font-medium">
+                    Trang web đang trong quá trình thử nghiệm.
+                  </p>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleDismissBanner}
+                  className="h-8 w-8"
+                  data-testid="button-dismiss-banner"
+                >
+                  <X className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                </Button>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleDismissBanner}
-                className="h-8 w-8 hover:bg-yellow-100 dark:hover:bg-yellow-900/40"
-                data-testid="button-dismiss-banner"
-              >
-                <X className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
-              </Button>
             </div>
-          </div>
-        </motion.div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
       <Hero onCtaClick={() => setLocation('/menu')} />
       <FeatureCards />
       
