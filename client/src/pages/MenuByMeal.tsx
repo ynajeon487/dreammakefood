@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { parseMarkdown } from '@/lib/markdown';
+import AutoDismissBanner from '@/components/AutoDismissBanner';
 
 export default function MenuByMeal() {
   const [budget, setBudget] = useState('');
@@ -88,7 +89,9 @@ export default function MenuByMeal() {
   };
 
   return (
-    <section className="min-h-screen bg-background py-8 md:py-12 px-4">
+    <>
+      <AutoDismissBanner />
+      <section className="min-h-screen bg-background py-8 md:py-12 px-4">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-primary mb-3 font-['Lexend']">
@@ -232,5 +235,6 @@ export default function MenuByMeal() {
         )}
       </div>
     </section>
+    </>
   );
 }

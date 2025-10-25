@@ -8,6 +8,7 @@ import { Clock, Users, Star, Download } from 'lucide-react';
 import { recipesData } from '@shared/recipes';
 import { getRecipeImage } from '@/lib/recipeImages';
 import { motion, useReducedMotion } from 'framer-motion';
+import AutoDismissBanner from '@/components/AutoDismissBanner';
 
 export default function RecipeDetail() {
   const [, params] = useRoute('/recipes/:id');
@@ -38,6 +39,7 @@ export default function RecipeDetail() {
 
   return (
     <>
+      <AutoDismissBanner />
       <div className="flex-1 py-12 px-4 bg-background">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

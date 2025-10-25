@@ -8,6 +8,7 @@ import { Loader2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { parseMarkdown } from '@/lib/markdown';
 import { motion, useReducedMotion } from 'framer-motion';
+import AutoDismissBanner from '@/components/AutoDismissBanner';
 
 export default function MenuByDay() {
   const shouldReduceMotion = useReducedMotion();
@@ -83,7 +84,9 @@ export default function MenuByDay() {
   };
 
   return (
-    <section className="py-16 px-4 bg-background">
+    <>
+      <AutoDismissBanner />
+      <section className="py-16 px-4 bg-background">
       <div className="max-w-4xl mx-auto">
         <motion.div 
           className="text-center mb-10"
@@ -291,5 +294,6 @@ export default function MenuByDay() {
         )}
       </div>
     </section>
+    </>
   );
 }

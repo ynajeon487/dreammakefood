@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar, UtensilsCrossed, ShoppingBasket } from 'lucide-react';
 import { Link } from 'wouter';
 import { motion, useReducedMotion } from 'framer-motion';
+import AutoDismissBanner from '@/components/AutoDismissBanner';
 
 export default function Menu() {
   const shouldReduceMotion = useReducedMotion();
@@ -47,7 +48,9 @@ export default function Menu() {
   ];
 
   return (
-    <section className="min-h-screen bg-background py-8 md:py-12 px-4">
+    <>
+      <AutoDismissBanner />
+      <section className="min-h-screen bg-background py-8 md:py-12 px-4">
       <div className="max-w-4xl mx-auto">
         <motion.div 
           className="text-center mb-8 md:mb-12"
@@ -120,5 +123,6 @@ export default function Menu() {
         </div>
       </div>
     </section>
+    </>
   );
 }

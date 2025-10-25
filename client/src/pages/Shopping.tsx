@@ -21,6 +21,7 @@ import { vietnameseIngredients } from "@/lib/ingredients";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useToast } from "@/hooks/use-toast";
+import AutoDismissBanner from "@/components/AutoDismissBanner";
 
 interface IngredientPriceInfo {
   defaultQuantity: number;
@@ -973,6 +974,7 @@ export default function Shopping() {
 
   return (
     <>
+      <AutoDismissBanner />
       <div className="flex-1 py-12 px-4 bg-background">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">

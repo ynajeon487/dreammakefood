@@ -1,12 +1,11 @@
 import { useLocation } from 'wouter';
-import { useState, useEffect } from 'react';
 import Hero from '@/components/Hero';
 import FeatureCards from '@/components/FeatureCards';
 import RecipeCard from '@/components/RecipeCard';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
-import { AlertCircle } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
+import AutoDismissBanner from '@/components/AutoDismissBanner';
 
 import eggTomatoImage from '@assets/generated_images/Scrambled_eggs_with_tomatoes_21887b7f.png';
 import morningGloryImage from '@assets/generated_images/Stir-fried_morning_glory_b8c1df15.png';
@@ -16,16 +15,6 @@ import noodlesImage from '@assets/generated_images/Upgraded_instant_noodles_75cd
 export default function Home() {
   const [, setLocation] = useLocation();
   const shouldReduceMotion = useReducedMotion();
-  const [showBanner, setShowBanner] = useState(true);
-
-  useEffect(() => {
-    // Auto-dismiss banner after 5 seconds
-    const timer = setTimeout(() => {
-      setShowBanner(false);
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const featuredRecipes = [
     {
@@ -72,27 +61,7 @@ export default function Home() {
 
   return (
     <>
-      <AnimatePresence>
-        {showBanner && (
-          <motion.div
-            className="bg-yellow-50 dark:bg-yellow-900/20 border-b border-yellow-200 dark:border-yellow-800"
-            initial={shouldReduceMotion ? {} : { opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? {} : { opacity: 0, y: -20 }}
-            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3 }}
-            data-testid="banner-testing-warning"
-          >
-            <div className="max-w-7xl mx-auto px-4 py-3">
-              <div className="flex items-center justify-center gap-2">
-                <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
-                <p className="text-sm md:text-base text-yellow-800 dark:text-yellow-200 font-medium">
-                  Trang web đang trong quá trình thử nghiệm.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <AutoDismissBanner />
       <Hero onCtaClick={() => setLocation('/menu')} />
       <FeatureCards />
       

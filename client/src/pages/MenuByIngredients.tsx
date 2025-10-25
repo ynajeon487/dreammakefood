@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { parseMarkdown } from '@/lib/markdown';
 import { vietnameseIngredients, searchIngredients } from '@/lib/ingredients';
 import { Badge } from '@/components/ui/badge';
+import AutoDismissBanner from '@/components/AutoDismissBanner';
 
 export default function MenuByIngredients() {
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
@@ -111,7 +112,9 @@ export default function MenuByIngredients() {
   }, {} as Record<string, typeof vietnameseIngredients>);
 
   return (
-    <section className="py-16 px-4 bg-background">
+    <>
+      <AutoDismissBanner />
+      <section className="py-16 px-4 bg-background">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 font-['Lexend']">
@@ -395,5 +398,6 @@ export default function MenuByIngredients() {
         )}
       </div>
     </section>
+    </>
   );
 }

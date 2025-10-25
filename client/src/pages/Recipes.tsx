@@ -6,6 +6,7 @@ import RecipeCard from '@/components/RecipeCard';
 import { recipesData } from '@shared/recipes';
 import { getRecipeImage } from '@/lib/recipeImages';
 import { motion, useReducedMotion } from 'framer-motion';
+import AutoDismissBanner from '@/components/AutoDismissBanner';
 
 export default function Recipes() {
   const [location, setLocation] = useLocation();
@@ -37,6 +38,7 @@ export default function Recipes() {
 
   return (
     <>
+      <AutoDismissBanner />
       <div className="flex-1 py-12 px-4 bg-background">
         <div className="max-w-7xl mx-auto">
           <motion.div 
