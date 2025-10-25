@@ -184,73 +184,77 @@ export async function generateRecipeFromIngredients(params: IngredientsParams): 
       ? `${ingredientsList}, ${otherIngredients}`
       : ingredientsList;
 
-    const budgetText = budget ? `- Ngân sách thêm (nếu thiếu nguyên liệu): ${budget} VNĐ` : `- Ngân sách thêm: Không giới hạn (có thể dùng nguyên liệu có sẵn hoặc mua thêm ít)`;
-
     const prompt = `Gợi ý các món ăn từ các nguyên liệu có sẵn sau:
 **Nguyên liệu đã có:** ${allIngredients}
 
 **Yêu cầu:**
 - Số người ăn: ${servings} người
-${budgetText}
+${budget ? `- Ngân sách mua thêm: ${budget} VNĐ` : ''}
 - Chế độ ăn: ${dietLabels[diet] || 'bình thường'}
 - Kỹ năng nấu ăn: ${skillLabels[skillLevel] || 'trung bình'}
 
-Hãy gợi ý NHIỀU món ăn khác nhau (2-4 món) và cung cấp cho MỖI món:
-1. **Tên món** (in đậm) - giải thích món này sử dụng nguyên liệu nào trong danh sách
-2. Cách sử dụng nguyên liệu đã có
-3. Nguyên liệu cần mua thêm (nếu có) - với số lượng cụ thể cho ${servings} người
-4. Giá ước tính cho nguyên liệu cần mua thêm${budget ? ` (phải nằm trong ngân sách ${budget} VNĐ)` : ''}
-5. Tổng giá (chỉ tính nguyên liệu mua thêm)
+Hãy đưa ra 2 nhóm gợi ý:
+
+**Nhóm đầu tiên:** Gợi ý 1-2 món CHỈ sử dụng nguyên liệu đã có, KHÔNG mua thêm gì.
+${budget ? 'Đây là lựa chọn tốt nếu không muốn chi tiền.' : 'Món ăn từ nguyên liệu sẵn có.'}
+
+**Nhóm thứ hai:** Gợi ý 1-2 món có thể mua thêm nguyên liệu ${budget ? `trong ngân sách ${budget} VNĐ` : 'ít tiền'} để món phong phú hơn.
+
+Cho MỖI món hãy cung cấp:
+1. **Tên món** (in đậm)
+2. Nguyên liệu đã có được sử dụng
+3. Nguyên liệu cần mua thêm (nếu có) - số lượng cụ thể cho ${servings} người
+4. Giá ước tính nguyên liệu mua thêm${budget ? ` (nhóm 2 phải trong ${budget} VNĐ)` : ''}
+5. Tổng chi phí (chỉ tính mua thêm)
 6. Thời gian chuẩn bị và nấu
 7. **Cách nấu từng bước** (số thứ tự 1., 2., 3., ...)
 8. *Mẹo nhỏ* (in nghiêng)
 
-QUAN TRỌNG - Quy tắc sử dụng nguyên liệu:
-- TẤT CẢ các món kết hợp phải sử dụng HẾT TẤT CẢ nguyên liệu đã có
-- Ưu tiên có ít nhất 1 món sử dụng đầy đủ các nguyên liệu (CHỈ NẾU hợp lý về mặt ẩm thực)
-- TUYỆT ĐỐI tránh kết hợp nguyên liệu không hợp lý trong cùng 1 món:
-  * KHÔNG xào/nấu thịt heo với tôm/hải sản
+YÊU CẦU:
+- Nhóm 1: Chi phí 0 VNĐ (chỉ dùng có sẵn)
+- Nhóm 2: Mua thêm${budget ? ` trong ${budget} VNĐ` : ' ít nguyên liệu'}
+- TRÁNH kết hợp không hợp lý:
+  * KHÔNG nấu thịt heo với tôm/hải sản cùng món
   * KHÔNG kết hợp thịt đỏ với hải sản
-  * VD: Nếu có thịt heo + tôm → tạo 2 món riêng (món thịt heo + món tôm)
-- Nếu nguyên liệu không thể kết hợp, tạo các món HOÀN TOÀN RIÊNG BIỆT để sử dụng hết tất cả
-
-Đảm bảo:
-- Đưa ra NHIỀU lựa chọn món ăn khác nhau
-- Các món hợp lý về mặt ẩm thực Việt Nam
-${budget ? `- Nguyên liệu mua thêm phải nằm trong ngân sách` : '- Ưu tiên món ăn cần mua thêm ít nhất'}
-- Phù hợp với kỹ năng ${skillLabels[skillLevel]}
-- Phù hợp với chế độ ăn ${dietLabels[diet]}
-- Hướng dẫn rõ ràng, chi tiết từng bước cho mỗi món`;
+  * VD: Thịt heo + tôm → tạo 2 món RIÊNG
+- Món ăn Việt Nam hợp lý
+- Phù hợp kỹ năng ${skillLabels[skillLevel]} và chế độ ${dietLabels[diet]}`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
-          content: `Bạn là chuyên gia đầu bếp và dinh dưỡng chuyên tư vấn nấu ăn cho sinh viên Việt Nam.
-Bạn rất giỏi trong việc tạo ra NHIỀU món ăn đa dạng từ nguyên liệu có sẵn, giúp sinh viên tránh lãng phí thực phẩm và có nhiều lựa chọn.
-Bạn hiểu rõ về giá cả thực phẩm tại TP.HCM, các món ăn Việt Nam truyền thống, và những kết hợp nguyên liệu hợp lý.
+          content: `Bạn là chuyên gia đầu bếp chuyên tư vấn nấu ăn cho sinh viên Việt Nam.
+Bạn giỏi tạo món ăn từ nguyên liệu có sẵn, giúp sinh viên có lựa chọn linh hoạt.
 
 Định dạng văn bản:
-- Sử dụng **in đậm** cho tên món ăn, tiêu đề
-- Sử dụng *in nghiêng* cho mẹo nhỏ, ghi chú
-- Sử dụng ### cho tiêu đề món ăn (### Món 1:, ### Món 2:, ...)
-- Sử dụng dấu đầu dòng (-) để liệt kê nguyên liệu
-- Sử dụng số thứ tự (1., 2., 3.) cho các bước nấu
-- Tổ chức rõ ràng, dễ đọc, phân cách rõ giữa các món
+- **In đậm** cho tên món, tiêu đề
+- *In nghiêng* cho mẹo nhỏ
+- ### cho món ăn (### Món 1:, ### Món 2:, ...)
+- ## cho tiêu đề nhóm (tự nhiên, không cứng nhắc)
+- Dấu đầu dòng (-) để liệt kê
+- Số thứ tự (1., 2., 3.) cho bước nấu
 
-NGUYÊN TẮC QUAN TRỌNG:
-- Gợi ý 2-4 món ăn khác nhau
-- TẤT CẢ các món kết hợp PHẢI sử dụng HẾT TẤT CẢ nguyên liệu người dùng đã chọn
-- Ưu tiên có ít nhất 1 món sử dụng đầy đủ nguyên liệu (CHỈ NẾU hợp lý về mặt ẩm thực)
-- TUYỆT ĐỐI tránh kết hợp nguyên liệu không hợp lý trong cùng 1 món:
-  * KHÔNG xào/nấu/kho thịt heo với tôm/hải sản trong cùng 1 món
-  * KHÔNG kết hợp thịt đỏ với hải sản trong cùng 1 món
-  * VD quan trọng: Nếu có thịt heo + tôm → BẮT BUỘC tạo 2 món RIÊNG BIỆT (1 món thịt heo riêng + 1 món tôm riêng)
-  * Tuân thủ nghiêm ngặt nguyên tắc ẩm thực Việt Nam
-- Nếu nguyên liệu không thể kết hợp, tạo các món HOÀN TOÀN RIÊNG BIỆT
-- Luôn bao gồm hướng dẫn nấu chi tiết từng bước cho mỗi món
-- Giá phải thực tế và (nếu có ngân sách) nằm trong ngân sách`
+CẤU TRÚC - CHIA 2 PHẦN:
+
+**Phần 1:** Món chỉ dùng nguyên liệu có sẵn
+- 1-2 món KHÔNG mua thêm gì
+- Chi phí: 0 VNĐ
+- VD: Có rau muống → Rau muống luộc
+
+**Phần 2:** Món có thể mua thêm nguyên liệu
+- 1-2 món mua thêm trong ngân sách
+- VD: Rau muống + 50k → Rau muống xào tỏi (mua tỏi)
+
+NGUYÊN TẮC:
+- BẮT BUỘC chia 2 phần như trên
+- Phần 1: Chi phí 0 VNĐ
+- TRÁNH kết hợp sai:
+  * KHÔNG nấu thịt heo + tôm/hải sản cùng món
+  * VD: Thịt + tôm → 2 món riêng
+- Hợp ẩm thực Việt
+- Hướng dẫn chi tiết`
         },
         {
           role: "user",

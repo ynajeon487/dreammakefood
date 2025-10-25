@@ -100,13 +100,14 @@ Preferred communication style: Simple, everyday language.
 - Model: GPT-4o-mini for cost-effective responses
 - System prompt configured for Vietnamese student cooking assistance
 - Handles general chat, structured menu generation, and ingredient-based recipe suggestions
-- **Ingredient-based generation**: Returns 2-4 different dish options from available ingredients
-  - ALL dishes combined MUST use ALL selected ingredients (no waste)
-  - Prioritizes at least 1 dish using all ingredients when culinary-compatible
+- **Ingredient-based generation**: Returns suggestions in 2 groups
+  - **Group 1 (Zero-cost)**: 1-2 dishes using ONLY available ingredients (no purchases needed)
+  - **Group 2 (Budget-friendly)**: 1-2 dishes that can buy additional ingredients within budget
+  - Budget parameter is optional - if not provided, focuses on minimal additional purchases
   - Prevents unreasonable combinations (e.g., pork + shrimp in same dish)
   - Creates separate dishes for incompatible ingredients
-  - Budget parameter is optional - AI adapts recommendations based on presence/absence
   - Follows Vietnamese cuisine principles and traditional ingredient pairings
+  - Example: Only water spinach → Group 1: Boiled water spinach (0đ), Group 2: Stir-fried water spinach with garlic (buy garlic for 50k)
 - Markdown formatting support for rich text responses
 
 **Database**: Neon Serverless PostgreSQL
