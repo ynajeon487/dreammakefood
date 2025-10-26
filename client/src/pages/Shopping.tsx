@@ -372,8 +372,32 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
   mực: {
     defaultQuantity: 200,
     unit: "g",
-    baseUnitPrice: 275,
-    displayPriceUnit: "275.000đ/kg",
+    baseUnitPrice: 195,
+    displayPriceUnit: "195.000đ/kg",
+  },
+  "bạch tuộc": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 199,
+    displayPriceUnit: "199.000đ/kg",
+  },
+  "tôm nhảy": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 240,
+    displayPriceUnit: "240.000đ/kg",
+  },
+  "ốc bươu": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 83,
+    displayPriceUnit: "83.000đ/kg",
+  },
+  "ốc móng tay": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 133,
+    displayPriceUnit: "133.000đ/kg",
   },
 
   "đậu hũ": {

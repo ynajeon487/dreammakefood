@@ -58,8 +58,12 @@ export const vietnameseIngredients = [
   { value: 'cá nục', label: 'Cá nục', category: 'Hải sản' },
   { value: 'cá sòng', label: 'Cá sòng', category: 'Hải sản' },
   
-  // Hải sản - Khác
+  // Hải sản - Khác (5 loại)
   { value: 'mực', label: 'Mực', category: 'Hải sản' },
+  { value: 'bạch tuộc', label: 'Bạch tuộc', category: 'Hải sản' },
+  { value: 'tôm nhảy', label: 'Tôm nhảy', category: 'Hải sản' },
+  { value: 'ốc bươu', label: 'Ốc bươu', category: 'Hải sản' },
+  { value: 'ốc móng tay', label: 'Ốc móng tay', category: 'Hải sản' },
   
   // Đạm thực vật (5 loại)
   { value: 'đậu hũ', label: 'Đậu hũ (Đậu phụ)', category: 'Đạm thực vật' },
