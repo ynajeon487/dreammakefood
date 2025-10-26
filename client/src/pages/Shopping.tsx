@@ -283,53 +283,18 @@ const ingredientSubItems: Record<
 
 // Price per base unit (1g for weight items, 1 piece for count items)
 const ingredientPrices: Record<string, IngredientPriceInfo> = {
-  "cà/ chua": {
-    defaultQuantity: 4,
-    unit: "quả",
-    baseUnitPrice: 3000,
-    displayPriceUnit: "3.000đ/quả",
-  },
-  "cà rốt": {
-    defaultQuantity: 500,
-    unit: "g",
-    baseUnitPrice: 20,
-    displayPriceUnit: "20.000đ/kg",
-  },
-  "khoai tây": {
-    defaultQuantity: 500,
-    unit: "g",
-    baseUnitPrice: 30,
-    displayPriceUnit: "30.000đ/kg",
-  },
-  "bắp cải": {
-    defaultQuantity: 1,
-    unit: "củ",
-    baseUnitPrice: 12000,
-    displayPriceUnit: "12.000đ/củ",
-  },
+  // Rau (15 loại)
   "rau cải": {
     defaultQuantity: 300,
     unit: "g",
     baseUnitPrice: 27,
     displayPriceUnit: "27.000đ/kg",
   },
-  "dưa chuột": {
-    defaultQuantity: 3,
-    unit: "quả",
-    baseUnitPrice: 3000,
-    displayPriceUnit: "3.000đ/quả",
-  },
   "đậu đũa": {
     defaultQuantity: 300,
     unit: "g",
     baseUnitPrice: 40,
     displayPriceUnit: "40.000đ/kg",
-  },
-  "bí đao": {
-    defaultQuantity: 500,
-    unit: "g",
-    baseUnitPrice: 16,
-    displayPriceUnit: "16.000đ/kg",
   },
   giá: {
     defaultQuantity: 300,
@@ -410,6 +375,287 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
     displayPriceUnit: "50.000đ/kg",
   },
 
+  // Rau thơm (13 loại)
+  ngò: {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 70,
+    displayPriceUnit: "70.000đ/kg",
+  },
+  "mùi tàu": {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 70,
+    displayPriceUnit: "70.000đ/kg",
+  },
+  "rau răm": {
+    defaultQuantity: 50,
+    unit: "g",
+    baseUnitPrice: 70,
+    displayPriceUnit: "70.000đ/kg",
+  },
+  "rau diếp cá": {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 70,
+    displayPriceUnit: "70.000đ/kg",
+  },
+  "rau húng cây": {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 70,
+    displayPriceUnit: "70.000đ/kg",
+  },
+  "húng quế": {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 70,
+    displayPriceUnit: "70.000đ/kg",
+  },
+  "tía tô": {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 70,
+    displayPriceUnit: "70.000đ/kg",
+  },
+  hẹ: {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 49,
+    displayPriceUnit: "49.000đ/kg",
+  },
+  "rau thơm": {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 70,
+    displayPriceUnit: "70.000đ/kg",
+  },
+  "hành lá": {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 69,
+    displayPriceUnit: "69.000đ/kg",
+  },
+  "ngò rí": {
+    defaultQuantity: 50,
+    unit: "g",
+    baseUnitPrice: 80,
+    displayPriceUnit: "80.000đ/kg",
+  },
+  "ngò gai": {
+    defaultQuantity: 50,
+    unit: "g",
+    baseUnitPrice: 70,
+    displayPriceUnit: "70.000đ/kg",
+  },
+  "hẹ lá": {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 49,
+    displayPriceUnit: "49.000đ/kg",
+  },
+
+  // Củ, quả (33 loại)
+  "bắp mỹ": {
+    defaultQuantity: 1,
+    unit: "trái",
+    baseUnitPrice: 10000,
+    displayPriceUnit: "10.000đ/trái",
+  },
+  "bắp cải trắng": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 20,
+    displayPriceUnit: "20.000đ/kg",
+  },
+  "bắp cải tím": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 40,
+    displayPriceUnit: "40.000đ/kg",
+  },
+  "bắp cải thảo": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 25,
+    displayPriceUnit: "25.000đ/kg",
+  },
+  "khoai tây": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 30,
+    displayPriceUnit: "30.000đ/kg",
+  },
+  "bí đỏ": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 17.5,
+    displayPriceUnit: "17.500đ/kg",
+  },
+  "hành tím": {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 75,
+    displayPriceUnit: "15.000đ/200g",
+  },
+  "tiêu xanh": {
+    defaultQuantity: 50,
+    unit: "g",
+    baseUnitPrice: 190,
+    displayPriceUnit: "9.500đ/50g",
+  },
+  "sả cây": {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 30,
+    displayPriceUnit: "6.000đ/200g",
+  },
+  "đậu bắp": {
+    defaultQuantity: 250,
+    unit: "g",
+    baseUnitPrice: 36,
+    displayPriceUnit: "9.000đ/250g",
+  },
+  "cà chua": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 50,
+    displayPriceUnit: "50.000đ/kg",
+  },
+  "cà chua bi": {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 63.33,
+    displayPriceUnit: "19.000đ/300g",
+  },
+  "cà rốt": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 33,
+    displayPriceUnit: "33.000đ/kg",
+  },
+  "củ cải trắng": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 29,
+    displayPriceUnit: "29.000đ/kg",
+  },
+  "bầu sao": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 26,
+    displayPriceUnit: "26.000đ/kg",
+  },
+  "bí xanh": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 26,
+    displayPriceUnit: "26.000đ/kg",
+  },
+  gừng: {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 55,
+    displayPriceUnit: "55.000đ/kg",
+  },
+  "củ dền": {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 37,
+    displayPriceUnit: "37.000đ/kg",
+  },
+  "dưa chuột": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 21,
+    displayPriceUnit: "21.000đ/kg",
+  },
+  "khoai lang": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 38,
+    displayPriceUnit: "38.000đ/kg",
+  },
+  "hành tây": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 35,
+    displayPriceUnit: "35.000đ/kg",
+  },
+  "ớt hiểm": {
+    defaultQuantity: 50,
+    unit: "g",
+    baseUnitPrice: 100,
+    displayPriceUnit: "5.000đ/50g",
+  },
+  thơm: {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 22,
+    displayPriceUnit: "22.000đ/kg",
+  },
+  "củ sắn": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 19,
+    displayPriceUnit: "19.000đ/kg",
+  },
+  chanh: {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 8.5,
+    displayPriceUnit: "8.500đ/kg",
+  },
+  "su su": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 27.3,
+    displayPriceUnit: "27.300đ/kg",
+  },
+  "đậu cove": {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 50,
+    displayPriceUnit: "10.000đ/200g",
+  },
+  tỏi: {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 80,
+    displayPriceUnit: "16.000đ/200g",
+  },
+  "cà pháo": {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 40,
+    displayPriceUnit: "8.000đ/200g",
+  },
+  "bạc hà": {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 375,
+    displayPriceUnit: "75.000đ/200g",
+  },
+  "me chua": {
+    defaultQuantity: 250,
+    unit: "g",
+    baseUnitPrice: 54,
+    displayPriceUnit: "13.500đ/250g",
+  },
+  tắc: {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 300,
+    displayPriceUnit: "60.000đ/200g",
+  },
+  "khổ qua": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 36,
+    displayPriceUnit: "18.000đ/500g",
+  },
+
+  // Thịt (Parent items)
   "thịt heo": {
     defaultQuantity: 300,
     unit: "g",
@@ -516,108 +762,87 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
     baseUnitPrice: 5000,
     displayPriceUnit: "5.000đ/ổ",
   },
+  miến: {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 20,
+    displayPriceUnit: "20.000đ/kg",
+  },
+  phở: {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 20,
+    displayPriceUnit: "20.000đ/kg",
+  },
+  "hủ tiếu": {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 20,
+    displayPriceUnit: "20.000đ/kg",
+  },
 
-  "hành tây": {
-    defaultQuantity: 300,
-    unit: "g",
+  // Gia vị khô
+  "nước mắm": {
+    defaultQuantity: 500,
+    unit: "ml",
     baseUnitPrice: 30,
-    displayPriceUnit: "30.000đ/kg",
+    displayPriceUnit: "30.000đ/chai",
   },
-  "hành tím": {
+  "dầu ăn": {
+    defaultQuantity: 1000,
+    unit: "ml",
+    baseUnitPrice: 40,
+    displayPriceUnit: "40.000đ/chai",
+  },
+  muối: {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 10,
+    displayPriceUnit: "10.000đ/kg",
+  },
+  đường: {
+    defaultQuantity: 500,
+    unit: "g",
+    baseUnitPrice: 20,
+    displayPriceUnit: "20.000đ/kg",
+  },
+  tiêu: {
+    defaultQuantity: 50,
+    unit: "g",
+    baseUnitPrice: 150,
+    displayPriceUnit: "150.000đ/kg",
+  },
+  "bột ngọt": {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 25,
+    displayPriceUnit: "25.000đ/kg",
+  },
+  "nước tương": {
+    defaultQuantity: 500,
+    unit: "ml",
+    baseUnitPrice: 30,
+    displayPriceUnit: "30.000đ/chai",
+  },
+
+  // Sữa & Khác
+  "sữa tươi": {
+    defaultQuantity: 1000,
+    unit: "ml",
+    baseUnitPrice: 35,
+    displayPriceUnit: "35.000đ/hộp",
+  },
+  "sữa đặc": {
+    defaultQuantity: 380,
+    unit: "ml",
+    baseUnitPrice: 25,
+    displayPriceUnit: "25.000đ/hộp",
+  },
+  bơ: {
     defaultQuantity: 200,
     unit: "g",
     baseUnitPrice: 60,
-    displayPriceUnit: "60.000đ/kg",
-  },
-  tỏi: {
-    defaultQuantity: 100,
-    unit: "g",
-    baseUnitPrice: 80,
-    displayPriceUnit: "80.000đ/kg",
-  },
-  gừng: {
-    defaultQuantity: 100,
-    unit: "g",
-    baseUnitPrice: 60,
-    displayPriceUnit: "60.000đ/kg",
-  },
-  ớt: {
-    defaultQuantity: 100,
-    unit: "g",
-    baseUnitPrice: 50,
-    displayPriceUnit: "50.000đ/kg",
-  },
-  sả: {
-    defaultQuantity: 50,
-    unit: "g",
-    baseUnitPrice: 80,
-    displayPriceUnit: "80.000đ/kg",
-  },
-  "rau răm": {
-    defaultQuantity: 50,
-    unit: "g",
-    baseUnitPrice: 70,
-    displayPriceUnit: "70.000đ/kg",
-  },
-  "rau diếp cá": {
-    defaultQuantity: 100,
-    unit: "g",
-    baseUnitPrice: 70,
-    displayPriceUnit: "70.000đ/kg",
-  },
-  "rau húng cây": {
-    defaultQuantity: 100,
-    unit: "g",
-    baseUnitPrice: 70,
-    displayPriceUnit: "70.000đ/kg",
-  },
-  "húng quế": {
-    defaultQuantity: 100,
-    unit: "g",
-    baseUnitPrice: 70,
-    displayPriceUnit: "70.000đ/kg",
-  },
-  "tía tô": {
-    defaultQuantity: 100,
-    unit: "g",
-    baseUnitPrice: 70,
-    displayPriceUnit: "70.000đ/kg",
-  },
-  hẹ: {
-    defaultQuantity: 100,
-    unit: "g",
-    baseUnitPrice: 49,
-    displayPriceUnit: "49.000đ/kg",
-  },
-  "rau thơm": {
-    defaultQuantity: 200,
-    unit: "g",
-    baseUnitPrice: 70,
-    displayPriceUnit: "70.000đ/kg",
-  },
-  "hành lá": {
-    defaultQuantity: 100,
-    unit: "g",
-    baseUnitPrice: 69,
-    displayPriceUnit: "69.000đ/kg",
-  },
-  "ngò rí": {
-    defaultQuantity: 50,
-    unit: "g",
-    baseUnitPrice: 80,
-    displayPriceUnit: "80.000đ/kg",
-  },
-  "ngò gai": {
-    defaultQuantity: 50,
-    unit: "g",
-    baseUnitPrice: 70,
-    displayPriceUnit: "70.000đ/kg",
-  },
-  "hẹ lá": {
-    defaultQuantity: 100,
-    unit: "g",
-    baseUnitPrice: 49,
-    displayPriceUnit: "49.000đ/kg",
+    displayPriceUnit: "60.000đ/hộp",
   },
 
   // Trái cây

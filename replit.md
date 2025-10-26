@@ -140,18 +140,19 @@ Preferred communication style: Simple, everyday language.
 - Recipes.tsx and RecipeDetail.tsx dynamically render from this shared data source
 
 **Ingredient Library**: Comprehensive Vietnamese ingredient database (`client/src/lib/ingredients.ts`)
-- 102 detailed cooking ingredients grouped by category (fully updated January 2025)
+- 135 detailed cooking ingredients grouped by category (fully updated January 2025)
 - Source: Fully synchronized with Shopping page ingredient list (excluding fruits)
 - Hierarchical structure with parent categories and detailed sub-items
+- **Category Organization**: Rau → Rau thơm → Củ, quả (new structure implemented)
 - Detailed breakdown by category:
-  - Rau củ: 24 loại (cà chua, cà rốt, khoai tây, bắp cải, rau muống, rau cải, dưa chuột, đậu đũa, bí đao, xà lách, củ hành, su hào, cà tím, giá, cải bẹ xanh, cải ngọt, cải thìa, cải ngồng, rau dền, rau lang, rau mồng tơi, rau ngót, rau đắng, rau má)
+  - **Rau**: 15 loại (rau cải, đậu đũa, giá, xà lách, cải bẹ xanh, rau muống, cải ngọt, cải thìa, cải ngồng, rau dền, rau lang, rau mồng tơi, rau ngót, rau đắng, rau má)
+  - **Rau thơm**: 13 loại (ngò, mùi tàu, rau răm, rau diếp cá, rau húng cây, húng quế, tía tô, hẹ, rau thơm, hành lá, ngò rí, ngò gai, hẹ lá)
+  - **Củ, quả**: 33 loại (bắp mỹ, bắp cải trắng, bắp cải tím, bắp cải thảo, khoai tây, bí đỏ, hành tím, tiêu xanh, sả cây, đậu bắp, cà chua, cà chua bi, cà rốt, củ cải trắng, bầu sao, bí xanh, gừng, củ dền, dưa chuột, khoai lang, hành tây, ớt hiểm, thơm, củ sắn, chanh, su su, đậu cove, tỏi, cà pháo, bạc hà, me chua, tắc, khổ qua)
   - Thịt: 19 loại (3 parent: thịt heo/bò/gà + 16 chi tiết: 9 heo, 3 bò, 4 gà)
   - Hải sản: 16 loại (2 parent: tôm/cá + 14 chi tiết: 3 tôm, 6 cá, 5 khác - mực, bạch tuộc, tôm nhảy, ốc bươu, ốc móng tay)
   - Đạm thực vật: 5 loại
   - Nấm: 2 loại
   - Tinh bột: 7 loại (gạo, mì, bún, bánh mì, miến, phở, hủ tiếu)
-  - Rau thơm: 13 loại (hành lá, ngò, húng quế, rau thơm, mùi tàu, rau răm, rau diếp cá, rau húng cây, tía tô, hẹ, ngò rí, ngò gai, hẹ lá)
-  - Gia vị tươi: 6 loại (hành tây, hành tím, tỏi, gừng, ớt, sả)
   - Gia vị khô: 7 loại (nước mắm, dầu ăn, muối, đường, tiêu, bột ngọt, nước tương)
   - Sữa & Khác: 3 loại (sữa tươi, sữa đặc, bơ)
 - Searchable multi-select interface with real-time filtering
