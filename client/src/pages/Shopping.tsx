@@ -307,12 +307,6 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
     baseUnitPrice: 12000,
     displayPriceUnit: "12.000đ/củ",
   },
-  "rau muống": {
-    defaultQuantity: 400,
-    unit: "g",
-    baseUnitPrice: 13,
-    displayPriceUnit: "13.000đ/kg",
-  },
   "rau cải": {
     defaultQuantity: 300,
     unit: "g",
@@ -337,23 +331,29 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
     baseUnitPrice: 16,
     displayPriceUnit: "16.000đ/kg",
   },
-  "xà lách": {
-    defaultQuantity: 300,
-    unit: "g",
-    baseUnitPrice: 60,
-    displayPriceUnit: "60.000đ/kg",
-  },
   giá: {
     defaultQuantity: 300,
     unit: "g",
     baseUnitPrice: 35,
     displayPriceUnit: "35.000đ/kg",
   },
+  "xà lách": {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 60,
+    displayPriceUnit: "60.000đ/kg",
+  },
   "cải bẹ xanh": {
     defaultQuantity: 300,
     unit: "g",
     baseUnitPrice: 28,
     displayPriceUnit: "28.000đ/kg",
+  },
+  "rau muống": {
+    defaultQuantity: 400,
+    unit: "g",
+    baseUnitPrice: 13,
+    displayPriceUnit: "13.000đ/kg",
   },
   "cải ngọt": {
     defaultQuantity: 300,
@@ -553,26 +553,8 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
     baseUnitPrice: 80,
     displayPriceUnit: "80.000đ/kg",
   },
-  "hành lá": {
-    defaultQuantity: 100,
-    unit: "g",
-    baseUnitPrice: 69,
-    displayPriceUnit: "69.000đ/kg",
-  },
   "rau răm": {
     defaultQuantity: 50,
-    unit: "g",
-    baseUnitPrice: 70,
-    displayPriceUnit: "70.000đ/kg",
-  },
-  "rau thơm": {
-    defaultQuantity: 200,
-    unit: "g",
-    baseUnitPrice: 70,
-    displayPriceUnit: "70.000đ/kg",
-  },
-  "húng quế": {
-    defaultQuantity: 100,
     unit: "g",
     baseUnitPrice: 70,
     displayPriceUnit: "70.000đ/kg",
@@ -589,6 +571,12 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
     baseUnitPrice: 70,
     displayPriceUnit: "70.000đ/kg",
   },
+  "húng quế": {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 70,
+    displayPriceUnit: "70.000đ/kg",
+  },
   "tía tô": {
     defaultQuantity: 100,
     unit: "g",
@@ -600,6 +588,18 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
     unit: "g",
     baseUnitPrice: 49,
     displayPriceUnit: "49.000đ/kg",
+  },
+  "rau thơm": {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 70,
+    displayPriceUnit: "70.000đ/kg",
+  },
+  "hành lá": {
+    defaultQuantity: 100,
+    unit: "g",
+    baseUnitPrice: 69,
+    displayPriceUnit: "69.000đ/kg",
   },
   "ngò rí": {
     defaultQuantity: 50,
