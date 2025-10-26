@@ -1,5 +1,5 @@
 export const vietnameseIngredients = [
-  // Rau củ (13 loại)
+  // Rau củ (31 loại)
   { value: 'cà chua', label: 'Cà chua', category: 'Rau củ' },
   { value: 'cà rốt', label: 'Cà rốt', category: 'Rau củ' },
   { value: 'khoai tây', label: 'Khoai tây', category: 'Rau củ' },
@@ -13,6 +13,17 @@ export const vietnameseIngredients = [
   { value: 'củ hành', label: 'Củ hành', category: 'Rau củ' },
   { value: 'su hào', label: 'Su hào', category: 'Rau củ' },
   { value: 'cà tím', label: 'Cà tím', category: 'Rau củ' },
+  { value: 'giá', label: 'Giá', category: 'Rau củ' },
+  { value: 'cải bẹ xanh', label: 'Cải bẹ xanh', category: 'Rau củ' },
+  { value: 'cải ngọt', label: 'Cải ngọt', category: 'Rau củ' },
+  { value: 'cải thìa', label: 'Cải thìa', category: 'Rau củ' },
+  { value: 'cải ngồng', label: 'Cải ngồng', category: 'Rau củ' },
+  { value: 'rau dền', label: 'Rau dền', category: 'Rau củ' },
+  { value: 'rau lang', label: 'Rau lang', category: 'Rau củ' },
+  { value: 'rau mồng tơi', label: 'Rau mồng tơi', category: 'Rau củ' },
+  { value: 'rau ngót', label: 'Rau ngót', category: 'Rau củ' },
+  { value: 'rau đắng', label: 'Rau đắng', category: 'Rau củ' },
+  { value: 'rau má', label: 'Rau má', category: 'Rau củ' },
   
   // Thịt - Parent items (3 loại)
   { value: 'thịt heo', label: 'Thịt heo', category: 'Thịt' },
@@ -85,13 +96,20 @@ export const vietnameseIngredients = [
   { value: 'phở', label: 'Phở (bánh phở)', category: 'Tinh bột' },
   { value: 'hủ tiếu', label: 'Hủ tiếu', category: 'Tinh bột' },
   
-  // Rau thơm (6 loại)
+  // Rau thơm (13 loại)
   { value: 'hành lá', label: 'Hành lá', category: 'Rau thơm' },
   { value: 'ngò', label: 'Ngò (rau mùi)', category: 'Rau thơm' },
   { value: 'húng quế', label: 'Húng quế', category: 'Rau thơm' },
   { value: 'rau thơm', label: 'Rau thơm (húng lủi)', category: 'Rau thơm' },
   { value: 'mùi tàu', label: 'Mùi tàu (ngò tàu)', category: 'Rau thơm' },
   { value: 'rau răm', label: 'Rau răm', category: 'Rau thơm' },
+  { value: 'rau diếp cá', label: 'Rau diếp cá', category: 'Rau thơm' },
+  { value: 'rau húng cây', label: 'Rau húng cây', category: 'Rau thơm' },
+  { value: 'tía tô', label: 'Tía tô', category: 'Rau thơm' },
+  { value: 'hẹ', label: 'Hẹ', category: 'Rau thơm' },
+  { value: 'ngò rí', label: 'Ngò rí', category: 'Rau thơm' },
+  { value: 'ngò gai', label: 'Ngò gai', category: 'Rau thơm' },
+  { value: 'hẹ lá', label: 'Hẹ lá', category: 'Rau thơm' },
   
   // Gia vị tươi (6 loại)
   { value: 'hành tây', label: 'Hành tây', category: 'Gia vị tươi' },
