@@ -216,7 +216,7 @@ const ingredientSubItems: Record<
   ],
   cá: [
     {
-      name: "Cá rô phi",
+      name: "Cá rô phi (Chưa chính xác)",
       priceInfo: {
         defaultQuantity: 500,
         unit: "g",
@@ -243,7 +243,7 @@ const ingredientSubItems: Record<
       },
     },
     {
-      name: "Cá thu",
+      name: "Cá thu (Chưa chính xác)",
       priceInfo: {
         defaultQuantity: 500,
         unit: "g",
@@ -269,8 +269,16 @@ const ingredientSubItems: Record<
         displayPriceUnit: "99.000đ/kg",
       },
     },
+    {
+      name: "Cá chim",
+      priceInfo: {
+        defaultQuantity: 500,
+        unit: "g",
+        baseUnitPrice: 77,
+        displayPriceUnit: "77.000đ/kg",
+      },
+    },
   ],
-
 };
 
 // Price per base unit (1g for weight items, 1 piece for count items)

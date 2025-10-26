@@ -14,7 +14,12 @@ export const vietnameseIngredients = [
   { value: 'su hào', label: 'Su hào', category: 'Rau củ' },
   { value: 'cà tím', label: 'Cà tím', category: 'Rau củ' },
   
-  // Thịt heo (9 loại chi tiết)
+  // Thịt - Parent items (3 loại)
+  { value: 'thịt heo', label: 'Thịt heo', category: 'Thịt' },
+  { value: 'thịt bò', label: 'Thịt bò', category: 'Thịt' },
+  { value: 'thịt gà', label: 'Thịt gà', category: 'Thịt' },
+  
+  // Thịt heo - Chi tiết (9 loại)
   { value: 'ba rọi', label: 'Ba rọi', category: 'Thịt' },
   { value: 'sườn non', label: 'Sườn non', category: 'Thịt' },
   { value: 'bắp chân giò', label: 'Bắp, chân giò', category: 'Thịt' },
@@ -25,23 +30,27 @@ export const vietnameseIngredients = [
   { value: 'nạc heo', label: 'Nạc heo', category: 'Thịt' },
   { value: 'nạc thăn', label: 'Nạc thăn', category: 'Thịt' },
   
-  // Thịt bò (3 loại chi tiết)
+  // Thịt bò - Chi tiết (3 loại)
   { value: 'thăn bò', label: 'Thăn bò', category: 'Thịt' },
   { value: 'ba chỉ bò', label: 'Ba chỉ bò', category: 'Thịt' },
   { value: 'đùi bò', label: 'Đùi bò', category: 'Thịt' },
   
-  // Thịt gà (4 loại chi tiết)
+  // Thịt gà - Chi tiết (4 loại)
   { value: 'má đùi', label: 'Má đùi gà', category: 'Thịt' },
   { value: 'đùi gà', label: 'Đùi gà', category: 'Thịt' },
   { value: 'ức gà', label: 'Ức gà', category: 'Thịt' },
   { value: 'xương gà', label: 'Xương gà', category: 'Thịt' },
   
-  // Hải sản - Tôm (3 loại chi tiết)
+  // Hải sản - Parent items (2 loại)
+  { value: 'tôm', label: 'Tôm', category: 'Hải sản' },
+  { value: 'cá', label: 'Cá', category: 'Hải sản' },
+  
+  // Hải sản - Tôm chi tiết (3 loại)
   { value: 'tôm sú', label: 'Tôm sú', category: 'Hải sản' },
   { value: 'tôm thẻ', label: 'Tôm thẻ', category: 'Hải sản' },
   { value: 'tôm he', label: 'Tôm he', category: 'Hải sản' },
   
-  // Hải sản - Cá (6 loại chi tiết)
+  // Hải sản - Cá chi tiết (6 loại)
   { value: 'cá rô phi', label: 'Cá rô phi', category: 'Hải sản' },
   { value: 'cá diêu hồng', label: 'Cá diêu hồng', category: 'Hải sản' },
   { value: 'cá lóc', label: 'Cá lóc', category: 'Hải sản' },
