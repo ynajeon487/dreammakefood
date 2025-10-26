@@ -1,5 +1,5 @@
 export const vietnameseIngredients = [
-  // Rau củ (9 loại)
+  // Rau củ (13 loại)
   { value: 'cà chua', label: 'Cà chua', category: 'Rau củ' },
   { value: 'cà rốt', label: 'Cà rốt', category: 'Rau củ' },
   { value: 'khoai tây', label: 'Khoai tây', category: 'Rau củ' },
@@ -9,6 +9,10 @@ export const vietnameseIngredients = [
   { value: 'dưa chuột', label: 'Dưa chuột', category: 'Rau củ' },
   { value: 'đậu đũa', label: 'Đậu đũa', category: 'Rau củ' },
   { value: 'bí đao', label: 'Bí đao', category: 'Rau củ' },
+  { value: 'xà lách', label: 'Xà lách', category: 'Rau củ' },
+  { value: 'củ hành', label: 'Củ hành', category: 'Rau củ' },
+  { value: 'su hào', label: 'Su hào', category: 'Rau củ' },
+  { value: 'cà tím', label: 'Cà tím', category: 'Rau củ' },
   
   // Thịt heo (9 loại chi tiết)
   { value: 'ba rọi', label: 'Ba rọi', category: 'Thịt' },
@@ -59,19 +63,44 @@ export const vietnameseIngredients = [
   { value: 'nấm rơm', label: 'Nấm rơm', category: 'Nấm' },
   { value: 'nấm hương', label: 'Nấm hương', category: 'Nấm' },
   
-  // Tinh bột (4 loại)
+  // Tinh bột (7 loại)
   { value: 'gạo', label: 'Gạo', category: 'Tinh bột' },
   { value: 'mì', label: 'Mì', category: 'Tinh bột' },
   { value: 'bún', label: 'Bún', category: 'Tinh bột' },
   { value: 'bánh mì', label: 'Bánh mì', category: 'Tinh bột' },
+  { value: 'miến', label: 'Miến', category: 'Tinh bột' },
+  { value: 'phở', label: 'Phở (bánh phở)', category: 'Tinh bột' },
+  { value: 'hủ tiếu', label: 'Hủ tiếu', category: 'Tinh bột' },
   
-  // Gia vị (6 loại)
-  { value: 'hành tây', label: 'Hành tây', category: 'Gia vị' },
-  { value: 'hành tím', label: 'Hành tím', category: 'Gia vị' },
-  { value: 'tỏi', label: 'Tỏi', category: 'Gia vị' },
-  { value: 'gừng', label: 'Gừng', category: 'Gia vị' },
-  { value: 'ớt', label: 'Ớt', category: 'Gia vị' },
-  { value: 'sả', label: 'Sả', category: 'Gia vị' },
+  // Rau thơm (6 loại)
+  { value: 'hành lá', label: 'Hành lá', category: 'Rau thơm' },
+  { value: 'ngò', label: 'Ngò (rau mùi)', category: 'Rau thơm' },
+  { value: 'húng quế', label: 'Húng quế', category: 'Rau thơm' },
+  { value: 'rau thơm', label: 'Rau thơm (húng lủi)', category: 'Rau thơm' },
+  { value: 'mùi tàu', label: 'Mùi tàu (ngò tàu)', category: 'Rau thơm' },
+  { value: 'rau răm', label: 'Rau răm', category: 'Rau thơm' },
+  
+  // Gia vị tươi (6 loại)
+  { value: 'hành tây', label: 'Hành tây', category: 'Gia vị tươi' },
+  { value: 'hành tím', label: 'Hành tím', category: 'Gia vị tươi' },
+  { value: 'tỏi', label: 'Tỏi', category: 'Gia vị tươi' },
+  { value: 'gừng', label: 'Gừng', category: 'Gia vị tươi' },
+  { value: 'ớt', label: 'Ớt', category: 'Gia vị tươi' },
+  { value: 'sả', label: 'Sả', category: 'Gia vị tươi' },
+  
+  // Gia vị khô (7 loại)
+  { value: 'nước mắm', label: 'Nước mắm', category: 'Gia vị khô' },
+  { value: 'dầu ăn', label: 'Dầu ăn', category: 'Gia vị khô' },
+  { value: 'muối', label: 'Muối', category: 'Gia vị khô' },
+  { value: 'đường', label: 'Đường', category: 'Gia vị khô' },
+  { value: 'tiêu', label: 'Tiêu', category: 'Gia vị khô' },
+  { value: 'bột ngọt', label: 'Bột ngọt/bột canh', category: 'Gia vị khô' },
+  { value: 'nước tương', label: 'Nước tương', category: 'Gia vị khô' },
+  
+  // Sữa & Khác (3 loại)
+  { value: 'sữa tươi', label: 'Sữa tươi', category: 'Sữa & Khác' },
+  { value: 'sữa đặc', label: 'Sữa đặc có đường', category: 'Sữa & Khác' },
+  { value: 'bơ', label: 'Bơ/Margarine', category: 'Sữa & Khác' },
 ];
 
 export function searchIngredients(query: string) {

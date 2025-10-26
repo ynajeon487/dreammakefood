@@ -140,16 +140,19 @@ Preferred communication style: Simple, everyday language.
 - Recipes.tsx and RecipeDetail.tsx dynamically render from this shared data source
 
 **Ingredient Library**: Comprehensive Vietnamese ingredient database (`client/src/lib/ingredients.ts`)
-- 52 detailed cooking ingredients grouped by category (Rau củ, Thịt, Hải sản, Đạm thực vật, Nấm, Tinh bột, Gia vị)
+- 75 detailed cooking ingredients grouped by category (fully updated January 2025)
 - Source: Fully synchronized with Shopping page ingredient list (excluding fruits)
-- Detailed breakdown:
-  - Rau củ: 9 loại
+- Detailed breakdown by category:
+  - Rau củ: 13 loại (cà chua, cà rốt, khoai tây, bắp cải, rau muống, rau cải, dưa chuột, đậu đũa, bí đao, xà lách, củ hành, su hào, cà tím)
   - Thịt: 16 loại chi tiết (9 thịt heo, 3 thịt bò, 4 thịt gà)
   - Hải sản: 10 loại (3 tôm, 6 cá, 1 mực)
   - Đạm thực vật: 5 loại
   - Nấm: 2 loại
-  - Tinh bột: 4 loại
-  - Gia vị: 6 loại
+  - Tinh bột: 7 loại (gạo, mì, bún, bánh mì, miến, phở, hủ tiếu)
+  - Rau thơm: 6 loại (hành lá, ngò, húng quế, rau thơm, mùi tàu, rau răm)
+  - Gia vị tươi: 6 loại (hành tây, hành tím, tỏi, gừng, ớt, sả)
+  - Gia vị khô: 7 loại (nước mắm, dầu ăn, muối, đường, tiêu, bột ngọt, nước tương)
+  - Sữa & Khác: 3 loại (sữa tươi, sữa đặc, bơ)
 - Searchable multi-select interface with real-time filtering
 - Badge display for selected ingredients
 - Custom ingredient input field for ingredients not in the predefined list
