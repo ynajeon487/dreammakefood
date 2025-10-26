@@ -655,6 +655,50 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
     displayPriceUnit: "18.000đ/500g",
   },
 
+  // Nấm (7 loại)
+  "nấm kim châm": {
+    defaultQuantity: 150,
+    unit: "g",
+    baseUnitPrice: 60,
+    displayPriceUnit: "9.000đ/150g",
+  },
+  "nấm hương": {
+    defaultQuantity: 150,
+    unit: "g",
+    baseUnitPrice: 140,
+    displayPriceUnit: "21.000đ/150g",
+  },
+  "nấm đùi gà": {
+    defaultQuantity: 200,
+    unit: "g",
+    baseUnitPrice: 150,
+    displayPriceUnit: "30.000đ/200g",
+  },
+  "nấm bào ngư": {
+    defaultQuantity: 300,
+    unit: "g",
+    baseUnitPrice: 60,
+    displayPriceUnit: "18.000đ/300g",
+  },
+  "nấm tuyết": {
+    defaultQuantity: 50,
+    unit: "g",
+    baseUnitPrice: 780,
+    displayPriceUnit: "39.000đ/50g",
+  },
+  "nấm hương khô": {
+    defaultQuantity: 50,
+    unit: "g",
+    baseUnitPrice: 640,
+    displayPriceUnit: "32.000đ/50g",
+  },
+  "nấm mèo": {
+    defaultQuantity: 50,
+    unit: "g",
+    baseUnitPrice: 320,
+    displayPriceUnit: "16.000đ/50g",
+  },
+
   // Thịt (Parent items)
   "thịt heo": {
     defaultQuantity: 300,
@@ -723,19 +767,6 @@ const ingredientPrices: Record<string, IngredientPriceInfo> = {
     unit: "g",
     baseUnitPrice: 50,
     displayPriceUnit: "50.000đ/kg",
-  },
-
-  "nấm rơm": {
-    defaultQuantity: 200,
-    unit: "g",
-    baseUnitPrice: 75,
-    displayPriceUnit: "75.000đ/kg",
-  },
-  "nấm hương": {
-    defaultQuantity: 100,
-    unit: "g",
-    baseUnitPrice: 200,
-    displayPriceUnit: "200.000đ/kg",
   },
 
   gạo: {

@@ -65,6 +65,15 @@ export const vietnameseIngredients = [
   { value: 'me chua', label: 'Me chua', category: 'Củ, quả' },
   { value: 'tắc', label: 'Tắc (quất)', category: 'Củ, quả' },
   { value: 'khổ qua', label: 'Khổ qua', category: 'Củ, quả' },
+
+  // Nấm (7 loại)
+  { value: 'nấm kim châm', label: 'Nấm kim châm', category: 'Nấm' },
+  { value: 'nấm hương', label: 'Nấm hương', category: 'Nấm' },
+  { value: 'nấm đùi gà', label: 'Nấm đùi gà', category: 'Nấm' },
+  { value: 'nấm bào ngư', label: 'Nấm bào ngư', category: 'Nấm' },
+  { value: 'nấm tuyết', label: 'Nấm tuyết', category: 'Nấm' },
+  { value: 'nấm hương khô', label: 'Nấm hương khô', category: 'Nấm' },
+  { value: 'nấm mèo', label: 'Nấm mèo', category: 'Nấm' },
   
   // Thịt - Parent items (3 loại)
   { value: 'thịt heo', label: 'Thịt heo', category: 'Thịt' },
@@ -123,10 +132,6 @@ export const vietnameseIngredients = [
   { value: 'trứng vịt', label: 'Trứng vịt', category: 'Đạm thực vật' },
   { value: 'trứng cút', label: 'Trứng cút', category: 'Đạm thực vật' },
   { value: 'đậu xanh', label: 'Đậu xanh', category: 'Đạm thực vật' },
-  
-  // Nấm (2 loại)
-  { value: 'nấm rơm', label: 'Nấm rơm', category: 'Nấm' },
-  { value: 'nấm hương', label: 'Nấm hương', category: 'Nấm' },
   
   // Tinh bột (7 loại)
   { value: 'gạo', label: 'Gạo', category: 'Tinh bột' },
