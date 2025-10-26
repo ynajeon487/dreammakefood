@@ -216,7 +216,7 @@ const ingredientSubItems: Record<
   ],
   cá: [
     {
-      name: "Cá rô phi (Chưa chính xác)",
+      name: "Cá rô phi",
       priceInfo: {
         defaultQuantity: 500,
         unit: "g",
@@ -243,7 +243,7 @@ const ingredientSubItems: Record<
       },
     },
     {
-      name: "Cá thu (Chưa chính xác)",
+      name: "Cá thu",
       priceInfo: {
         defaultQuantity: 500,
         unit: "g",
@@ -270,6 +270,7 @@ const ingredientSubItems: Record<
       },
     },
   ],
+
 };
 
 // Price per base unit (1g for weight items, 1 piece for count items)
